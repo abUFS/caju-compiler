@@ -17,7 +17,7 @@
 fim
 
 # Função para realizar uma busca binária
--> numero buscaBinaria(vetor numero[] arr, numero esquerda, numero direita, numero alvo) inicio
+-> numero buscaBinaria(vetor numero[] arr| numero esquerda| numero direita| numero alvo) inicio
     enquanto(esquerda <= direita) inicio
         numero meio := esquerda + (direita - esquerda) / 2.
 
@@ -48,7 +48,7 @@ fim
         exibir("%d", fib(i)).
     fim
 
-    resultado := buscaBinaria(sequencia, 0, 7, 2).
+    resultado := buscaBinaria(sequencia| 0| 7| 2).
     exibir("%d", resultado).
 
     retorne [0].
