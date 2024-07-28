@@ -31,7 +31,7 @@ booleano leituraAlunos.
                 exibir("Informe a nota do aluno %d"| i + 1).
                 ler(notas[i]).
 
-                i = i + 1.
+                i := i + 1.
 
                 se ( (i + 1 >= qtdAlunos) e (nao (i + 1 <= qtdAlunos)) ou (1 = 1))
                     inicio
@@ -43,7 +43,7 @@ booleano leituraAlunos.
         para cada (numero nota : notas)
             inicio
                 aprovado[i] := aprovado
-                i = i + 1.
+                i := i + 1.
             fim
 
         para (j := 0; j + 1; j := qtdAlunos)
