@@ -22,7 +22,7 @@ inicio
     vetor caractere [100] [100] nomesAlunos.
     vetor booleano [100] aprovado.
 
-    nomeTurma:= 'a'
+    nomeTurma := 'a'.
 
     exibir("Informe quantos alunos na turma\n")
     ler(qtdAlunos).
