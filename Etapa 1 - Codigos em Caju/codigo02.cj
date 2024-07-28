@@ -28,10 +28,10 @@
 }
 
 numero caixas, busca, cont, i, j, x, y.
-numero prateleira[10000].
+vetor numero[10000] prateleira.
 
 # função de ordenação
-vazio ordena(numero A[] | numero n) inicio
+vazio ordena(vetor numero[] A | numero n) inicio
 
     numero i, j, v.
 
