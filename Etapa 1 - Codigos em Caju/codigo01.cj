@@ -10,7 +10,7 @@ booleano leituraAlunos.
 -> vazio principal ()
     inicio
 
-        vetor numero notas [100].
+        vetor numero [100] notas.
         vetor caractere [100] [100] nomesAlunos.
         vetor booleano [100] aprovado.
 
