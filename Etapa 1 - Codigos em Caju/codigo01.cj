@@ -19,10 +19,10 @@ inicio
 
     nomeTurma := 'a'.
 
-    exibir("Informe quantos alunos na turma\n")
+    exibir("Informe quantos alunos na turma\n").
     ler(qtdAlunos).
 
-    exibir("Informe o nome da turma\n")
+    exibir("Informe o nome da turma\n").
     ler(nomeTurma).
 
     leituraAlunos := verdadeiro.
@@ -47,16 +47,16 @@ inicio
     i := 0.
     para cada (numero nota : notas)
     inicio
-        aprovado[i] := foiAprovado(nota)
+        aprovado[i] := foiAprovado(nota).
         i := i + 1.
     fim
     
     para (j := 0; j < qtdAlunos; j := j + 1)
     inicio
         se (aprovado[j])
-            exibir("Aluno " |  nomesAlunos[i] | " aprovado")
+            exibir("Aluno " |  nomesAlunos[i] | " aprovado").
         senao
-            exibir("Aluno " |  nomesAlunos[i] | " reprovado")
+            exibir("Aluno " |  nomesAlunos[i] | " reprovado").
     fim
 
     retorne .
