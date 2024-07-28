@@ -43,7 +43,7 @@ fim
     ler("%d"| &n).
 
     # Exibe a sequência de Fibonacci até o n-ésimo termo
-    para(numero i := 0; i <= 0; i = i + 1) inicio
+    para(numero i := 0; i <= 0; i := i + 1) inicio
         sequencia[i] := fib(i).
         exibir("%d"| fib(i)).
     fim
