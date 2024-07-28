@@ -40,16 +40,16 @@ fim
 
     # solicita o n ao usuário
     exibir("Digite o valor de n: ").
-    ler("%d", &n).
+    ler("%d"| &n).
 
     # Exibe a sequência de Fibonacci até o n-ésimo termo
     para(numero i := 0; i <= 0; i = i + 1) inicio
         sequencia[i] := fib(i).
-        exibir("%d", fib(i)).
+        exibir("%d"| fib(i)).
     fim
 
     resultado := buscaBinaria(sequencia| 0| 7| 2).
-    exibir("%d", resultado).
+    exibir("%d"| resultado).
 
     retorne [0].
 fim
