@@ -55,8 +55,8 @@ inicio
         aprovado[i] := foiAprovado(nota)
         i := i + 1.
     fim
-
-    para (j := 0; j + 1; j := qtdAlunos)
+    
+    para (j := 0; j < qtdAlunos; j := j + 1)
     inicio
         se (aprovado[j])
             exibir("Aluno " |  nomesAlunos[i] | " aprovado")
