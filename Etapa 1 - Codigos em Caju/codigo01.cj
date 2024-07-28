@@ -1,8 +1,3 @@
-{
-AUTOR: ARTUR BARBOSA
-DESCRICAO: SIMULADOR DE TURMA. GERENCIA NOTAS E STATUS DOS ALUNOS
-}
-
 numero qtdAlunos, qtdAvaliacoes, i,  j.
 caractere nomeTurma.
 booleano leituraAlunos.
