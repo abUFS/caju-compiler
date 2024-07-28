@@ -8,7 +8,7 @@
 }
 
 # Função para calcular o n-ésimo termo da sequência de Fibonacci
--> numero fib(numero n) inicio
+numero fib(numero n) inicio
     se (n <= 1) inicio
         retorne [n].
     fim senao inicio
@@ -17,7 +17,7 @@
 fim
 
 # Função para realizar uma busca binária
--> numero buscaBinaria(vetor numero[] arr| numero esquerda| numero direita| numero alvo) inicio
+numero buscaBinaria(vetor numero[] arr| numero esquerda| numero direita| numero alvo) inicio
     enquanto(esquerda <= direita) inicio
         numero meio := esquerda + (direita - esquerda) / 2.
 
