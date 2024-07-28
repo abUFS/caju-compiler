@@ -73,10 +73,10 @@ fim
 
         para (i := 0 ; i < cont ; i := i + 1) inicio
             se (prateleira[i] = busca e x = -1)  x := i.
-            se (prateleira[i] = busca e x nao = -1) y := i.
+            se (prateleira[i] = busca e nao(x = -1)) y := i.
         fim
 
-        se (x nao = -1) inicio 
+        se (nao(x = -1)) inicio 
             se (y = -1) y := x.      
             exibir("%d encontrado de %d a %d\n" | busca | x | y).
         fim
