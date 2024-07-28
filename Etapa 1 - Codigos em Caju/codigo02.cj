@@ -27,30 +27,30 @@
     pode ser encontrado como no exemplo a seguir.
 }
 
-numero caixas, busca, cont, i, j, x, y.
-vetor numero[10000] prateleira.
-
 # função de ordenação
 vazio ordena(vetor numero[] A | numero n) inicio
 
-    numero k, l, v.
+    numero i, j, v.
 
-    para (k := 1 ; k <= n - 1 ; k := k + 1) inicio
+    para (i := 1 ; i <= n - 1 ; i := i + 1) inicio
 
-        v := A[k].
-        l := k - 1.
+        v := A[i].
+        j := i - 1.
 
-        enquanto (l >= 0 e A[l] > v) inicio
-            A[l+1] := A[l].
-            l := l - 1.            
+        enquanto (j >= 0 e A[j] > v) inicio
+            A[j+1] := A[j].
+            j := j - 1.            
         fim
 
-        A[l+1] := v.
+        A[j+1] := v.
     fim
 fim
 
 # função principal
 -> vazio principal() inicio
+
+    numero caixas, busca, cont, i, j, x, y.
+    vetor numero[10000] prateleira.
 
     enquanto (ler("%d", &caixas) = verdadeiro) inicio
 
