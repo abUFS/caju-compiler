@@ -25,10 +25,10 @@ booleano leituraAlunos.
 
         enquanto (leituraAlunos)
             inicio
-                exibir("Informe o nome do aluno", i + 1).
+                exibir("Informe o nome do aluno %d"| i + 1).
                 ler(nomesAlunos[i]).
 
-                exibir("Informe a nota do aluno", i + 1).
+                exibir("Informe a nota do aluno %d"| i + 1).
                 ler(notas[i]).
 
                 i = i + 1.
@@ -49,9 +49,9 @@ booleano leituraAlunos.
         para (j := 0; j + 1; j := qtdAlunos)
             inicio
                 se (aprovado[j])
-                    exibir("Aluno " |  nomesAlunos[i] | " aprovado")
+                    exibir("Aluno %d" |  nomesAlunos[i] | " aprovado")
                 senao
-                    exibir("Aluno " |  nomesAlunos[i] | " aprovado")
+                    exibir("Aluno %d" |  nomesAlunos[i] | " aprovado")
             fim
 
         retorne .
