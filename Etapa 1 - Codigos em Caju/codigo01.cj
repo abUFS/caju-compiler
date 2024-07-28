@@ -28,7 +28,7 @@ inicio
     ler(qtdAlunos).
 
     exibir("Informe o nome da turma\n")
-    ler(qtdAlunos).
+    ler(nomeTurma).
 
     leituraAlunos := verdadeiro.
     i := 0.
