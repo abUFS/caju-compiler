@@ -10,9 +10,9 @@
 # Função para calcular o n-ésimo termo da sequência de Fibonacci
 numero fib(numero n) inicio
     se (n <= 1) inicio
-        retorne [n].
+        retorne n.
     fim senao inicio
-        retorne [fib(n-1) + fib(n-2)].
+        retorne fib(n-1) + fib(n-2).
     fim
 fim
 
@@ -23,7 +23,7 @@ numero buscaBinaria(vetor numero[] arr| numero esquerda| numero direita| numero 
 
         # se o elemento estiver no meio retorna ele
         se (arr[meio] = alvo)
-            retorne [meio]. 
+            retorne meio. 
 
         # se o elemento for maior ta no lado direito, se for menor ta na esquerda
         se (arr[meio] < alvo)
@@ -51,5 +51,5 @@ fim
     resultado := buscaBinaria(sequencia| 0| 7| 2).
     exibir("%d"| resultado).
 
-    retorne [0].
+    retorne 0.
 fim
