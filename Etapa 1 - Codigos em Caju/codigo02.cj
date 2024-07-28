@@ -52,12 +52,12 @@ fim
     numero caixas, busca, cont, i, j, x, y.
     vetor numero[10000] prateleira.
 
-    enquanto (ler("%d", &caixas) = verdadeiro) inicio
+    enquanto (ler("%d"| &caixas) = verdadeiro) inicio
 
         cont := 0.
 
         para (i := 0 ; i < caixas ; i := i + 1) inicio
-            ler("%d %d", &x, &y).
+            ler("%d %d"| &x| &y).
             para (j = x ; j <= y ; j := j + 1) inicio
                 prateleira[cont] := j.
                 cont := cont + 1.
@@ -66,7 +66,7 @@ fim
 
         ordena(prateleira | cont).
 
-        ler("%d", &busca).
+        ler("%d"| &busca).
 
         x := -1.
         y := -1.
