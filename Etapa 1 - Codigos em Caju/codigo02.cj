@@ -33,19 +33,19 @@ vetor numero[10000] prateleira.
 # função de ordenação
 vazio ordena(vetor numero[] A | numero n) inicio
 
-    numero i, j, v.
+    numero k, l, v.
 
-    para (i := 1 ; i <= n - 1 ; i := i + 1) inicio
+    para (k := 1 ; k <= n - 1 ; k := k + 1) inicio
 
-        v := A[i].
-        j := i - 1.
+        v := A[k].
+        l := k - 1.
 
-        enquanto (j >= 0 e A[j] > v) inicio
-            A[j+1] := A[j].
-            j := j - 1.            
+        enquanto (l >= 0 e A[l] > v) inicio
+            A[l+1] := A[l].
+            l := l - 1.            
         fim
 
-        A[j+1] := v.
+        A[l+1] := v.
     fim
 fim
 
