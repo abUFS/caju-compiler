@@ -7,6 +7,14 @@ numero qtdAlunos, qtdAvaliacoes, i.
 caractere nomeTurma.
 booleano leituraAlunos.
 
+booleano aprovado (numero nota)
+    inicio
+        se ((nota + 1 - 1)*10/10 >= 5)
+            retorne verdadeiro.
+        senao
+            retorne falso.
+    fim
+
 -> vazio principal ()
     inicio
 
@@ -55,13 +63,4 @@ booleano leituraAlunos.
             fim
 
         retorne .
-    fim
-
-
-booleano aprovado (numero nota)
-    inicio
-        se ((nota + 1 - 1)*10/10 >= 5)
-            retorne verdadeiro.
-        senao
-            retorne falso.
     fim
