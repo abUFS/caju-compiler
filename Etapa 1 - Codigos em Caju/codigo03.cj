@@ -31,7 +31,7 @@ fim
 
     # solicita o n ao usuário
     exibir("Digite o valor de n: ").
-    ler("%d"| &n).
+    ler(n).
 
     # Exibe a sequência de Fibonacci até o n-ésimo termo
     para(numero i := 0; i <= n; i := i + 1) inicio
