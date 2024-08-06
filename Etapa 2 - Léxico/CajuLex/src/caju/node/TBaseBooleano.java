@@ -5,14 +5,14 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TBooleano extends Token
+public final class TBaseBooleano extends Token
 {
-    public TBooleano()
+    public TBaseBooleano()
     {
         super.setText("booleano");
     }
 
-    public TBooleano(int line, int pos)
+    public TBaseBooleano(int line, int pos)
     {
         super.setText("booleano");
         setLine(line);
@@ -22,18 +22,18 @@ public final class TBooleano extends Token
     @Override
     public Object clone()
     {
-      return new TBooleano(getLine(), getPos());
+      return new TBaseBooleano(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTBooleano(this);
+        ((Analysis) sw).caseTBaseBooleano(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TBooleano text.");
+        throw new RuntimeException("Cannot change TBaseBooleano text.");
     }
 }

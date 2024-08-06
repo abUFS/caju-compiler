@@ -1,4 +1,8 @@
-# comentário de linha $%&*¨¢£³¹¬
+{
+	comentário de { bloco $%&*¨¢£³¹¬
+}
+
+# comentário de linha # $%&*¨¢£³¹¬
 
 vazio ordena(vetor numero[] A | numero n) inicio
 
@@ -39,17 +43,9 @@ fim
 
         ler(busca).
 
-        x := -1.
-        y := -1.
-
-        para (i := 0 ; i < cont ; i := i + 1) inicio
-            se (prateleira[i] = busca e x = -1)  x := i.
-            se (prateleira[i] = busca e nao(x = -1)) y := i.
-        fim
-
         se (nao(x = -1)) inicio 
             se (y = -1) y := x.      
-            exibir(busca | " encontrado de " | x | " a " | y | "\n").
+            exibir(busca | " encontrado de " | x | " a " | y | '\n').
         fim
         senao exibir(busca | " nao encontrado\n").
     

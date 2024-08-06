@@ -5,16 +5,16 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TAspasDuplas extends Token
+public final class TBaseCaractere extends Token
 {
-    public TAspasDuplas()
+    public TBaseCaractere()
     {
-        super.setText("\"");
+        super.setText("caractere");
     }
 
-    public TAspasDuplas(int line, int pos)
+    public TBaseCaractere(int line, int pos)
     {
-        super.setText("\"");
+        super.setText("caractere");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TAspasDuplas extends Token
     @Override
     public Object clone()
     {
-      return new TAspasDuplas(getLine(), getPos());
+      return new TBaseCaractere(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTAspasDuplas(this);
+        ((Analysis) sw).caseTBaseCaractere(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TAspasDuplas text.");
+        throw new RuntimeException("Cannot change TBaseCaractere text.");
     }
 }

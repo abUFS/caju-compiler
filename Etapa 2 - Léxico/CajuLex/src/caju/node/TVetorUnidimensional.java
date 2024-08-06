@@ -5,14 +5,14 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TVaziosIgnorar extends Token
+public final class TVetorUnidimensional extends Token
 {
-    public TVaziosIgnorar(String text)
+    public TVetorUnidimensional(String text)
     {
         setText(text);
     }
 
-    public TVaziosIgnorar(String text, int line, int pos)
+    public TVetorUnidimensional(String text, int line, int pos)
     {
         setText(text);
         setLine(line);
@@ -22,12 +22,12 @@ public final class TVaziosIgnorar extends Token
     @Override
     public Object clone()
     {
-      return new TVaziosIgnorar(getText(), getLine(), getPos());
+      return new TVetorUnidimensional(getText(), getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTVaziosIgnorar(this);
+        ((Analysis) sw).caseTVetorUnidimensional(this);
     }
 }

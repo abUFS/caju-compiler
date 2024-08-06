@@ -5,16 +5,16 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TCaractere extends Token
+public final class TBaseNumero extends Token
 {
-    public TCaractere()
+    public TBaseNumero()
     {
-        super.setText("caractere");
+        super.setText("numero");
     }
 
-    public TCaractere(int line, int pos)
+    public TBaseNumero(int line, int pos)
     {
-        super.setText("caractere");
+        super.setText("numero");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TCaractere extends Token
     @Override
     public Object clone()
     {
-      return new TCaractere(getLine(), getPos());
+      return new TBaseNumero(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTCaractere(this);
+        ((Analysis) sw).caseTBaseNumero(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TCaractere text.");
+        throw new RuntimeException("Cannot change TBaseNumero text.");
     }
 }
