@@ -1,0 +1,71 @@
+Package caju;
+
+Helpers
+	todos_caracteres = [ 0 .. 0xFFFF];
+	digito = ['0' .. '9'];
+	espaco = ' ';	
+ 	minusculas = ['a' .. 'z'];
+ 	maiusculas = ['A' .. 'Z'];
+ 	underscore = '_';
+ 	letra = minusculas | maiusculas;
+ 	hashtag = '#';
+ 	abre_chave = '{';
+ 	fecha_chave = '}';
+ 	rc = 13;
+ 	nl = 10;	
+	caracteres_sem_nl_rc = [todos_caracteres - [rc + nl]];
+	inteiro = digito+;
+	real = digito+ (',') digito+;
+ 	
+Tokens
+ 	vazios_ignorar = (espaco | rc | nl)+;
+	num = inteiro | real;
+	mais = '+';
+	menos = '-';
+	mult = '*';
+	div = '/';
+	maior = '>';
+	menor = '<';
+	maior_igual = '>=';
+	menor_igual = '<=';
+	pipe = '|';
+	igual = '=';
+	atribuir = ':=';
+	ponto_final = '.';
+	virgula = ',';
+	abre_colchete = '[';
+	fecha_colchete = ']';
+	seta = '->';
+	abre_parenteses = '(';
+	fecha_parenteses = ')';
+	ponto_virgula = ';';
+	dois_pontos = ':';
+	nao = 'nao';
+	e = 'e';
+	ou = 'ou';
+	aspas_duplas = '"';
+	aspas_simples = ''';
+	caractere = 'caractere';
+	numero = 'numero';
+	booleano = 'booleano';
+	vetor = 'vetor';
+	retorne = 'retorne';
+	vazio = 'vazio';
+	inicio = 'inicio';
+	fim = 'fim';
+	se = 'se';
+	senao = 'senao';
+	enquanto = 'enquanto';
+	para = 'para';
+	para_cada = 'para cada';
+	verdadeiro = 'verdadeiro';
+	falso = 'falso';
+	exibir = 'exibir';
+	ler = 'ler';
+	coment_linha = hashtag caracteres_sem_nl_rc*;
+	coment_bloco = abre_chave todos_caracteres* fecha_chave;
+	id = letra (letra | digito | underscore)*;
+	
+Ignored Tokens
+	vazios_ignorar;
+	
