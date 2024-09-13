@@ -21,6 +21,9 @@ Helpers
 	caracteres_sem_nl_rc_aspas_duplas = [caracteres_sem_nl_rc - aspas_duplas];
 	inteiro = digito+;
 	real = digito+ (',') digito+;
+	verdadeiro = 'verdadeiro';
+	falso = 'falso';
+ 	
  	
 Tokens
  	ignorar = (espaco | rc | nl)+;
@@ -30,8 +33,9 @@ Tokens
 	vetor = 'vetor';
 	vazio = 'vazio';
 	caracter = aspas_simples '\'? caracteres_sem_nl_rc_aspas_simples aspas_simples;
-	verdadeiro = 'verdadeiro';
-	falso = 'falso';
+	verdadeiro = verdadeiro;
+	falso = falso;
+	booleano = verdadeiro | falso;
 	numero = inteiro | real;
 	vetor_unidimensional = aspas_duplas caracteres_sem_nl_rc_aspas_duplas+ aspas_duplas;
 	inicio = 'inicio';
@@ -71,6 +75,108 @@ Tokens
 	dois_pontos = ':';
 	id = letra (letra | digito | underscore)*;
 	
+	
 Ignored Tokens
 	ignorar;
+	
+	
+Productions
+
+ programa =
+   dec_variavel* dec_funcao*;
+  
+ dec_variavel =
+   tipo lista_nomes ponto_final;
+ 
+ lista_nomes =
+   id virgula_id;
+   
+  virgula_id = 
+    virgula id virgula_id?;
+   
+ tipo =
+     {base} tipo_base
+   | {vetor} vetor tipo_base abre_colchete exp fecha_colchete exp_colchete?;
+ 
+ exp_colchete =
+   abre_colchete exp fecha_colchete exp_colchete?;
+ 
+ tipo_base = 
+     {numero} base_numero
+   | {caractere} base_caractere
+   | {booleano} base_booleano;
+ 
+ dec_funcao =
+   seta? tipo_retorno id abre_parenteses parametros fecha_parenteses bloco;
+    
+ tipo_retorno =
+     {tipo} tipo
+   | {vazio} vazio;
+ 
+ parametros = 
+   {vazio}
+   | {parametro} parametro pipe_parametro?;
+ 
+ pipe_parametro =
+   pipe parametro pipe_parametro?;
+   
+ parametro = 
+   tipo id;
+
+ bloco =
+   inicio dec_variavel? comando? fim;
+   
+ atrib =
+   var atribuir exp;
+   
+ lista_atrib =
+   atrib virgula_atrib?;
+ 
+ virgula_atrib =
+   virgula atrib virgula_atrib?;
+  
+ comando =
+     {se} se abre_parenteses exp fecha_parenteses comando
+   | {se_senao} se abre_parenteses exp fecha_parenteses comando senao comando
+   | {enquanto} enquanto abre_parenteses exp fecha_parenteses comando
+   | {para} para abre_parenteses lista_atrib ponto_virgula exp ponto_virgula lista_atrib fecha_parenteses comando
+   | {para_cada} para_cada abre_parenteses tipo id dois_pontos id fecha_parenteses comando
+   | {atrib} atrib ponto_final
+   | {retorne} retorne exp? ponto_final
+   | {bloco} bloco
+   | {chamada} chamada ponto_final;
+   
+ var = 
+     {id} id
+   | {var} var abre_colchete exp fecha_colchete;
+  
+ exp = 
+     {numero} numero
+   | {caractere} caractere
+   | {booleano} booleano
+   | {var} var
+   | {exp} abre_parenteses exp fecha_parenteses
+   | {chamada} chamada
+   | {mais} exp mais exp
+   | {menos} exp menos exp
+   | {mult} exp mult exp
+   | {div} exp div exp
+   | {igual} exp igual exp
+   | {menor_igual} exp menor_igual exp
+   | {maior_igual} exp maior_igual exp
+   | {menor} exp menor exp
+   | {maior} exp maior exp
+   | {nao} nao exp
+   | {e} exp e exp
+   | {ou} exp ou exp;
+ 
+ chamada = 
+   id abre_parenteses lista_exp fecha_parenteses;
+  
+ lista_exp =
+    {vazio}
+  | {lista_exp} exp pipe_exp?;
+ 
+ pipe_exp = 
+   pipe exp pipe_exp?;
 	
