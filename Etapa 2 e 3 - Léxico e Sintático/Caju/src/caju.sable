@@ -148,27 +148,27 @@ Productions
    
  var = 
      {id} id
-   | {var} var abre_colchete exp fecha_colchete;
+   | {indexada} var abre_colchete exp fecha_colchete;
   
  exp = 
-     {numero} numero
-   | {caractere} caractere
-   | {booleano} booleano
-   | {var} var
-   | {exp} abre_parenteses exp fecha_parenteses
+     {var} var
    | {chamada} chamada
-   | {mais} [esq]:exp mais [dir]:exp
-   | {menos} [esq]:exp menos [dir]:exp
-   | {mult} [esq]:exp mult [dir]:exp
-   | {div} [esq]:exp div [dir]:exp
+   | {ou} [esq]:exp ou [dir]:exp;
+   | {e} [esq]:exp e [dir]:exp
    | {igual} [esq]:exp igual [dir]:exp
    | {menor_igual} [esq]:exp menor_igual [dir]:exp
    | {maior_igual} [esq]:exp maior_igual [dir]:exp
    | {menor} [esq]:exp menor [dir]:exp
    | {maior} [esq]:exp maior [dir]:exp
+   | {mais} [esq]:exp mais [dir]:exp
+   | {menos} [esq]:exp menos [dir]:exp
+   | {mult} [esq]:exp mult [dir]:exp
+   | {div} [esq]:exp div [dir]:exp
    | {nao} nao exp
-   | {e} [esq]:exp e [dir]:exp
-   | {ou} [esq]:exp ou [dir]:exp;
+   | {exp} abre_parenteses exp fecha_parenteses
+   | {numero} numero
+   | {caractere} caractere
+   | {booleano} booleano
  
  chamada = 
    id abre_parenteses lista_exp fecha_parenteses;
