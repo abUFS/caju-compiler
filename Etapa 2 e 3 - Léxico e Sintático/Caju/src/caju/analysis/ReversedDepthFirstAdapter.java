@@ -951,20 +951,20 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAIdVar(node);
     }
 
-    public void inAVarVar(AVarVar node)
+    public void inAIndexadaVar(AIndexadaVar node)
     {
         defaultIn(node);
     }
 
-    public void outAVarVar(AVarVar node)
+    public void outAIndexadaVar(AIndexadaVar node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAVarVar(AVarVar node)
+    public void caseAIndexadaVar(AIndexadaVar node)
     {
-        inAVarVar(node);
+        inAIndexadaVar(node);
         if(node.getFechaColchete() != null)
         {
             node.getFechaColchete().apply(this);
@@ -981,70 +981,7 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getVar().apply(this);
         }
-        outAVarVar(node);
-    }
-
-    public void inANumeroExp(ANumeroExp node)
-    {
-        defaultIn(node);
-    }
-
-    public void outANumeroExp(ANumeroExp node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseANumeroExp(ANumeroExp node)
-    {
-        inANumeroExp(node);
-        if(node.getNumero() != null)
-        {
-            node.getNumero().apply(this);
-        }
-        outANumeroExp(node);
-    }
-
-    public void inACaractereExp(ACaractereExp node)
-    {
-        defaultIn(node);
-    }
-
-    public void outACaractereExp(ACaractereExp node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseACaractereExp(ACaractereExp node)
-    {
-        inACaractereExp(node);
-        if(node.getCaractere() != null)
-        {
-            node.getCaractere().apply(this);
-        }
-        outACaractereExp(node);
-    }
-
-    public void inABooleanoExp(ABooleanoExp node)
-    {
-        defaultIn(node);
-    }
-
-    public void outABooleanoExp(ABooleanoExp node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseABooleanoExp(ABooleanoExp node)
-    {
-        inABooleanoExp(node);
-        if(node.getBooleano() != null)
-        {
-            node.getBooleano().apply(this);
-        }
-        outABooleanoExp(node);
+        outAIndexadaVar(node);
     }
 
     public void inAVarExp(AVarExp node)
@@ -1068,35 +1005,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAVarExp(node);
     }
 
-    public void inAExpExp(AExpExp node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAExpExp(AExpExp node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAExpExp(AExpExp node)
-    {
-        inAExpExp(node);
-        if(node.getFechaParenteses() != null)
-        {
-            node.getFechaParenteses().apply(this);
-        }
-        if(node.getExp() != null)
-        {
-            node.getExp().apply(this);
-        }
-        if(node.getAbreParenteses() != null)
-        {
-            node.getAbreParenteses().apply(this);
-        }
-        outAExpExp(node);
-    }
-
     public void inAChamadaExp(AChamadaExp node)
     {
         defaultIn(node);
@@ -1118,120 +1026,62 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAChamadaExp(node);
     }
 
-    public void inAMaisExp(AMaisExp node)
+    public void inAOuExp(AOuExp node)
     {
         defaultIn(node);
     }
 
-    public void outAMaisExp(AMaisExp node)
+    public void outAOuExp(AOuExp node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAMaisExp(AMaisExp node)
+    public void caseAOuExp(AOuExp node)
     {
-        inAMaisExp(node);
+        inAOuExp(node);
         if(node.getDir() != null)
         {
             node.getDir().apply(this);
         }
-        if(node.getMais() != null)
+        if(node.getOu() != null)
         {
-            node.getMais().apply(this);
+            node.getOu().apply(this);
         }
         if(node.getEsq() != null)
         {
             node.getEsq().apply(this);
         }
-        outAMaisExp(node);
+        outAOuExp(node);
     }
 
-    public void inAMenosExp(AMenosExp node)
+    public void inAEExp(AEExp node)
     {
         defaultIn(node);
     }
 
-    public void outAMenosExp(AMenosExp node)
+    public void outAEExp(AEExp node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAMenosExp(AMenosExp node)
+    public void caseAEExp(AEExp node)
     {
-        inAMenosExp(node);
+        inAEExp(node);
         if(node.getDir() != null)
         {
             node.getDir().apply(this);
         }
-        if(node.getMenos() != null)
+        if(node.getE() != null)
         {
-            node.getMenos().apply(this);
+            node.getE().apply(this);
         }
         if(node.getEsq() != null)
         {
             node.getEsq().apply(this);
         }
-        outAMenosExp(node);
-    }
-
-    public void inAMultExp(AMultExp node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAMultExp(AMultExp node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAMultExp(AMultExp node)
-    {
-        inAMultExp(node);
-        if(node.getDir() != null)
-        {
-            node.getDir().apply(this);
-        }
-        if(node.getMult() != null)
-        {
-            node.getMult().apply(this);
-        }
-        if(node.getEsq() != null)
-        {
-            node.getEsq().apply(this);
-        }
-        outAMultExp(node);
-    }
-
-    public void inADivExp(ADivExp node)
-    {
-        defaultIn(node);
-    }
-
-    public void outADivExp(ADivExp node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseADivExp(ADivExp node)
-    {
-        inADivExp(node);
-        if(node.getDir() != null)
-        {
-            node.getDir().apply(this);
-        }
-        if(node.getDiv() != null)
-        {
-            node.getDiv().apply(this);
-        }
-        if(node.getEsq() != null)
-        {
-            node.getEsq().apply(this);
-        }
-        outADivExp(node);
+        outAEExp(node);
     }
 
     public void inAIgualExp(AIgualExp node)
@@ -1379,6 +1229,122 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAMaiorExp(node);
     }
 
+    public void inAMaisExp(AMaisExp node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAMaisExp(AMaisExp node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAMaisExp(AMaisExp node)
+    {
+        inAMaisExp(node);
+        if(node.getDir() != null)
+        {
+            node.getDir().apply(this);
+        }
+        if(node.getMais() != null)
+        {
+            node.getMais().apply(this);
+        }
+        if(node.getEsq() != null)
+        {
+            node.getEsq().apply(this);
+        }
+        outAMaisExp(node);
+    }
+
+    public void inAMenosExp(AMenosExp node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAMenosExp(AMenosExp node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAMenosExp(AMenosExp node)
+    {
+        inAMenosExp(node);
+        if(node.getDir() != null)
+        {
+            node.getDir().apply(this);
+        }
+        if(node.getMenos() != null)
+        {
+            node.getMenos().apply(this);
+        }
+        if(node.getEsq() != null)
+        {
+            node.getEsq().apply(this);
+        }
+        outAMenosExp(node);
+    }
+
+    public void inAMultExp(AMultExp node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAMultExp(AMultExp node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAMultExp(AMultExp node)
+    {
+        inAMultExp(node);
+        if(node.getDir() != null)
+        {
+            node.getDir().apply(this);
+        }
+        if(node.getMult() != null)
+        {
+            node.getMult().apply(this);
+        }
+        if(node.getEsq() != null)
+        {
+            node.getEsq().apply(this);
+        }
+        outAMultExp(node);
+    }
+
+    public void inADivExp(ADivExp node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADivExp(ADivExp node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseADivExp(ADivExp node)
+    {
+        inADivExp(node);
+        if(node.getDir() != null)
+        {
+            node.getDir().apply(this);
+        }
+        if(node.getDiv() != null)
+        {
+            node.getDiv().apply(this);
+        }
+        if(node.getEsq() != null)
+        {
+            node.getEsq().apply(this);
+        }
+        outADivExp(node);
+    }
+
     public void inANaoExp(ANaoExp node)
     {
         defaultIn(node);
@@ -1404,62 +1370,96 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outANaoExp(node);
     }
 
-    public void inAEExp(AEExp node)
+    public void inAExpExp(AExpExp node)
     {
         defaultIn(node);
     }
 
-    public void outAEExp(AEExp node)
+    public void outAExpExp(AExpExp node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAEExp(AEExp node)
+    public void caseAExpExp(AExpExp node)
     {
-        inAEExp(node);
-        if(node.getDir() != null)
+        inAExpExp(node);
+        if(node.getFechaParenteses() != null)
         {
-            node.getDir().apply(this);
+            node.getFechaParenteses().apply(this);
         }
-        if(node.getE() != null)
+        if(node.getExp() != null)
         {
-            node.getE().apply(this);
+            node.getExp().apply(this);
         }
-        if(node.getEsq() != null)
+        if(node.getAbreParenteses() != null)
         {
-            node.getEsq().apply(this);
+            node.getAbreParenteses().apply(this);
         }
-        outAEExp(node);
+        outAExpExp(node);
     }
 
-    public void inAOuExp(AOuExp node)
+    public void inANumeroExp(ANumeroExp node)
     {
         defaultIn(node);
     }
 
-    public void outAOuExp(AOuExp node)
+    public void outANumeroExp(ANumeroExp node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAOuExp(AOuExp node)
+    public void caseANumeroExp(ANumeroExp node)
     {
-        inAOuExp(node);
-        if(node.getDir() != null)
+        inANumeroExp(node);
+        if(node.getNumero() != null)
         {
-            node.getDir().apply(this);
+            node.getNumero().apply(this);
         }
-        if(node.getOu() != null)
+        outANumeroExp(node);
+    }
+
+    public void inACaractereExp(ACaractereExp node)
+    {
+        defaultIn(node);
+    }
+
+    public void outACaractereExp(ACaractereExp node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseACaractereExp(ACaractereExp node)
+    {
+        inACaractereExp(node);
+        if(node.getCaractere() != null)
         {
-            node.getOu().apply(this);
+            node.getCaractere().apply(this);
         }
-        if(node.getEsq() != null)
+        outACaractereExp(node);
+    }
+
+    public void inABooleanoExp(ABooleanoExp node)
+    {
+        defaultIn(node);
+    }
+
+    public void outABooleanoExp(ABooleanoExp node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseABooleanoExp(ABooleanoExp node)
+    {
+        inABooleanoExp(node);
+        if(node.getBooleano() != null)
         {
-            node.getEsq().apply(this);
+            node.getBooleano().apply(this);
         }
-        outAOuExp(node);
+        outABooleanoExp(node);
     }
 
     public void inAChamada(AChamada node)

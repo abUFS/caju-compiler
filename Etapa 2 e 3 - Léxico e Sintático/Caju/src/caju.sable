@@ -153,7 +153,7 @@ Productions
  exp = 
      {var} var
    | {chamada} chamada
-   | {ou} [esq]:exp ou [dir]:exp;
+   | {ou} [esq]:exp ou [dir]:exp
    | {e} [esq]:exp e [dir]:exp
    | {igual} [esq]:exp igual [dir]:exp
    | {menor_igual} [esq]:exp menor_igual [dir]:exp
@@ -168,7 +168,7 @@ Productions
    | {exp} abre_parenteses exp fecha_parenteses
    | {numero} numero
    | {caractere} caractere
-   | {booleano} booleano
+   | {booleano} booleano;
  
  chamada = 
    id abre_parenteses lista_exp fecha_parenteses;

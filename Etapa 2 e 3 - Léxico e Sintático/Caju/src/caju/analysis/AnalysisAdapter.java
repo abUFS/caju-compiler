@@ -261,25 +261,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAVarVar(AVarVar node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseANumeroExp(ANumeroExp node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseACaractereExp(ACaractereExp node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseABooleanoExp(ABooleanoExp node)
+    public void caseAIndexadaVar(AIndexadaVar node)
     {
         defaultCase(node);
     }
@@ -291,37 +273,19 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAExpExp(AExpExp node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseAChamadaExp(AChamadaExp node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAMaisExp(AMaisExp node)
+    public void caseAOuExp(AOuExp node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAMenosExp(AMenosExp node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAMultExp(AMultExp node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseADivExp(ADivExp node)
+    public void caseAEExp(AEExp node)
     {
         defaultCase(node);
     }
@@ -357,19 +321,55 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAMaisExp(AMaisExp node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAMenosExp(AMenosExp node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAMultExp(AMultExp node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADivExp(ADivExp node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseANaoExp(ANaoExp node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAEExp(AEExp node)
+    public void caseAExpExp(AExpExp node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAOuExp(AOuExp node)
+    public void caseANumeroExp(ANumeroExp node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseACaractereExp(ACaractereExp node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseABooleanoExp(ABooleanoExp node)
     {
         defaultCase(node);
     }
