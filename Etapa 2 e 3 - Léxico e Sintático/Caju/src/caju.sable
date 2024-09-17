@@ -153,15 +153,19 @@ Productions
  exp = 
      {var} var
    | {chamada} chamada
-   | {ou} [esq]:exp ou [dir]:exp
-   | {e} [esq]:exp e [dir]:exp
-
-   | {igual} exp igual exp_igual
-   | {exp_igual} exp_igual
-
    | {nao} nao exp
    | {caractere} caractere
    | {booleano} booleano;
+   | {ou} exp ou exp_ou
+   | {exp_ou} exp_ou
+
+ exp_ou =
+     {e} exp_ou e exp_e
+   | {exp_e} exp_e
+
+ exp_e =
+     {igual} exp_e igual exp_igual
+   | {exp_igual} exp_igual
 
  exp_igual =
      {maior_menor} exp_igual operador_relacional cmp
