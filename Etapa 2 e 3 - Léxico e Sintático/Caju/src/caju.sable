@@ -147,7 +147,7 @@ Productions
    | {chamada} chamada ponto_final;
    
  dec_casam =
-     {se_senao} se abre_parenteses exp fecha_parenteses dec_casam senao dec_casam
+     {se_senao} se abre_parenteses exp fecha_parenteses [esq]:dec_casam senao [dir]:dec_casam
    | {enquanto} enquanto abre_parenteses exp fecha_parenteses comando
    | {para} para abre_parenteses [esq_lista]:lista_atrib [esq_ponto]:ponto_virgula exp [dir_ponto]:ponto_virgula [dir_lista]:lista_atrib fecha_parenteses comando
    | {para_cada} para_cada abre_parenteses tipo [esq]:id dois_pontos [dir]:id fecha_parenteses comando
