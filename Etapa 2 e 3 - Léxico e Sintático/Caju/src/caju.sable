@@ -160,16 +160,32 @@ Productions
    | {maior_igual} [esq]:exp maior_igual [dir]:exp
    | {menor} [esq]:exp menor [dir]:exp
    | {maior} [esq]:exp maior [dir]:exp
-   | {mais} [esq]:exp mais [dir]:exp
-   | {menos} [esq]:exp menos [dir]:exp
-   | {mult} [esq]:exp mult [dir]:exp
-   | {div} [esq]:exp div [dir]:exp
+
+   | {adicao_subtracao} exp mais_menos termo
+   | {termo} termo
+   
    | {nao} nao exp
-   | {exp} abre_parenteses exp fecha_parenteses
-   | {numero} numero
    | {caractere} caractere
    | {booleano} booleano;
- 
+
+ termo =
+     {multiplicacao_divisao} termo mult_div fator
+   | fator
+
+ fator =
+     {exp} abre_parenteses exp fecha_parenteses
+   | {numero} numero
+
+ mais_menos =
+     {mais} mais
+   | {menos} menos
+
+ mult_div =
+     {mult} mult
+   | {div} div
+
+
+
  chamada = 
    id abre_parenteses lista_exp fecha_parenteses;
   
