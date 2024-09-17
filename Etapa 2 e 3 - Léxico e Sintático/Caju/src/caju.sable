@@ -136,8 +136,8 @@ Productions
    virgula atrib;
   
  comando =
-     {se} se abre_parenteses exp fecha_parenteses comando
-   | {se_senao} se abre_parenteses exp fecha_parenteses [esq]:comando senao [dir]:comando
+     {dec_casam} dec_casam
+   | {dec_sem_casam} dec_sem_casam
    | {enquanto} enquanto abre_parenteses exp fecha_parenteses comando
    | {para} para abre_parenteses [esq_lista]:lista_atrib [esq_ponto]:ponto_virgula exp [dir_ponto]:ponto_virgula [dir_lista]:lista_atrib fecha_parenteses comando
    | {para_cada} para_cada abre_parenteses tipo [esq]:id dois_pontos [dir]:id fecha_parenteses comando
@@ -145,6 +145,20 @@ Productions
    | {retorne} retorne exp? ponto_final
    | {bloco} bloco
    | {chamada} chamada ponto_final;
+   
+ dec_casam =
+     {se_senao} se abre_parenteses exp fecha_parenteses dec_casam senao dec_casam
+   | {enquanto} enquanto abre_parenteses exp fecha_parenteses comando
+   | {para} para abre_parenteses [esq_lista]:lista_atrib [esq_ponto]:ponto_virgula exp [dir_ponto]:ponto_virgula [dir_lista]:lista_atrib fecha_parenteses comando
+   | {para_cada} para_cada abre_parenteses tipo [esq]:id dois_pontos [dir]:id fecha_parenteses comando
+   | {atrib} atrib ponto_final
+   | {retorne} retorne exp? ponto_final
+   | {bloco} bloco
+   | {chamada} chamada ponto_final;
+
+ dec_sem_casam =
+     {se} se abre_parenteses exp fecha_parenteses comando
+   | {se_senao} se abre_parenteses exp fecha_parenteses dec_casam senao dec_sem_casam
    
  var = 
      {id} id
@@ -204,4 +218,3 @@ Productions
  
  pipe_exp = 
    pipe exp;
-	
