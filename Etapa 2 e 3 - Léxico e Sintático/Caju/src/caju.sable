@@ -153,29 +153,36 @@ Productions
  exp = 
      {var} var
    | {chamada} chamada
-   | {ou} [esq]:exp ou [dir]:exp
-   | {e} [esq]:exp e [dir]:exp
-
-   | {igual} exp igual exp_igual
-   | {exp_igual} exp_igual
-
-   | {nao} nao exp
    | {caractere} caractere
    | {booleano} booleano;
+   | {ou} exp ou exp_ou
+   | {exp_ou} exp_ou
+
+ exp_ou =
+     {e} exp_ou e exp_e
+   | {exp_e} exp_e
+
+ exp_e =
+     {igual} exp_e igual exp_igual
+   | {exp_igual} exp_igual
 
  exp_igual =
-     {maior_menor} exp_igual operador_relacional cmp
-   | {cmp} cmp
+     {maior_menor} exp_igual operador_relacional exp_cmp
+   | {exp_cmp} exp_cmp
 
- cmp =
-     {adicao_subtracao} cmp mais_menos termo
-   | {termo} termo
+ exp_cmp =
+     {adicao_subtracao} exp_cmp mais_menos exp_termo
+   | {exp_termo} exp_termo
 
- termo =
-     {multiplicacao_divisao} termo mult_div fator
-   | fator
+ exp_termo =
+     {multiplicacao_divisao} exp_termo mult_div exp_nao
+   | {exp_nao} exp_nao
 
- fator =
+ exp_nao =
+     {nao} nao exp_nao
+   | {exp_fator} exp_fator
+
+ exp_fator =
      {exp} abre_parenteses exp fecha_parenteses
    | {numero} numero
 
