@@ -155,18 +155,21 @@ Productions
    | {chamada} chamada
    | {ou} [esq]:exp ou [dir]:exp
    | {e} [esq]:exp e [dir]:exp
-   | {igual} [esq]:exp igual [dir]:exp
-   | {menor_igual} [esq]:exp menor_igual [dir]:exp
-   | {maior_igual} [esq]:exp maior_igual [dir]:exp
-   | {menor} [esq]:exp menor [dir]:exp
-   | {maior} [esq]:exp maior [dir]:exp
 
-   | {adicao_subtracao} exp mais_menos termo
-   | {termo} termo
-   
+   | {igual} exp igual exp_igual
+   | {exp_igual} exp_igual
+
    | {nao} nao exp
    | {caractere} caractere
    | {booleano} booleano;
+
+ exp_igual =
+     {maior_menor} exp_igual operador_relacional cmp
+   | {cmp} cmp
+
+ cmp =
+     {adicao_subtracao} cmp mais_menos termo
+   | {termo} termo
 
  termo =
      {multiplicacao_divisao} termo mult_div fator
@@ -175,6 +178,12 @@ Productions
  fator =
      {exp} abre_parenteses exp fecha_parenteses
    | {numero} numero
+
+ operador_relacional =
+     {menor_igual} menor_igual
+   | {maior_igual} maior_igual
+   | {menor} menor
+   | {maior} maior
 
  mais_menos =
      {mais} mais
