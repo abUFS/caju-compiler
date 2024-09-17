@@ -5,44 +5,69 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AOuExp extends PExp
+public final class ARetorneDecCasam extends PDecCasam
 {
+    private TRetorne _retorne_;
     private PExp _exp_;
-    private TOu _ou_;
-    private PExpOu _expOu_;
+    private TPontoFinal _pontoFinal_;
 
-    public AOuExp()
+    public ARetorneDecCasam()
     {
         // Constructor
     }
 
-    public AOuExp(
+    public ARetorneDecCasam(
+        @SuppressWarnings("hiding") TRetorne _retorne_,
         @SuppressWarnings("hiding") PExp _exp_,
-        @SuppressWarnings("hiding") TOu _ou_,
-        @SuppressWarnings("hiding") PExpOu _expOu_)
+        @SuppressWarnings("hiding") TPontoFinal _pontoFinal_)
     {
         // Constructor
+        setRetorne(_retorne_);
+
         setExp(_exp_);
 
-        setOu(_ou_);
-
-        setExpOu(_expOu_);
+        setPontoFinal(_pontoFinal_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AOuExp(
+        return new ARetorneDecCasam(
+            cloneNode(this._retorne_),
             cloneNode(this._exp_),
-            cloneNode(this._ou_),
-            cloneNode(this._expOu_));
+            cloneNode(this._pontoFinal_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAOuExp(this);
+        ((Analysis) sw).caseARetorneDecCasam(this);
+    }
+
+    public TRetorne getRetorne()
+    {
+        return this._retorne_;
+    }
+
+    public void setRetorne(TRetorne node)
+    {
+        if(this._retorne_ != null)
+        {
+            this._retorne_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._retorne_ = node;
     }
 
     public PExp getExp()
@@ -70,16 +95,16 @@ public final class AOuExp extends PExp
         this._exp_ = node;
     }
 
-    public TOu getOu()
+    public TPontoFinal getPontoFinal()
     {
-        return this._ou_;
+        return this._pontoFinal_;
     }
 
-    public void setOu(TOu node)
+    public void setPontoFinal(TPontoFinal node)
     {
-        if(this._ou_ != null)
+        if(this._pontoFinal_ != null)
         {
-            this._ou_.parent(null);
+            this._pontoFinal_.parent(null);
         }
 
         if(node != null)
@@ -92,62 +117,37 @@ public final class AOuExp extends PExp
             node.parent(this);
         }
 
-        this._ou_ = node;
-    }
-
-    public PExpOu getExpOu()
-    {
-        return this._expOu_;
-    }
-
-    public void setExpOu(PExpOu node)
-    {
-        if(this._expOu_ != null)
-        {
-            this._expOu_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._expOu_ = node;
+        this._pontoFinal_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
+            + toString(this._retorne_)
             + toString(this._exp_)
-            + toString(this._ou_)
-            + toString(this._expOu_);
+            + toString(this._pontoFinal_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
+        if(this._retorne_ == child)
+        {
+            this._retorne_ = null;
+            return;
+        }
+
         if(this._exp_ == child)
         {
             this._exp_ = null;
             return;
         }
 
-        if(this._ou_ == child)
+        if(this._pontoFinal_ == child)
         {
-            this._ou_ = null;
-            return;
-        }
-
-        if(this._expOu_ == child)
-        {
-            this._expOu_ = null;
+            this._pontoFinal_ = null;
             return;
         }
 
@@ -158,21 +158,21 @@ public final class AOuExp extends PExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
+        if(this._retorne_ == oldChild)
+        {
+            setRetorne((TRetorne) newChild);
+            return;
+        }
+
         if(this._exp_ == oldChild)
         {
             setExp((PExp) newChild);
             return;
         }
 
-        if(this._ou_ == oldChild)
+        if(this._pontoFinal_ == oldChild)
         {
-            setOu((TOu) newChild);
-            return;
-        }
-
-        if(this._expOu_ == oldChild)
-        {
-            setExpOu((PExpOu) newChild);
+            setPontoFinal((TPontoFinal) newChild);
             return;
         }
 

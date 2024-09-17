@@ -158,7 +158,7 @@ Productions
 
  dec_sem_casam =
      {se} se abre_parenteses exp fecha_parenteses comando
-   | {se_senao} se abre_parenteses exp fecha_parenteses dec_casam senao dec_sem_casam
+   | {se_senao} se abre_parenteses exp fecha_parenteses dec_casam senao dec_sem_casam;
    
  var = 
      {id} id
@@ -168,53 +168,51 @@ Productions
      {var} var
    | {chamada} chamada
    | {caractere} caractere
-   | {booleano} booleano;
+   | {booleano} booleano
    | {ou} exp ou exp_ou
-   | {exp_ou} exp_ou
+   | {exp_ou} exp_ou;
 
  exp_ou =
      {e} exp_ou e exp_e
-   | {exp_e} exp_e
+   | {exp_e} exp_e;
 
  exp_e =
      {igual} exp_e igual exp_igual
-   | {exp_igual} exp_igual
+   | {exp_igual} exp_igual;
 
  exp_igual =
      {maior_menor} exp_igual operador_relacional exp_cmp
-   | {exp_cmp} exp_cmp
+   | {exp_cmp} exp_cmp;
 
  exp_cmp =
      {adicao_subtracao} exp_cmp mais_menos exp_termo
-   | {exp_termo} exp_termo
+   | {exp_termo} exp_termo;
 
  exp_termo =
      {multiplicacao_divisao} exp_termo mult_div exp_nao
-   | {exp_nao} exp_nao
+   | {exp_nao} exp_nao;
 
  exp_nao =
      {nao} nao exp_nao
-   | {exp_fator} exp_fator
+   | {exp_fator} exp_fator;
 
  exp_fator =
      {exp} abre_parenteses exp fecha_parenteses
-   | {numero} numero
+   | {numero} numero;
 
  operador_relacional =
      {menor_igual} menor_igual
    | {maior_igual} maior_igual
    | {menor} menor
-   | {maior} maior
+   | {maior} maior;
 
  mais_menos =
      {mais} mais
-   | {menos} menos
+   | {menos} menos;
 
  mult_div =
      {mult} mult
-   | {div} div
-
-
+   | {div} div;
 
  chamada = 
    id abre_parenteses lista_exp fecha_parenteses;
