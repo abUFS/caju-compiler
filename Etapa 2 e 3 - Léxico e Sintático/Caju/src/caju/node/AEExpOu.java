@@ -5,56 +5,56 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADivExp extends PExp
+public final class AEExpOu extends PExpOu
 {
-    private PExp _esq_;
-    private TDiv _div_;
-    private PExp _dir_;
+    private PExpOu _expOu_;
+    private TE _e_;
+    private PExpE _expE_;
 
-    public ADivExp()
+    public AEExpOu()
     {
         // Constructor
     }
 
-    public ADivExp(
-        @SuppressWarnings("hiding") PExp _esq_,
-        @SuppressWarnings("hiding") TDiv _div_,
-        @SuppressWarnings("hiding") PExp _dir_)
+    public AEExpOu(
+        @SuppressWarnings("hiding") PExpOu _expOu_,
+        @SuppressWarnings("hiding") TE _e_,
+        @SuppressWarnings("hiding") PExpE _expE_)
     {
         // Constructor
-        setEsq(_esq_);
+        setExpOu(_expOu_);
 
-        setDiv(_div_);
+        setE(_e_);
 
-        setDir(_dir_);
+        setExpE(_expE_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADivExp(
-            cloneNode(this._esq_),
-            cloneNode(this._div_),
-            cloneNode(this._dir_));
+        return new AEExpOu(
+            cloneNode(this._expOu_),
+            cloneNode(this._e_),
+            cloneNode(this._expE_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADivExp(this);
+        ((Analysis) sw).caseAEExpOu(this);
     }
 
-    public PExp getEsq()
+    public PExpOu getExpOu()
     {
-        return this._esq_;
+        return this._expOu_;
     }
 
-    public void setEsq(PExp node)
+    public void setExpOu(PExpOu node)
     {
-        if(this._esq_ != null)
+        if(this._expOu_ != null)
         {
-            this._esq_.parent(null);
+            this._expOu_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +67,19 @@ public final class ADivExp extends PExp
             node.parent(this);
         }
 
-        this._esq_ = node;
+        this._expOu_ = node;
     }
 
-    public TDiv getDiv()
+    public TE getE()
     {
-        return this._div_;
+        return this._e_;
     }
 
-    public void setDiv(TDiv node)
+    public void setE(TE node)
     {
-        if(this._div_ != null)
+        if(this._e_ != null)
         {
-            this._div_.parent(null);
+            this._e_.parent(null);
         }
 
         if(node != null)
@@ -92,19 +92,19 @@ public final class ADivExp extends PExp
             node.parent(this);
         }
 
-        this._div_ = node;
+        this._e_ = node;
     }
 
-    public PExp getDir()
+    public PExpE getExpE()
     {
-        return this._dir_;
+        return this._expE_;
     }
 
-    public void setDir(PExp node)
+    public void setExpE(PExpE node)
     {
-        if(this._dir_ != null)
+        if(this._expE_ != null)
         {
-            this._dir_.parent(null);
+            this._expE_.parent(null);
         }
 
         if(node != null)
@@ -117,37 +117,37 @@ public final class ADivExp extends PExp
             node.parent(this);
         }
 
-        this._dir_ = node;
+        this._expE_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._esq_)
-            + toString(this._div_)
-            + toString(this._dir_);
+            + toString(this._expOu_)
+            + toString(this._e_)
+            + toString(this._expE_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._esq_ == child)
+        if(this._expOu_ == child)
         {
-            this._esq_ = null;
+            this._expOu_ = null;
             return;
         }
 
-        if(this._div_ == child)
+        if(this._e_ == child)
         {
-            this._div_ = null;
+            this._e_ = null;
             return;
         }
 
-        if(this._dir_ == child)
+        if(this._expE_ == child)
         {
-            this._dir_ = null;
+            this._expE_ = null;
             return;
         }
 
@@ -158,21 +158,21 @@ public final class ADivExp extends PExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._esq_ == oldChild)
+        if(this._expOu_ == oldChild)
         {
-            setEsq((PExp) newChild);
+            setExpOu((PExpOu) newChild);
             return;
         }
 
-        if(this._div_ == oldChild)
+        if(this._e_ == oldChild)
         {
-            setDiv((TDiv) newChild);
+            setE((TE) newChild);
             return;
         }
 
-        if(this._dir_ == oldChild)
+        if(this._expE_ == oldChild)
         {
-            setDir((PExp) newChild);
+            setExpE((PExpE) newChild);
             return;
         }
 

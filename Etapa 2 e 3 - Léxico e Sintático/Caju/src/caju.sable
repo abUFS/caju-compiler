@@ -136,8 +136,8 @@ Productions
    virgula atrib;
   
  comando =
-     {se} se abre_parenteses exp fecha_parenteses comando
-   | {se_senao} se abre_parenteses exp fecha_parenteses [esq]:comando senao [dir]:comando
+     {casam} comando_casam
+   | {sem_casam} comando_sem_casam
    | {enquanto} enquanto abre_parenteses exp fecha_parenteses comando
    | {para} para abre_parenteses [esq_lista]:lista_atrib [esq_ponto]:ponto_virgula exp [dir_ponto]:ponto_virgula [dir_lista]:lista_atrib fecha_parenteses comando
    | {para_cada} para_cada abre_parenteses tipo [esq]:id dois_pontos [dir]:id fecha_parenteses comando
@@ -145,7 +145,14 @@ Productions
    | {retorne} retorne exp? ponto_final
    | {bloco} bloco
    | {chamada} chamada ponto_final;
-   
+ 
+ comando_casam =
+     {se} se abre_parenteses exp fecha_parenteses [esq]:comando_casam senao [dir]:comando_casam;
+ 
+ comando_sem_casam =
+     {se} se abre_parenteses exp fecha_parenteses comando
+   | {se_senao} se abre_parenteses exp fecha_parenteses comando_casam senao comando_sem_casam;
+ 
  var = 
      {id} id
    | {indexada} var abre_colchete exp fecha_colchete;
@@ -153,22 +160,52 @@ Productions
  exp = 
      {var} var
    | {chamada} chamada
-   | {ou} [esq]:exp ou [dir]:exp
-   | {e} [esq]:exp e [dir]:exp
-   | {igual} [esq]:exp igual [dir]:exp
-   | {menor_igual} [esq]:exp menor_igual [dir]:exp
-   | {maior_igual} [esq]:exp maior_igual [dir]:exp
-   | {menor} [esq]:exp menor [dir]:exp
-   | {maior} [esq]:exp maior [dir]:exp
-   | {mais} [esq]:exp mais [dir]:exp
-   | {menos} [esq]:exp menos [dir]:exp
-   | {mult} [esq]:exp mult [dir]:exp
-   | {div} [esq]:exp div [dir]:exp
-   | {nao} nao exp
-   | {exp} abre_parenteses exp fecha_parenteses
-   | {numero} numero
    | {caractere} caractere
-   | {booleano} booleano;
+   | {booleano} booleano
+   | {ou} exp ou exp_ou
+   | {exp_ou} exp_ou;
+
+ exp_ou =
+     {e} exp_ou e exp_e
+   | {exp_e} exp_e;
+
+ exp_e =
+     {igual} exp_e igual exp_igual
+   | {exp_igual} exp_igual;
+
+ exp_igual =
+     {maior_menor} exp_igual operador_relacional exp_cmp
+   | {exp_cmp} exp_cmp;
+
+ exp_cmp =
+     {adicao_subtracao} exp_cmp mais_menos exp_termo
+   | {exp_termo} exp_termo;
+
+ exp_termo =
+     {multiplicacao_divisao} exp_termo mult_div exp_nao
+   | {exp_nao} exp_nao;
+
+ exp_nao =
+     {nao} nao exp_nao
+   | {exp_fator} exp_fator;
+
+ exp_fator =
+     {exp} abre_parenteses exp fecha_parenteses
+   | {numero} numero;
+
+ operador_relacional =
+     {menor_igual} menor_igual
+   | {maior_igual} maior_igual
+   | {menor} menor
+   | {maior} maior;
+
+ mais_menos =
+     {mais} mais
+   | {menos} menos;
+
+ mult_div =
+     {mult} mult
+   | {div} div;
  
  chamada = 
    id abre_parenteses lista_exp fecha_parenteses;

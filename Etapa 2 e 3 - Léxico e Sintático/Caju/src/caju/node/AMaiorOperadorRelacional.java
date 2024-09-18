@@ -5,46 +5,46 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ANumeroExp extends PExp
+public final class AMaiorOperadorRelacional extends POperadorRelacional
 {
-    private TNumero _numero_;
+    private TMaior _maior_;
 
-    public ANumeroExp()
+    public AMaiorOperadorRelacional()
     {
         // Constructor
     }
 
-    public ANumeroExp(
-        @SuppressWarnings("hiding") TNumero _numero_)
+    public AMaiorOperadorRelacional(
+        @SuppressWarnings("hiding") TMaior _maior_)
     {
         // Constructor
-        setNumero(_numero_);
+        setMaior(_maior_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ANumeroExp(
-            cloneNode(this._numero_));
+        return new AMaiorOperadorRelacional(
+            cloneNode(this._maior_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseANumeroExp(this);
+        ((Analysis) sw).caseAMaiorOperadorRelacional(this);
     }
 
-    public TNumero getNumero()
+    public TMaior getMaior()
     {
-        return this._numero_;
+        return this._maior_;
     }
 
-    public void setNumero(TNumero node)
+    public void setMaior(TMaior node)
     {
-        if(this._numero_ != null)
+        if(this._maior_ != null)
         {
-            this._numero_.parent(null);
+            this._maior_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ANumeroExp extends PExp
             node.parent(this);
         }
 
-        this._numero_ = node;
+        this._maior_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._numero_);
+            + toString(this._maior_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._numero_ == child)
+        if(this._maior_ == child)
         {
-            this._numero_ = null;
+            this._maior_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ANumeroExp extends PExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._numero_ == oldChild)
+        if(this._maior_ == oldChild)
         {
-            setNumero((TNumero) newChild);
+            setMaior((TMaior) newChild);
             return;
         }
 

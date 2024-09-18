@@ -5,39 +5,39 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ANaoExp extends PExp
+public final class ANaoExpNao extends PExpNao
 {
     private TNao _nao_;
-    private PExp _exp_;
+    private PExpNao _expNao_;
 
-    public ANaoExp()
+    public ANaoExpNao()
     {
         // Constructor
     }
 
-    public ANaoExp(
+    public ANaoExpNao(
         @SuppressWarnings("hiding") TNao _nao_,
-        @SuppressWarnings("hiding") PExp _exp_)
+        @SuppressWarnings("hiding") PExpNao _expNao_)
     {
         // Constructor
         setNao(_nao_);
 
-        setExp(_exp_);
+        setExpNao(_expNao_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ANaoExp(
+        return new ANaoExpNao(
             cloneNode(this._nao_),
-            cloneNode(this._exp_));
+            cloneNode(this._expNao_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseANaoExp(this);
+        ((Analysis) sw).caseANaoExpNao(this);
     }
 
     public TNao getNao()
@@ -65,16 +65,16 @@ public final class ANaoExp extends PExp
         this._nao_ = node;
     }
 
-    public PExp getExp()
+    public PExpNao getExpNao()
     {
-        return this._exp_;
+        return this._expNao_;
     }
 
-    public void setExp(PExp node)
+    public void setExpNao(PExpNao node)
     {
-        if(this._exp_ != null)
+        if(this._expNao_ != null)
         {
-            this._exp_.parent(null);
+            this._expNao_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class ANaoExp extends PExp
             node.parent(this);
         }
 
-        this._exp_ = node;
+        this._expNao_ = node;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class ANaoExp extends PExp
     {
         return ""
             + toString(this._nao_)
-            + toString(this._exp_);
+            + toString(this._expNao_);
     }
 
     @Override
@@ -108,9 +108,9 @@ public final class ANaoExp extends PExp
             return;
         }
 
-        if(this._exp_ == child)
+        if(this._expNao_ == child)
         {
-            this._exp_ = null;
+            this._expNao_ = null;
             return;
         }
 
@@ -127,9 +127,9 @@ public final class ANaoExp extends PExp
             return;
         }
 
-        if(this._exp_ == oldChild)
+        if(this._expNao_ == oldChild)
         {
-            setExp((PExp) newChild);
+            setExpNao((PExpNao) newChild);
             return;
         }
 

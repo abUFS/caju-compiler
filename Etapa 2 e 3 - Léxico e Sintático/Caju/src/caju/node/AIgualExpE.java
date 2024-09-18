@@ -5,56 +5,56 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AIgualExp extends PExp
+public final class AIgualExpE extends PExpE
 {
-    private PExp _esq_;
+    private PExpE _expE_;
     private TIgual _igual_;
-    private PExp _dir_;
+    private PExpIgual _expIgual_;
 
-    public AIgualExp()
+    public AIgualExpE()
     {
         // Constructor
     }
 
-    public AIgualExp(
-        @SuppressWarnings("hiding") PExp _esq_,
+    public AIgualExpE(
+        @SuppressWarnings("hiding") PExpE _expE_,
         @SuppressWarnings("hiding") TIgual _igual_,
-        @SuppressWarnings("hiding") PExp _dir_)
+        @SuppressWarnings("hiding") PExpIgual _expIgual_)
     {
         // Constructor
-        setEsq(_esq_);
+        setExpE(_expE_);
 
         setIgual(_igual_);
 
-        setDir(_dir_);
+        setExpIgual(_expIgual_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AIgualExp(
-            cloneNode(this._esq_),
+        return new AIgualExpE(
+            cloneNode(this._expE_),
             cloneNode(this._igual_),
-            cloneNode(this._dir_));
+            cloneNode(this._expIgual_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAIgualExp(this);
+        ((Analysis) sw).caseAIgualExpE(this);
     }
 
-    public PExp getEsq()
+    public PExpE getExpE()
     {
-        return this._esq_;
+        return this._expE_;
     }
 
-    public void setEsq(PExp node)
+    public void setExpE(PExpE node)
     {
-        if(this._esq_ != null)
+        if(this._expE_ != null)
         {
-            this._esq_.parent(null);
+            this._expE_.parent(null);
         }
 
         if(node != null)
@@ -67,7 +67,7 @@ public final class AIgualExp extends PExp
             node.parent(this);
         }
 
-        this._esq_ = node;
+        this._expE_ = node;
     }
 
     public TIgual getIgual()
@@ -95,16 +95,16 @@ public final class AIgualExp extends PExp
         this._igual_ = node;
     }
 
-    public PExp getDir()
+    public PExpIgual getExpIgual()
     {
-        return this._dir_;
+        return this._expIgual_;
     }
 
-    public void setDir(PExp node)
+    public void setExpIgual(PExpIgual node)
     {
-        if(this._dir_ != null)
+        if(this._expIgual_ != null)
         {
-            this._dir_.parent(null);
+            this._expIgual_.parent(null);
         }
 
         if(node != null)
@@ -117,25 +117,25 @@ public final class AIgualExp extends PExp
             node.parent(this);
         }
 
-        this._dir_ = node;
+        this._expIgual_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._esq_)
+            + toString(this._expE_)
             + toString(this._igual_)
-            + toString(this._dir_);
+            + toString(this._expIgual_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._esq_ == child)
+        if(this._expE_ == child)
         {
-            this._esq_ = null;
+            this._expE_ = null;
             return;
         }
 
@@ -145,9 +145,9 @@ public final class AIgualExp extends PExp
             return;
         }
 
-        if(this._dir_ == child)
+        if(this._expIgual_ == child)
         {
-            this._dir_ = null;
+            this._expIgual_ = null;
             return;
         }
 
@@ -158,9 +158,9 @@ public final class AIgualExp extends PExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._esq_ == oldChild)
+        if(this._expE_ == oldChild)
         {
-            setEsq((PExp) newChild);
+            setExpE((PExpE) newChild);
             return;
         }
 
@@ -170,9 +170,9 @@ public final class AIgualExp extends PExp
             return;
         }
 
-        if(this._dir_ == oldChild)
+        if(this._expIgual_ == oldChild)
         {
-            setDir((PExp) newChild);
+            setExpIgual((PExpIgual) newChild);
             return;
         }
 

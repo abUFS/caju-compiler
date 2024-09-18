@@ -5,25 +5,29 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASeComando extends PComando
+public final class ASeComandoCasam extends PComandoCasam
 {
     private TSe _se_;
     private TAbreParenteses _abreParenteses_;
     private PExp _exp_;
     private TFechaParenteses _fechaParenteses_;
-    private PComando _comando_;
+    private PComandoCasam _esq_;
+    private TSenao _senao_;
+    private PComandoCasam _dir_;
 
-    public ASeComando()
+    public ASeComandoCasam()
     {
         // Constructor
     }
 
-    public ASeComando(
+    public ASeComandoCasam(
         @SuppressWarnings("hiding") TSe _se_,
         @SuppressWarnings("hiding") TAbreParenteses _abreParenteses_,
         @SuppressWarnings("hiding") PExp _exp_,
         @SuppressWarnings("hiding") TFechaParenteses _fechaParenteses_,
-        @SuppressWarnings("hiding") PComando _comando_)
+        @SuppressWarnings("hiding") PComandoCasam _esq_,
+        @SuppressWarnings("hiding") TSenao _senao_,
+        @SuppressWarnings("hiding") PComandoCasam _dir_)
     {
         // Constructor
         setSe(_se_);
@@ -34,25 +38,31 @@ public final class ASeComando extends PComando
 
         setFechaParenteses(_fechaParenteses_);
 
-        setComando(_comando_);
+        setEsq(_esq_);
+
+        setSenao(_senao_);
+
+        setDir(_dir_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASeComando(
+        return new ASeComandoCasam(
             cloneNode(this._se_),
             cloneNode(this._abreParenteses_),
             cloneNode(this._exp_),
             cloneNode(this._fechaParenteses_),
-            cloneNode(this._comando_));
+            cloneNode(this._esq_),
+            cloneNode(this._senao_),
+            cloneNode(this._dir_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASeComando(this);
+        ((Analysis) sw).caseASeComandoCasam(this);
     }
 
     public TSe getSe()
@@ -155,16 +165,16 @@ public final class ASeComando extends PComando
         this._fechaParenteses_ = node;
     }
 
-    public PComando getComando()
+    public PComandoCasam getEsq()
     {
-        return this._comando_;
+        return this._esq_;
     }
 
-    public void setComando(PComando node)
+    public void setEsq(PComandoCasam node)
     {
-        if(this._comando_ != null)
+        if(this._esq_ != null)
         {
-            this._comando_.parent(null);
+            this._esq_.parent(null);
         }
 
         if(node != null)
@@ -177,7 +187,57 @@ public final class ASeComando extends PComando
             node.parent(this);
         }
 
-        this._comando_ = node;
+        this._esq_ = node;
+    }
+
+    public TSenao getSenao()
+    {
+        return this._senao_;
+    }
+
+    public void setSenao(TSenao node)
+    {
+        if(this._senao_ != null)
+        {
+            this._senao_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._senao_ = node;
+    }
+
+    public PComandoCasam getDir()
+    {
+        return this._dir_;
+    }
+
+    public void setDir(PComandoCasam node)
+    {
+        if(this._dir_ != null)
+        {
+            this._dir_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._dir_ = node;
     }
 
     @Override
@@ -188,7 +248,9 @@ public final class ASeComando extends PComando
             + toString(this._abreParenteses_)
             + toString(this._exp_)
             + toString(this._fechaParenteses_)
-            + toString(this._comando_);
+            + toString(this._esq_)
+            + toString(this._senao_)
+            + toString(this._dir_);
     }
 
     @Override
@@ -219,9 +281,21 @@ public final class ASeComando extends PComando
             return;
         }
 
-        if(this._comando_ == child)
+        if(this._esq_ == child)
         {
-            this._comando_ = null;
+            this._esq_ = null;
+            return;
+        }
+
+        if(this._senao_ == child)
+        {
+            this._senao_ = null;
+            return;
+        }
+
+        if(this._dir_ == child)
+        {
+            this._dir_ = null;
             return;
         }
 
@@ -256,9 +330,21 @@ public final class ASeComando extends PComando
             return;
         }
 
-        if(this._comando_ == oldChild)
+        if(this._esq_ == oldChild)
         {
-            setComando((PComando) newChild);
+            setEsq((PComandoCasam) newChild);
+            return;
+        }
+
+        if(this._senao_ == oldChild)
+        {
+            setSenao((TSenao) newChild);
+            return;
+        }
+
+        if(this._dir_ == oldChild)
+        {
+            setDir((PComandoCasam) newChild);
             return;
         }
 

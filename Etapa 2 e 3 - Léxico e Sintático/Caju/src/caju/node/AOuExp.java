@@ -7,9 +7,9 @@ import caju.analysis.*;
 @SuppressWarnings("nls")
 public final class AOuExp extends PExp
 {
-    private PExp _esq_;
+    private PExp _exp_;
     private TOu _ou_;
-    private PExp _dir_;
+    private PExpOu _expOu_;
 
     public AOuExp()
     {
@@ -17,16 +17,16 @@ public final class AOuExp extends PExp
     }
 
     public AOuExp(
-        @SuppressWarnings("hiding") PExp _esq_,
+        @SuppressWarnings("hiding") PExp _exp_,
         @SuppressWarnings("hiding") TOu _ou_,
-        @SuppressWarnings("hiding") PExp _dir_)
+        @SuppressWarnings("hiding") PExpOu _expOu_)
     {
         // Constructor
-        setEsq(_esq_);
+        setExp(_exp_);
 
         setOu(_ou_);
 
-        setDir(_dir_);
+        setExpOu(_expOu_);
 
     }
 
@@ -34,9 +34,9 @@ public final class AOuExp extends PExp
     public Object clone()
     {
         return new AOuExp(
-            cloneNode(this._esq_),
+            cloneNode(this._exp_),
             cloneNode(this._ou_),
-            cloneNode(this._dir_));
+            cloneNode(this._expOu_));
     }
 
     @Override
@@ -45,16 +45,16 @@ public final class AOuExp extends PExp
         ((Analysis) sw).caseAOuExp(this);
     }
 
-    public PExp getEsq()
+    public PExp getExp()
     {
-        return this._esq_;
+        return this._exp_;
     }
 
-    public void setEsq(PExp node)
+    public void setExp(PExp node)
     {
-        if(this._esq_ != null)
+        if(this._exp_ != null)
         {
-            this._esq_.parent(null);
+            this._exp_.parent(null);
         }
 
         if(node != null)
@@ -67,7 +67,7 @@ public final class AOuExp extends PExp
             node.parent(this);
         }
 
-        this._esq_ = node;
+        this._exp_ = node;
     }
 
     public TOu getOu()
@@ -95,16 +95,16 @@ public final class AOuExp extends PExp
         this._ou_ = node;
     }
 
-    public PExp getDir()
+    public PExpOu getExpOu()
     {
-        return this._dir_;
+        return this._expOu_;
     }
 
-    public void setDir(PExp node)
+    public void setExpOu(PExpOu node)
     {
-        if(this._dir_ != null)
+        if(this._expOu_ != null)
         {
-            this._dir_.parent(null);
+            this._expOu_.parent(null);
         }
 
         if(node != null)
@@ -117,25 +117,25 @@ public final class AOuExp extends PExp
             node.parent(this);
         }
 
-        this._dir_ = node;
+        this._expOu_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._esq_)
+            + toString(this._exp_)
             + toString(this._ou_)
-            + toString(this._dir_);
+            + toString(this._expOu_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._esq_ == child)
+        if(this._exp_ == child)
         {
-            this._esq_ = null;
+            this._exp_ = null;
             return;
         }
 
@@ -145,9 +145,9 @@ public final class AOuExp extends PExp
             return;
         }
 
-        if(this._dir_ == child)
+        if(this._expOu_ == child)
         {
-            this._dir_ = null;
+            this._expOu_ = null;
             return;
         }
 
@@ -158,9 +158,9 @@ public final class AOuExp extends PExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._esq_ == oldChild)
+        if(this._exp_ == oldChild)
         {
-            setEsq((PExp) newChild);
+            setExp((PExp) newChild);
             return;
         }
 
@@ -170,9 +170,9 @@ public final class AOuExp extends PExp
             return;
         }
 
-        if(this._dir_ == oldChild)
+        if(this._expOu_ == oldChild)
         {
-            setDir((PExp) newChild);
+            setExpOu((PExpOu) newChild);
             return;
         }
 

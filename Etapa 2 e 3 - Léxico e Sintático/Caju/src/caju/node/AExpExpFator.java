@@ -5,18 +5,18 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AExpExp extends PExp
+public final class AExpExpFator extends PExpFator
 {
     private TAbreParenteses _abreParenteses_;
     private PExp _exp_;
     private TFechaParenteses _fechaParenteses_;
 
-    public AExpExp()
+    public AExpExpFator()
     {
         // Constructor
     }
 
-    public AExpExp(
+    public AExpExpFator(
         @SuppressWarnings("hiding") TAbreParenteses _abreParenteses_,
         @SuppressWarnings("hiding") PExp _exp_,
         @SuppressWarnings("hiding") TFechaParenteses _fechaParenteses_)
@@ -33,7 +33,7 @@ public final class AExpExp extends PExp
     @Override
     public Object clone()
     {
-        return new AExpExp(
+        return new AExpExpFator(
             cloneNode(this._abreParenteses_),
             cloneNode(this._exp_),
             cloneNode(this._fechaParenteses_));
@@ -42,7 +42,7 @@ public final class AExpExp extends PExp
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAExpExp(this);
+        ((Analysis) sw).caseAExpExpFator(this);
     }
 
     public TAbreParenteses getAbreParenteses()
