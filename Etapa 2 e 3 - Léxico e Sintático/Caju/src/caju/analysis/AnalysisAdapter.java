@@ -201,13 +201,15 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseADecCasamComando(ADecCasamComando node)
+    public void caseACasamComando(ACasamComando node)
+
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseADecSemCasamComando(ADecSemCasamComando node)
+
+    public void caseASemCasamComando(ASemCasamComando node)
     {
         defaultCase(node);
     }
@@ -255,61 +257,24 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseASeSenaoDecCasam(ASeSenaoDecCasam node)
+
+    public void caseASeComandoCasam(ASeComandoCasam node)
+
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAEnquantoDecCasam(AEnquantoDecCasam node)
+
+    public void caseASeComandoSemCasam(ASeComandoSemCasam node)
+
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAParaDecCasam(AParaDecCasam node)
-    {
-        defaultCase(node);
-    }
+    public void caseASeSenaoComandoSemCasam(ASeSenaoComandoSemCasam node)
 
-    @Override
-    public void caseAParaCadaDecCasam(AParaCadaDecCasam node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAAtribDecCasam(AAtribDecCasam node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseARetorneDecCasam(ARetorneDecCasam node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseABlocoDecCasam(ABlocoDecCasam node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAChamadaDecCasam(AChamadaDecCasam node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseASeDecSemCasam(ASeDecSemCasam node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseASeSenaoDecSemCasam(ASeSenaoDecSemCasam node)
     {
         defaultCase(node);
     }

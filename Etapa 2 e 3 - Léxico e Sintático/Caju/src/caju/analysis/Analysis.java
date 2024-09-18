@@ -33,8 +33,9 @@ public interface Analysis extends Switch
     void caseAAtrib(AAtrib node);
     void caseAListaAtrib(AListaAtrib node);
     void caseAVirgulaAtrib(AVirgulaAtrib node);
-    void caseADecCasamComando(ADecCasamComando node);
-    void caseADecSemCasamComando(ADecSemCasamComando node);
+    void caseACasamComando(ACasamComando node);
+    void caseASemCasamComando(ASemCasamComando node);
+
     void caseAEnquantoComando(AEnquantoComando node);
     void caseAParaComando(AParaComando node);
     void caseAParaCadaComando(AParaCadaComando node);
@@ -42,16 +43,9 @@ public interface Analysis extends Switch
     void caseARetorneComando(ARetorneComando node);
     void caseABlocoComando(ABlocoComando node);
     void caseAChamadaComando(AChamadaComando node);
-    void caseASeSenaoDecCasam(ASeSenaoDecCasam node);
-    void caseAEnquantoDecCasam(AEnquantoDecCasam node);
-    void caseAParaDecCasam(AParaDecCasam node);
-    void caseAParaCadaDecCasam(AParaCadaDecCasam node);
-    void caseAAtribDecCasam(AAtribDecCasam node);
-    void caseARetorneDecCasam(ARetorneDecCasam node);
-    void caseABlocoDecCasam(ABlocoDecCasam node);
-    void caseAChamadaDecCasam(AChamadaDecCasam node);
-    void caseASeDecSemCasam(ASeDecSemCasam node);
-    void caseASeSenaoDecSemCasam(ASeSenaoDecSemCasam node);
+    void caseASeComandoCasam(ASeComandoCasam node);
+    void caseASeComandoSemCasam(ASeComandoSemCasam node);
+    void caseASeSenaoComandoSemCasam(ASeSenaoComandoSemCasam node);
     void caseAIdVar(AIdVar node);
     void caseAIndexadaVar(AIndexadaVar node);
     void caseAVarExp(AVarExp node);

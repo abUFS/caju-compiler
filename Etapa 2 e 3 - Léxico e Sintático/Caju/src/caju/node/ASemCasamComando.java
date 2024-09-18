@@ -5,46 +5,46 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ANumeroExp extends PExp
+public final class ASemCasamComando extends PComando
 {
-    private TNumero _numero_;
+    private PComandoSemCasam _comandoSemCasam_;
 
-    public ANumeroExp()
+    public ASemCasamComando()
     {
         // Constructor
     }
 
-    public ANumeroExp(
-        @SuppressWarnings("hiding") TNumero _numero_)
+    public ASemCasamComando(
+        @SuppressWarnings("hiding") PComandoSemCasam _comandoSemCasam_)
     {
         // Constructor
-        setNumero(_numero_);
+        setComandoSemCasam(_comandoSemCasam_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ANumeroExp(
-            cloneNode(this._numero_));
+        return new ASemCasamComando(
+            cloneNode(this._comandoSemCasam_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseANumeroExp(this);
+        ((Analysis) sw).caseASemCasamComando(this);
     }
 
-    public TNumero getNumero()
+    public PComandoSemCasam getComandoSemCasam()
     {
-        return this._numero_;
+        return this._comandoSemCasam_;
     }
 
-    public void setNumero(TNumero node)
+    public void setComandoSemCasam(PComandoSemCasam node)
     {
-        if(this._numero_ != null)
+        if(this._comandoSemCasam_ != null)
         {
-            this._numero_.parent(null);
+            this._comandoSemCasam_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ANumeroExp extends PExp
             node.parent(this);
         }
 
-        this._numero_ = node;
+        this._comandoSemCasam_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._numero_);
+            + toString(this._comandoSemCasam_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._numero_ == child)
+        if(this._comandoSemCasam_ == child)
         {
-            this._numero_ = null;
+            this._comandoSemCasam_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ANumeroExp extends PExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._numero_ == oldChild)
+        if(this._comandoSemCasam_ == oldChild)
         {
-            setNumero((TNumero) newChild);
+            setComandoSemCasam((PComandoSemCasam) newChild);
             return;
         }
 
