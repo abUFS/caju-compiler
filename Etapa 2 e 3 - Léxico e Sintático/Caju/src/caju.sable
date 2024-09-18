@@ -34,7 +34,7 @@ Tokens
 	vazio = 'vazio';
 	caractere = aspas_simples '\'? caracteres_sem_nl_rc_aspas_simples aspas_simples;
 	booleano = verdadeiro | falso;
-	numero = '-'? (inteiro | real);
+	numero = inteiro | real;
 	vetor_unidimensional = aspas_duplas caracteres_sem_nl_rc_aspas_duplas+ aspas_duplas;
 	inicio = 'inicio';
 	fim = 'fim';
@@ -134,24 +134,22 @@ Productions
  
  comando =
      {casam} comando_casam
-   | {sem_casam} comando_sem_casam
-   | {outra} outras;
+   | {sem_casam} comando_sem_casam;
  
  comando_casam =
-     {se} se abre_parenteses exp fecha_parenteses [esq]:comando_casam senao [dir]:comando_casam;
- 
- comando_sem_casam =
      {se} se abre_parenteses exp fecha_parenteses comando
-   | {se_senao} se abre_parenteses exp fecha_parenteses comando_casam senao comando_sem_casam;
- 
- outras = 
-     {enquanto} enquanto abre_parenteses exp fecha_parenteses comando
+   | {senao} se abre_parenteses exp fecha_parenteses comando_sem_casam senao comando_casam
+   | {enquanto} enquanto abre_parenteses exp fecha_parenteses comando
    | {para} para abre_parenteses [esq_lista]:lista_atrib [esq_ponto]:ponto_virgula exp [dir_ponto]:ponto_virgula [dir_lista]:lista_atrib fecha_parenteses comando
-   | {para_cada} para_cada abre_parenteses tipo [esq]:id dois_pontos [dir]:id fecha_parenteses comando
+   | {para_cada} para_cada abre_parenteses tipo [esq]:id dois_pontos [dir]:id fecha_parenteses comando;
+ 
+ comando_sem_casam =   
+     {se_senao} se abre_parenteses exp fecha_parenteses [esq]:comando_sem_casam senao [dir]:comando_sem_casam
    | {atrib} atrib ponto_final
    | {retorne} retorne exp? ponto_final
    | {bloco} bloco
    | {chamada} chamada ponto_final;
+ 
  
  var = 
      {id} id

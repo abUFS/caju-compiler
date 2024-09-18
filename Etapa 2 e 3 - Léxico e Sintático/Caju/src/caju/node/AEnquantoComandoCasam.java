@@ -5,7 +5,7 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AEnquantoOutras extends POutras
+public final class AEnquantoComandoCasam extends PComandoCasam
 {
     private TEnquanto _enquanto_;
     private TAbreParenteses _abreParenteses_;
@@ -13,12 +13,12 @@ public final class AEnquantoOutras extends POutras
     private TFechaParenteses _fechaParenteses_;
     private PComando _comando_;
 
-    public AEnquantoOutras()
+    public AEnquantoComandoCasam()
     {
         // Constructor
     }
 
-    public AEnquantoOutras(
+    public AEnquantoComandoCasam(
         @SuppressWarnings("hiding") TEnquanto _enquanto_,
         @SuppressWarnings("hiding") TAbreParenteses _abreParenteses_,
         @SuppressWarnings("hiding") PExp _exp_,
@@ -41,7 +41,7 @@ public final class AEnquantoOutras extends POutras
     @Override
     public Object clone()
     {
-        return new AEnquantoOutras(
+        return new AEnquantoComandoCasam(
             cloneNode(this._enquanto_),
             cloneNode(this._abreParenteses_),
             cloneNode(this._exp_),
@@ -52,7 +52,7 @@ public final class AEnquantoOutras extends POutras
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAEnquantoOutras(this);
+        ((Analysis) sw).caseAEnquantoComandoCasam(this);
     }
 
     public TEnquanto getEnquanto()

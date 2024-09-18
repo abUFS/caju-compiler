@@ -643,27 +643,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outASemCasamComando(node);
     }
 
-    public void inAOutraComando(AOutraComando node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAOutraComando(AOutraComando node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAOutraComando(AOutraComando node)
-    {
-        inAOutraComando(node);
-        if(node.getOutras() != null)
-        {
-            node.getOutras().apply(this);
-        }
-        outAOutraComando(node);
-    }
-
     public void inASeComandoCasam(ASeComandoCasam node)
     {
         defaultIn(node);
@@ -694,72 +673,27 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getFechaParenteses().apply(this);
         }
-        if(node.getEsq() != null)
-        {
-            node.getEsq().apply(this);
-        }
-        if(node.getSenao() != null)
-        {
-            node.getSenao().apply(this);
-        }
-        if(node.getDir() != null)
-        {
-            node.getDir().apply(this);
-        }
-        outASeComandoCasam(node);
-    }
-
-    public void inASeComandoSemCasam(ASeComandoSemCasam node)
-    {
-        defaultIn(node);
-    }
-
-    public void outASeComandoSemCasam(ASeComandoSemCasam node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseASeComandoSemCasam(ASeComandoSemCasam node)
-    {
-        inASeComandoSemCasam(node);
-        if(node.getSe() != null)
-        {
-            node.getSe().apply(this);
-        }
-        if(node.getAbreParenteses() != null)
-        {
-            node.getAbreParenteses().apply(this);
-        }
-        if(node.getExp() != null)
-        {
-            node.getExp().apply(this);
-        }
-        if(node.getFechaParenteses() != null)
-        {
-            node.getFechaParenteses().apply(this);
-        }
         if(node.getComando() != null)
         {
             node.getComando().apply(this);
         }
-        outASeComandoSemCasam(node);
+        outASeComandoCasam(node);
     }
 
-    public void inASeSenaoComandoSemCasam(ASeSenaoComandoSemCasam node)
+    public void inASenaoComandoCasam(ASenaoComandoCasam node)
     {
         defaultIn(node);
     }
 
-    public void outASeSenaoComandoSemCasam(ASeSenaoComandoSemCasam node)
+    public void outASenaoComandoCasam(ASenaoComandoCasam node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseASeSenaoComandoSemCasam(ASeSenaoComandoSemCasam node)
+    public void caseASenaoComandoCasam(ASenaoComandoCasam node)
     {
-        inASeSenaoComandoSemCasam(node);
+        inASenaoComandoCasam(node);
         if(node.getSe() != null)
         {
             node.getSe().apply(this);
@@ -775,36 +709,36 @@ public class DepthFirstAdapter extends AnalysisAdapter
         if(node.getFechaParenteses() != null)
         {
             node.getFechaParenteses().apply(this);
-        }
-        if(node.getComandoCasam() != null)
-        {
-            node.getComandoCasam().apply(this);
-        }
-        if(node.getSenao() != null)
-        {
-            node.getSenao().apply(this);
         }
         if(node.getComandoSemCasam() != null)
         {
             node.getComandoSemCasam().apply(this);
         }
-        outASeSenaoComandoSemCasam(node);
+        if(node.getSenao() != null)
+        {
+            node.getSenao().apply(this);
+        }
+        if(node.getComandoCasam() != null)
+        {
+            node.getComandoCasam().apply(this);
+        }
+        outASenaoComandoCasam(node);
     }
 
-    public void inAEnquantoOutras(AEnquantoOutras node)
+    public void inAEnquantoComandoCasam(AEnquantoComandoCasam node)
     {
         defaultIn(node);
     }
 
-    public void outAEnquantoOutras(AEnquantoOutras node)
+    public void outAEnquantoComandoCasam(AEnquantoComandoCasam node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAEnquantoOutras(AEnquantoOutras node)
+    public void caseAEnquantoComandoCasam(AEnquantoComandoCasam node)
     {
-        inAEnquantoOutras(node);
+        inAEnquantoComandoCasam(node);
         if(node.getEnquanto() != null)
         {
             node.getEnquanto().apply(this);
@@ -825,23 +759,23 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getComando().apply(this);
         }
-        outAEnquantoOutras(node);
+        outAEnquantoComandoCasam(node);
     }
 
-    public void inAParaOutras(AParaOutras node)
+    public void inAParaComandoCasam(AParaComandoCasam node)
     {
         defaultIn(node);
     }
 
-    public void outAParaOutras(AParaOutras node)
+    public void outAParaComandoCasam(AParaComandoCasam node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAParaOutras(AParaOutras node)
+    public void caseAParaComandoCasam(AParaComandoCasam node)
     {
-        inAParaOutras(node);
+        inAParaComandoCasam(node);
         if(node.getPara() != null)
         {
             node.getPara().apply(this);
@@ -878,23 +812,23 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getComando().apply(this);
         }
-        outAParaOutras(node);
+        outAParaComandoCasam(node);
     }
 
-    public void inAParaCadaOutras(AParaCadaOutras node)
+    public void inAParaCadaComandoCasam(AParaCadaComandoCasam node)
     {
         defaultIn(node);
     }
 
-    public void outAParaCadaOutras(AParaCadaOutras node)
+    public void outAParaCadaComandoCasam(AParaCadaComandoCasam node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAParaCadaOutras(AParaCadaOutras node)
+    public void caseAParaCadaComandoCasam(AParaCadaComandoCasam node)
     {
-        inAParaCadaOutras(node);
+        inAParaCadaComandoCasam(node);
         if(node.getParaCada() != null)
         {
             node.getParaCada().apply(this);
@@ -927,23 +861,68 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getComando().apply(this);
         }
-        outAParaCadaOutras(node);
+        outAParaCadaComandoCasam(node);
     }
 
-    public void inAAtribOutras(AAtribOutras node)
+    public void inASeSenaoComandoSemCasam(ASeSenaoComandoSemCasam node)
     {
         defaultIn(node);
     }
 
-    public void outAAtribOutras(AAtribOutras node)
+    public void outASeSenaoComandoSemCasam(ASeSenaoComandoSemCasam node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAAtribOutras(AAtribOutras node)
+    public void caseASeSenaoComandoSemCasam(ASeSenaoComandoSemCasam node)
     {
-        inAAtribOutras(node);
+        inASeSenaoComandoSemCasam(node);
+        if(node.getSe() != null)
+        {
+            node.getSe().apply(this);
+        }
+        if(node.getAbreParenteses() != null)
+        {
+            node.getAbreParenteses().apply(this);
+        }
+        if(node.getExp() != null)
+        {
+            node.getExp().apply(this);
+        }
+        if(node.getFechaParenteses() != null)
+        {
+            node.getFechaParenteses().apply(this);
+        }
+        if(node.getEsq() != null)
+        {
+            node.getEsq().apply(this);
+        }
+        if(node.getSenao() != null)
+        {
+            node.getSenao().apply(this);
+        }
+        if(node.getDir() != null)
+        {
+            node.getDir().apply(this);
+        }
+        outASeSenaoComandoSemCasam(node);
+    }
+
+    public void inAAtribComandoSemCasam(AAtribComandoSemCasam node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAtribComandoSemCasam(AAtribComandoSemCasam node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAtribComandoSemCasam(AAtribComandoSemCasam node)
+    {
+        inAAtribComandoSemCasam(node);
         if(node.getAtrib() != null)
         {
             node.getAtrib().apply(this);
@@ -952,23 +931,23 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getPontoFinal().apply(this);
         }
-        outAAtribOutras(node);
+        outAAtribComandoSemCasam(node);
     }
 
-    public void inARetorneOutras(ARetorneOutras node)
+    public void inARetorneComandoSemCasam(ARetorneComandoSemCasam node)
     {
         defaultIn(node);
     }
 
-    public void outARetorneOutras(ARetorneOutras node)
+    public void outARetorneComandoSemCasam(ARetorneComandoSemCasam node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseARetorneOutras(ARetorneOutras node)
+    public void caseARetorneComandoSemCasam(ARetorneComandoSemCasam node)
     {
-        inARetorneOutras(node);
+        inARetorneComandoSemCasam(node);
         if(node.getRetorne() != null)
         {
             node.getRetorne().apply(this);
@@ -981,44 +960,44 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getPontoFinal().apply(this);
         }
-        outARetorneOutras(node);
+        outARetorneComandoSemCasam(node);
     }
 
-    public void inABlocoOutras(ABlocoOutras node)
+    public void inABlocoComandoSemCasam(ABlocoComandoSemCasam node)
     {
         defaultIn(node);
     }
 
-    public void outABlocoOutras(ABlocoOutras node)
+    public void outABlocoComandoSemCasam(ABlocoComandoSemCasam node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseABlocoOutras(ABlocoOutras node)
+    public void caseABlocoComandoSemCasam(ABlocoComandoSemCasam node)
     {
-        inABlocoOutras(node);
+        inABlocoComandoSemCasam(node);
         if(node.getBloco() != null)
         {
             node.getBloco().apply(this);
         }
-        outABlocoOutras(node);
+        outABlocoComandoSemCasam(node);
     }
 
-    public void inAChamadaOutras(AChamadaOutras node)
+    public void inAChamadaComandoSemCasam(AChamadaComandoSemCasam node)
     {
         defaultIn(node);
     }
 
-    public void outAChamadaOutras(AChamadaOutras node)
+    public void outAChamadaComandoSemCasam(AChamadaComandoSemCasam node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAChamadaOutras(AChamadaOutras node)
+    public void caseAChamadaComandoSemCasam(AChamadaComandoSemCasam node)
     {
-        inAChamadaOutras(node);
+        inAChamadaComandoSemCasam(node);
         if(node.getChamada() != null)
         {
             node.getChamada().apply(this);
@@ -1027,7 +1006,7 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getPontoFinal().apply(this);
         }
-        outAChamadaOutras(node);
+        outAChamadaComandoSemCasam(node);
     }
 
     public void inAIdVar(AIdVar node)

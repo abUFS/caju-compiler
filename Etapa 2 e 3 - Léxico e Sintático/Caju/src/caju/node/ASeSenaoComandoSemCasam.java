@@ -11,9 +11,9 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
     private TAbreParenteses _abreParenteses_;
     private PExp _exp_;
     private TFechaParenteses _fechaParenteses_;
-    private PComandoCasam _comandoCasam_;
+    private PComandoSemCasam _esq_;
     private TSenao _senao_;
-    private PComandoSemCasam _comandoSemCasam_;
+    private PComandoSemCasam _dir_;
 
     public ASeSenaoComandoSemCasam()
     {
@@ -25,9 +25,9 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
         @SuppressWarnings("hiding") TAbreParenteses _abreParenteses_,
         @SuppressWarnings("hiding") PExp _exp_,
         @SuppressWarnings("hiding") TFechaParenteses _fechaParenteses_,
-        @SuppressWarnings("hiding") PComandoCasam _comandoCasam_,
+        @SuppressWarnings("hiding") PComandoSemCasam _esq_,
         @SuppressWarnings("hiding") TSenao _senao_,
-        @SuppressWarnings("hiding") PComandoSemCasam _comandoSemCasam_)
+        @SuppressWarnings("hiding") PComandoSemCasam _dir_)
     {
         // Constructor
         setSe(_se_);
@@ -38,11 +38,11 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
 
         setFechaParenteses(_fechaParenteses_);
 
-        setComandoCasam(_comandoCasam_);
+        setEsq(_esq_);
 
         setSenao(_senao_);
 
-        setComandoSemCasam(_comandoSemCasam_);
+        setDir(_dir_);
 
     }
 
@@ -54,9 +54,9 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
             cloneNode(this._abreParenteses_),
             cloneNode(this._exp_),
             cloneNode(this._fechaParenteses_),
-            cloneNode(this._comandoCasam_),
+            cloneNode(this._esq_),
             cloneNode(this._senao_),
-            cloneNode(this._comandoSemCasam_));
+            cloneNode(this._dir_));
     }
 
     @Override
@@ -165,16 +165,16 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
         this._fechaParenteses_ = node;
     }
 
-    public PComandoCasam getComandoCasam()
+    public PComandoSemCasam getEsq()
     {
-        return this._comandoCasam_;
+        return this._esq_;
     }
 
-    public void setComandoCasam(PComandoCasam node)
+    public void setEsq(PComandoSemCasam node)
     {
-        if(this._comandoCasam_ != null)
+        if(this._esq_ != null)
         {
-            this._comandoCasam_.parent(null);
+            this._esq_.parent(null);
         }
 
         if(node != null)
@@ -187,7 +187,7 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
             node.parent(this);
         }
 
-        this._comandoCasam_ = node;
+        this._esq_ = node;
     }
 
     public TSenao getSenao()
@@ -215,16 +215,16 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
         this._senao_ = node;
     }
 
-    public PComandoSemCasam getComandoSemCasam()
+    public PComandoSemCasam getDir()
     {
-        return this._comandoSemCasam_;
+        return this._dir_;
     }
 
-    public void setComandoSemCasam(PComandoSemCasam node)
+    public void setDir(PComandoSemCasam node)
     {
-        if(this._comandoSemCasam_ != null)
+        if(this._dir_ != null)
         {
-            this._comandoSemCasam_.parent(null);
+            this._dir_.parent(null);
         }
 
         if(node != null)
@@ -237,7 +237,7 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
             node.parent(this);
         }
 
-        this._comandoSemCasam_ = node;
+        this._dir_ = node;
     }
 
     @Override
@@ -248,9 +248,9 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
             + toString(this._abreParenteses_)
             + toString(this._exp_)
             + toString(this._fechaParenteses_)
-            + toString(this._comandoCasam_)
+            + toString(this._esq_)
             + toString(this._senao_)
-            + toString(this._comandoSemCasam_);
+            + toString(this._dir_);
     }
 
     @Override
@@ -281,9 +281,9 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
             return;
         }
 
-        if(this._comandoCasam_ == child)
+        if(this._esq_ == child)
         {
-            this._comandoCasam_ = null;
+            this._esq_ = null;
             return;
         }
 
@@ -293,9 +293,9 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
             return;
         }
 
-        if(this._comandoSemCasam_ == child)
+        if(this._dir_ == child)
         {
-            this._comandoSemCasam_ = null;
+            this._dir_ = null;
             return;
         }
 
@@ -330,9 +330,9 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
             return;
         }
 
-        if(this._comandoCasam_ == oldChild)
+        if(this._esq_ == oldChild)
         {
-            setComandoCasam((PComandoCasam) newChild);
+            setEsq((PComandoSemCasam) newChild);
             return;
         }
 
@@ -342,9 +342,9 @@ public final class ASeSenaoComandoSemCasam extends PComandoSemCasam
             return;
         }
 
-        if(this._comandoSemCasam_ == oldChild)
+        if(this._dir_ == oldChild)
         {
-            setComandoSemCasam((PComandoSemCasam) newChild);
+            setDir((PComandoSemCasam) newChild);
             return;
         }
 

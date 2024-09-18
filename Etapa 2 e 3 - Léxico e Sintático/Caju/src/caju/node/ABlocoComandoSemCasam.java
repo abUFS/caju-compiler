@@ -5,16 +5,16 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ABlocoOutras extends POutras
+public final class ABlocoComandoSemCasam extends PComandoSemCasam
 {
     private PBloco _bloco_;
 
-    public ABlocoOutras()
+    public ABlocoComandoSemCasam()
     {
         // Constructor
     }
 
-    public ABlocoOutras(
+    public ABlocoComandoSemCasam(
         @SuppressWarnings("hiding") PBloco _bloco_)
     {
         // Constructor
@@ -25,14 +25,14 @@ public final class ABlocoOutras extends POutras
     @Override
     public Object clone()
     {
-        return new ABlocoOutras(
+        return new ABlocoComandoSemCasam(
             cloneNode(this._bloco_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseABlocoOutras(this);
+        ((Analysis) sw).caseABlocoComandoSemCasam(this);
     }
 
     public PBloco getBloco()

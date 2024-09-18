@@ -11,9 +11,7 @@ public final class ASeComandoCasam extends PComandoCasam
     private TAbreParenteses _abreParenteses_;
     private PExp _exp_;
     private TFechaParenteses _fechaParenteses_;
-    private PComandoCasam _esq_;
-    private TSenao _senao_;
-    private PComandoCasam _dir_;
+    private PComando _comando_;
 
     public ASeComandoCasam()
     {
@@ -25,9 +23,7 @@ public final class ASeComandoCasam extends PComandoCasam
         @SuppressWarnings("hiding") TAbreParenteses _abreParenteses_,
         @SuppressWarnings("hiding") PExp _exp_,
         @SuppressWarnings("hiding") TFechaParenteses _fechaParenteses_,
-        @SuppressWarnings("hiding") PComandoCasam _esq_,
-        @SuppressWarnings("hiding") TSenao _senao_,
-        @SuppressWarnings("hiding") PComandoCasam _dir_)
+        @SuppressWarnings("hiding") PComando _comando_)
     {
         // Constructor
         setSe(_se_);
@@ -38,11 +34,7 @@ public final class ASeComandoCasam extends PComandoCasam
 
         setFechaParenteses(_fechaParenteses_);
 
-        setEsq(_esq_);
-
-        setSenao(_senao_);
-
-        setDir(_dir_);
+        setComando(_comando_);
 
     }
 
@@ -54,9 +46,7 @@ public final class ASeComandoCasam extends PComandoCasam
             cloneNode(this._abreParenteses_),
             cloneNode(this._exp_),
             cloneNode(this._fechaParenteses_),
-            cloneNode(this._esq_),
-            cloneNode(this._senao_),
-            cloneNode(this._dir_));
+            cloneNode(this._comando_));
     }
 
     @Override
@@ -165,16 +155,16 @@ public final class ASeComandoCasam extends PComandoCasam
         this._fechaParenteses_ = node;
     }
 
-    public PComandoCasam getEsq()
+    public PComando getComando()
     {
-        return this._esq_;
+        return this._comando_;
     }
 
-    public void setEsq(PComandoCasam node)
+    public void setComando(PComando node)
     {
-        if(this._esq_ != null)
+        if(this._comando_ != null)
         {
-            this._esq_.parent(null);
+            this._comando_.parent(null);
         }
 
         if(node != null)
@@ -187,57 +177,7 @@ public final class ASeComandoCasam extends PComandoCasam
             node.parent(this);
         }
 
-        this._esq_ = node;
-    }
-
-    public TSenao getSenao()
-    {
-        return this._senao_;
-    }
-
-    public void setSenao(TSenao node)
-    {
-        if(this._senao_ != null)
-        {
-            this._senao_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._senao_ = node;
-    }
-
-    public PComandoCasam getDir()
-    {
-        return this._dir_;
-    }
-
-    public void setDir(PComandoCasam node)
-    {
-        if(this._dir_ != null)
-        {
-            this._dir_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._dir_ = node;
+        this._comando_ = node;
     }
 
     @Override
@@ -248,9 +188,7 @@ public final class ASeComandoCasam extends PComandoCasam
             + toString(this._abreParenteses_)
             + toString(this._exp_)
             + toString(this._fechaParenteses_)
-            + toString(this._esq_)
-            + toString(this._senao_)
-            + toString(this._dir_);
+            + toString(this._comando_);
     }
 
     @Override
@@ -281,21 +219,9 @@ public final class ASeComandoCasam extends PComandoCasam
             return;
         }
 
-        if(this._esq_ == child)
+        if(this._comando_ == child)
         {
-            this._esq_ = null;
-            return;
-        }
-
-        if(this._senao_ == child)
-        {
-            this._senao_ = null;
-            return;
-        }
-
-        if(this._dir_ == child)
-        {
-            this._dir_ = null;
+            this._comando_ = null;
             return;
         }
 
@@ -330,21 +256,9 @@ public final class ASeComandoCasam extends PComandoCasam
             return;
         }
 
-        if(this._esq_ == oldChild)
+        if(this._comando_ == oldChild)
         {
-            setEsq((PComandoCasam) newChild);
-            return;
-        }
-
-        if(this._senao_ == oldChild)
-        {
-            setSenao((TSenao) newChild);
-            return;
-        }
-
-        if(this._dir_ == oldChild)
-        {
-            setDir((PComandoCasam) newChild);
+            setComando((PComando) newChild);
             return;
         }
 

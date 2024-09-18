@@ -5,7 +5,7 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AParaOutras extends POutras
+public final class AParaComandoCasam extends PComandoCasam
 {
     private TPara _para_;
     private TAbreParenteses _abreParenteses_;
@@ -17,12 +17,12 @@ public final class AParaOutras extends POutras
     private TFechaParenteses _fechaParenteses_;
     private PComando _comando_;
 
-    public AParaOutras()
+    public AParaComandoCasam()
     {
         // Constructor
     }
 
-    public AParaOutras(
+    public AParaComandoCasam(
         @SuppressWarnings("hiding") TPara _para_,
         @SuppressWarnings("hiding") TAbreParenteses _abreParenteses_,
         @SuppressWarnings("hiding") PListaAtrib _esqLista_,
@@ -57,7 +57,7 @@ public final class AParaOutras extends POutras
     @Override
     public Object clone()
     {
-        return new AParaOutras(
+        return new AParaComandoCasam(
             cloneNode(this._para_),
             cloneNode(this._abreParenteses_),
             cloneNode(this._esqLista_),
@@ -72,7 +72,7 @@ public final class AParaOutras extends POutras
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAParaOutras(this);
+        ((Analysis) sw).caseAParaComandoCasam(this);
     }
 
     public TPara getPara()

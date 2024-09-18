@@ -213,19 +213,31 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAOutraComando(AOutraComando node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseASeComandoCasam(ASeComandoCasam node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseASeComandoSemCasam(ASeComandoSemCasam node)
+    public void caseASenaoComandoCasam(ASenaoComandoCasam node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAEnquantoComandoCasam(AEnquantoComandoCasam node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAParaComandoCasam(AParaComandoCasam node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAParaCadaComandoCasam(AParaCadaComandoCasam node)
     {
         defaultCase(node);
     }
@@ -237,43 +249,25 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAEnquantoOutras(AEnquantoOutras node)
+    public void caseAAtribComandoSemCasam(AAtribComandoSemCasam node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAParaOutras(AParaOutras node)
+    public void caseARetorneComandoSemCasam(ARetorneComandoSemCasam node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAParaCadaOutras(AParaCadaOutras node)
+    public void caseABlocoComandoSemCasam(ABlocoComandoSemCasam node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAAtribOutras(AAtribOutras node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseARetorneOutras(ARetorneOutras node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseABlocoOutras(ABlocoOutras node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAChamadaOutras(AChamadaOutras node)
+    public void caseAChamadaComandoSemCasam(AChamadaComandoSemCasam node)
     {
         defaultCase(node);
     }

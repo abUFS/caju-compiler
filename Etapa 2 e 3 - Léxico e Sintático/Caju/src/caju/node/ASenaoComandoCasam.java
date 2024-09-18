@@ -5,25 +5,29 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASeComandoSemCasam extends PComandoSemCasam
+public final class ASenaoComandoCasam extends PComandoCasam
 {
     private TSe _se_;
     private TAbreParenteses _abreParenteses_;
     private PExp _exp_;
     private TFechaParenteses _fechaParenteses_;
-    private PComando _comando_;
+    private PComandoSemCasam _comandoSemCasam_;
+    private TSenao _senao_;
+    private PComandoCasam _comandoCasam_;
 
-    public ASeComandoSemCasam()
+    public ASenaoComandoCasam()
     {
         // Constructor
     }
 
-    public ASeComandoSemCasam(
+    public ASenaoComandoCasam(
         @SuppressWarnings("hiding") TSe _se_,
         @SuppressWarnings("hiding") TAbreParenteses _abreParenteses_,
         @SuppressWarnings("hiding") PExp _exp_,
         @SuppressWarnings("hiding") TFechaParenteses _fechaParenteses_,
-        @SuppressWarnings("hiding") PComando _comando_)
+        @SuppressWarnings("hiding") PComandoSemCasam _comandoSemCasam_,
+        @SuppressWarnings("hiding") TSenao _senao_,
+        @SuppressWarnings("hiding") PComandoCasam _comandoCasam_)
     {
         // Constructor
         setSe(_se_);
@@ -34,25 +38,31 @@ public final class ASeComandoSemCasam extends PComandoSemCasam
 
         setFechaParenteses(_fechaParenteses_);
 
-        setComando(_comando_);
+        setComandoSemCasam(_comandoSemCasam_);
+
+        setSenao(_senao_);
+
+        setComandoCasam(_comandoCasam_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASeComandoSemCasam(
+        return new ASenaoComandoCasam(
             cloneNode(this._se_),
             cloneNode(this._abreParenteses_),
             cloneNode(this._exp_),
             cloneNode(this._fechaParenteses_),
-            cloneNode(this._comando_));
+            cloneNode(this._comandoSemCasam_),
+            cloneNode(this._senao_),
+            cloneNode(this._comandoCasam_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASeComandoSemCasam(this);
+        ((Analysis) sw).caseASenaoComandoCasam(this);
     }
 
     public TSe getSe()
@@ -155,16 +165,16 @@ public final class ASeComandoSemCasam extends PComandoSemCasam
         this._fechaParenteses_ = node;
     }
 
-    public PComando getComando()
+    public PComandoSemCasam getComandoSemCasam()
     {
-        return this._comando_;
+        return this._comandoSemCasam_;
     }
 
-    public void setComando(PComando node)
+    public void setComandoSemCasam(PComandoSemCasam node)
     {
-        if(this._comando_ != null)
+        if(this._comandoSemCasam_ != null)
         {
-            this._comando_.parent(null);
+            this._comandoSemCasam_.parent(null);
         }
 
         if(node != null)
@@ -177,7 +187,57 @@ public final class ASeComandoSemCasam extends PComandoSemCasam
             node.parent(this);
         }
 
-        this._comando_ = node;
+        this._comandoSemCasam_ = node;
+    }
+
+    public TSenao getSenao()
+    {
+        return this._senao_;
+    }
+
+    public void setSenao(TSenao node)
+    {
+        if(this._senao_ != null)
+        {
+            this._senao_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._senao_ = node;
+    }
+
+    public PComandoCasam getComandoCasam()
+    {
+        return this._comandoCasam_;
+    }
+
+    public void setComandoCasam(PComandoCasam node)
+    {
+        if(this._comandoCasam_ != null)
+        {
+            this._comandoCasam_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._comandoCasam_ = node;
     }
 
     @Override
@@ -188,7 +248,9 @@ public final class ASeComandoSemCasam extends PComandoSemCasam
             + toString(this._abreParenteses_)
             + toString(this._exp_)
             + toString(this._fechaParenteses_)
-            + toString(this._comando_);
+            + toString(this._comandoSemCasam_)
+            + toString(this._senao_)
+            + toString(this._comandoCasam_);
     }
 
     @Override
@@ -219,9 +281,21 @@ public final class ASeComandoSemCasam extends PComandoSemCasam
             return;
         }
 
-        if(this._comando_ == child)
+        if(this._comandoSemCasam_ == child)
         {
-            this._comando_ = null;
+            this._comandoSemCasam_ = null;
+            return;
+        }
+
+        if(this._senao_ == child)
+        {
+            this._senao_ = null;
+            return;
+        }
+
+        if(this._comandoCasam_ == child)
+        {
+            this._comandoCasam_ = null;
             return;
         }
 
@@ -256,9 +330,21 @@ public final class ASeComandoSemCasam extends PComandoSemCasam
             return;
         }
 
-        if(this._comando_ == oldChild)
+        if(this._comandoSemCasam_ == oldChild)
         {
-            setComando((PComando) newChild);
+            setComandoSemCasam((PComandoSemCasam) newChild);
+            return;
+        }
+
+        if(this._senao_ == oldChild)
+        {
+            setSenao((TSenao) newChild);
+            return;
+        }
+
+        if(this._comandoCasam_ == oldChild)
+        {
+            setComandoCasam((PComandoCasam) newChild);
             return;
         }
 

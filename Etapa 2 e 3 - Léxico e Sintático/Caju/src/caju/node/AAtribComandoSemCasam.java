@@ -5,22 +5,22 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AChamadaOutras extends POutras
+public final class AAtribComandoSemCasam extends PComandoSemCasam
 {
-    private PChamada _chamada_;
+    private PAtrib _atrib_;
     private TPontoFinal _pontoFinal_;
 
-    public AChamadaOutras()
+    public AAtribComandoSemCasam()
     {
         // Constructor
     }
 
-    public AChamadaOutras(
-        @SuppressWarnings("hiding") PChamada _chamada_,
+    public AAtribComandoSemCasam(
+        @SuppressWarnings("hiding") PAtrib _atrib_,
         @SuppressWarnings("hiding") TPontoFinal _pontoFinal_)
     {
         // Constructor
-        setChamada(_chamada_);
+        setAtrib(_atrib_);
 
         setPontoFinal(_pontoFinal_);
 
@@ -29,27 +29,27 @@ public final class AChamadaOutras extends POutras
     @Override
     public Object clone()
     {
-        return new AChamadaOutras(
-            cloneNode(this._chamada_),
+        return new AAtribComandoSemCasam(
+            cloneNode(this._atrib_),
             cloneNode(this._pontoFinal_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAChamadaOutras(this);
+        ((Analysis) sw).caseAAtribComandoSemCasam(this);
     }
 
-    public PChamada getChamada()
+    public PAtrib getAtrib()
     {
-        return this._chamada_;
+        return this._atrib_;
     }
 
-    public void setChamada(PChamada node)
+    public void setAtrib(PAtrib node)
     {
-        if(this._chamada_ != null)
+        if(this._atrib_ != null)
         {
-            this._chamada_.parent(null);
+            this._atrib_.parent(null);
         }
 
         if(node != null)
@@ -62,7 +62,7 @@ public final class AChamadaOutras extends POutras
             node.parent(this);
         }
 
-        this._chamada_ = node;
+        this._atrib_ = node;
     }
 
     public TPontoFinal getPontoFinal()
@@ -94,7 +94,7 @@ public final class AChamadaOutras extends POutras
     public String toString()
     {
         return ""
-            + toString(this._chamada_)
+            + toString(this._atrib_)
             + toString(this._pontoFinal_);
     }
 
@@ -102,9 +102,9 @@ public final class AChamadaOutras extends POutras
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._chamada_ == child)
+        if(this._atrib_ == child)
         {
-            this._chamada_ = null;
+            this._atrib_ = null;
             return;
         }
 
@@ -121,9 +121,9 @@ public final class AChamadaOutras extends POutras
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._chamada_ == oldChild)
+        if(this._atrib_ == oldChild)
         {
-            setChamada((PChamada) newChild);
+            setAtrib((PAtrib) newChild);
             return;
         }
 
