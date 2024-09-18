@@ -213,43 +213,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAEnquantoComando(AEnquantoComando node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAParaComando(AParaComando node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAParaCadaComando(AParaCadaComando node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAAtribComando(AAtribComando node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseARetorneComando(ARetorneComando node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseABlocoComando(ABlocoComando node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAChamadaComando(AChamadaComando node)
+    public void caseAOutraComando(AOutraComando node)
     {
         defaultCase(node);
     }
@@ -268,6 +232,48 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseASeSenaoComandoSemCasam(ASeSenaoComandoSemCasam node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAEnquantoOutras(AEnquantoOutras node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAParaOutras(AParaOutras node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAParaCadaOutras(AParaCadaOutras node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAAtribOutras(AAtribOutras node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseARetorneOutras(ARetorneOutras node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseABlocoOutras(ABlocoOutras node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAChamadaOutras(AChamadaOutras node)
     {
         defaultCase(node);
     }
@@ -466,6 +472,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseABooleanoExp13(ABooleanoExp13 node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAStringExp13(AStringExp13 node)
     {
         defaultCase(node);
     }
@@ -694,18 +706,6 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTPontoFinal(TPontoFinal node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTExibir(TExibir node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTLer(TLer node)
     {
         defaultCase(node);
     }

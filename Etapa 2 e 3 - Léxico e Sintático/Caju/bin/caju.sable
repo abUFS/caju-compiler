@@ -60,8 +60,6 @@ Tokens
 	ou = 'ou';
 	atribuir = ':=';
 	ponto_final = '.';
-	exibir = 'exibir';
-	ler = 'ler';
 	virgula = ',';
 	abre_colchete = '[';
 	fecha_colchete = ']';
@@ -75,7 +73,7 @@ Tokens
 	
 	
 Ignored Tokens
-	ignorar;
+	ignorar, coment_linha, coment_bloco;
 	
 	
 Productions
@@ -132,17 +130,12 @@ Productions
  
  virgula_atrib =
    virgula atrib;
-  
+   
+ 
  comando =
      {casam} comando_casam
    | {sem_casam} comando_sem_casam
-   | {enquanto} enquanto abre_parenteses exp fecha_parenteses comando
-   | {para} para abre_parenteses [esq_lista]:lista_atrib [esq_ponto]:ponto_virgula exp [dir_ponto]:ponto_virgula [dir_lista]:lista_atrib fecha_parenteses comando
-   | {para_cada} para_cada abre_parenteses tipo [esq]:id dois_pontos [dir]:id fecha_parenteses comando
-   | {atrib} atrib ponto_final
-   | {retorne} retorne exp? ponto_final
-   | {bloco} bloco
-   | {chamada} chamada ponto_final;
+   | {outra} outras;
  
  comando_casam =
      {se} se abre_parenteses exp fecha_parenteses [esq]:comando_casam senao [dir]:comando_casam;
@@ -150,6 +143,15 @@ Productions
  comando_sem_casam =
      {se} se abre_parenteses exp fecha_parenteses comando
    | {se_senao} se abre_parenteses exp fecha_parenteses comando_casam senao comando_sem_casam;
+ 
+ outras = 
+     {enquanto} enquanto abre_parenteses exp fecha_parenteses comando
+   | {para} para abre_parenteses [esq_lista]:lista_atrib [esq_ponto]:ponto_virgula exp [dir_ponto]:ponto_virgula [dir_lista]:lista_atrib fecha_parenteses comando
+   | {para_cada} para_cada abre_parenteses tipo [esq]:id dois_pontos [dir]:id fecha_parenteses comando
+   | {atrib} atrib ponto_final
+   | {retorne} retorne exp? ponto_final
+   | {bloco} bloco
+   | {chamada} chamada ponto_final;
  
  var = 
      {id} id
@@ -212,7 +214,8 @@ Productions
    | {var} var
    | {numero} numero
    | {caractere} caractere
-   | {booleano} booleano;
+   | {booleano} booleano
+   | {string} vetor_unidimensional;
   
  
  chamada = 

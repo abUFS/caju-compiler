@@ -5,18 +5,18 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ARetorneComando extends PComando
+public final class AOutras extends POutras
 {
     private TRetorne _retorne_;
     private PExp _exp_;
     private TPontoFinal _pontoFinal_;
 
-    public ARetorneComando()
+    public AOutras()
     {
         // Constructor
     }
 
-    public ARetorneComando(
+    public AOutras(
         @SuppressWarnings("hiding") TRetorne _retorne_,
         @SuppressWarnings("hiding") PExp _exp_,
         @SuppressWarnings("hiding") TPontoFinal _pontoFinal_)
@@ -33,7 +33,7 @@ public final class ARetorneComando extends PComando
     @Override
     public Object clone()
     {
-        return new ARetorneComando(
+        return new AOutras(
             cloneNode(this._retorne_),
             cloneNode(this._exp_),
             cloneNode(this._pontoFinal_));
@@ -42,7 +42,7 @@ public final class ARetorneComando extends PComando
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseARetorneComando(this);
+        ((Analysis) sw).caseAOutras(this);
     }
 
     public TRetorne getRetorne()

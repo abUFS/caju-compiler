@@ -5,32 +5,48 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AEnquantoComando extends PComando
+public final class AParaOutras extends POutras
 {
-    private TEnquanto _enquanto_;
+    private TPara _para_;
     private TAbreParenteses _abreParenteses_;
+    private PListaAtrib _esqLista_;
+    private TPontoVirgula _esqPonto_;
     private PExp _exp_;
+    private TPontoVirgula _dirPonto_;
+    private PListaAtrib _dirLista_;
     private TFechaParenteses _fechaParenteses_;
     private PComando _comando_;
 
-    public AEnquantoComando()
+    public AParaOutras()
     {
         // Constructor
     }
 
-    public AEnquantoComando(
-        @SuppressWarnings("hiding") TEnquanto _enquanto_,
+    public AParaOutras(
+        @SuppressWarnings("hiding") TPara _para_,
         @SuppressWarnings("hiding") TAbreParenteses _abreParenteses_,
+        @SuppressWarnings("hiding") PListaAtrib _esqLista_,
+        @SuppressWarnings("hiding") TPontoVirgula _esqPonto_,
         @SuppressWarnings("hiding") PExp _exp_,
+        @SuppressWarnings("hiding") TPontoVirgula _dirPonto_,
+        @SuppressWarnings("hiding") PListaAtrib _dirLista_,
         @SuppressWarnings("hiding") TFechaParenteses _fechaParenteses_,
         @SuppressWarnings("hiding") PComando _comando_)
     {
         // Constructor
-        setEnquanto(_enquanto_);
+        setPara(_para_);
 
         setAbreParenteses(_abreParenteses_);
 
+        setEsqLista(_esqLista_);
+
+        setEsqPonto(_esqPonto_);
+
         setExp(_exp_);
+
+        setDirPonto(_dirPonto_);
+
+        setDirLista(_dirLista_);
 
         setFechaParenteses(_fechaParenteses_);
 
@@ -41,10 +57,14 @@ public final class AEnquantoComando extends PComando
     @Override
     public Object clone()
     {
-        return new AEnquantoComando(
-            cloneNode(this._enquanto_),
+        return new AParaOutras(
+            cloneNode(this._para_),
             cloneNode(this._abreParenteses_),
+            cloneNode(this._esqLista_),
+            cloneNode(this._esqPonto_),
             cloneNode(this._exp_),
+            cloneNode(this._dirPonto_),
+            cloneNode(this._dirLista_),
             cloneNode(this._fechaParenteses_),
             cloneNode(this._comando_));
     }
@@ -52,19 +72,19 @@ public final class AEnquantoComando extends PComando
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAEnquantoComando(this);
+        ((Analysis) sw).caseAParaOutras(this);
     }
 
-    public TEnquanto getEnquanto()
+    public TPara getPara()
     {
-        return this._enquanto_;
+        return this._para_;
     }
 
-    public void setEnquanto(TEnquanto node)
+    public void setPara(TPara node)
     {
-        if(this._enquanto_ != null)
+        if(this._para_ != null)
         {
-            this._enquanto_.parent(null);
+            this._para_.parent(null);
         }
 
         if(node != null)
@@ -77,7 +97,7 @@ public final class AEnquantoComando extends PComando
             node.parent(this);
         }
 
-        this._enquanto_ = node;
+        this._para_ = node;
     }
 
     public TAbreParenteses getAbreParenteses()
@@ -105,6 +125,56 @@ public final class AEnquantoComando extends PComando
         this._abreParenteses_ = node;
     }
 
+    public PListaAtrib getEsqLista()
+    {
+        return this._esqLista_;
+    }
+
+    public void setEsqLista(PListaAtrib node)
+    {
+        if(this._esqLista_ != null)
+        {
+            this._esqLista_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._esqLista_ = node;
+    }
+
+    public TPontoVirgula getEsqPonto()
+    {
+        return this._esqPonto_;
+    }
+
+    public void setEsqPonto(TPontoVirgula node)
+    {
+        if(this._esqPonto_ != null)
+        {
+            this._esqPonto_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._esqPonto_ = node;
+    }
+
     public PExp getExp()
     {
         return this._exp_;
@@ -128,6 +198,56 @@ public final class AEnquantoComando extends PComando
         }
 
         this._exp_ = node;
+    }
+
+    public TPontoVirgula getDirPonto()
+    {
+        return this._dirPonto_;
+    }
+
+    public void setDirPonto(TPontoVirgula node)
+    {
+        if(this._dirPonto_ != null)
+        {
+            this._dirPonto_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._dirPonto_ = node;
+    }
+
+    public PListaAtrib getDirLista()
+    {
+        return this._dirLista_;
+    }
+
+    public void setDirLista(PListaAtrib node)
+    {
+        if(this._dirLista_ != null)
+        {
+            this._dirLista_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._dirLista_ = node;
     }
 
     public TFechaParenteses getFechaParenteses()
@@ -184,9 +304,13 @@ public final class AEnquantoComando extends PComando
     public String toString()
     {
         return ""
-            + toString(this._enquanto_)
+            + toString(this._para_)
             + toString(this._abreParenteses_)
+            + toString(this._esqLista_)
+            + toString(this._esqPonto_)
             + toString(this._exp_)
+            + toString(this._dirPonto_)
+            + toString(this._dirLista_)
             + toString(this._fechaParenteses_)
             + toString(this._comando_);
     }
@@ -195,9 +319,9 @@ public final class AEnquantoComando extends PComando
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._enquanto_ == child)
+        if(this._para_ == child)
         {
-            this._enquanto_ = null;
+            this._para_ = null;
             return;
         }
 
@@ -207,9 +331,33 @@ public final class AEnquantoComando extends PComando
             return;
         }
 
+        if(this._esqLista_ == child)
+        {
+            this._esqLista_ = null;
+            return;
+        }
+
+        if(this._esqPonto_ == child)
+        {
+            this._esqPonto_ = null;
+            return;
+        }
+
         if(this._exp_ == child)
         {
             this._exp_ = null;
+            return;
+        }
+
+        if(this._dirPonto_ == child)
+        {
+            this._dirPonto_ = null;
+            return;
+        }
+
+        if(this._dirLista_ == child)
+        {
+            this._dirLista_ = null;
             return;
         }
 
@@ -232,9 +380,9 @@ public final class AEnquantoComando extends PComando
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._enquanto_ == oldChild)
+        if(this._para_ == oldChild)
         {
-            setEnquanto((TEnquanto) newChild);
+            setPara((TPara) newChild);
             return;
         }
 
@@ -244,9 +392,33 @@ public final class AEnquantoComando extends PComando
             return;
         }
 
+        if(this._esqLista_ == oldChild)
+        {
+            setEsqLista((PListaAtrib) newChild);
+            return;
+        }
+
+        if(this._esqPonto_ == oldChild)
+        {
+            setEsqPonto((TPontoVirgula) newChild);
+            return;
+        }
+
         if(this._exp_ == oldChild)
         {
             setExp((PExp) newChild);
+            return;
+        }
+
+        if(this._dirPonto_ == oldChild)
+        {
+            setDirPonto((TPontoVirgula) newChild);
+            return;
+        }
+
+        if(this._dirLista_ == oldChild)
+        {
+            setDirLista((PListaAtrib) newChild);
             return;
         }
 

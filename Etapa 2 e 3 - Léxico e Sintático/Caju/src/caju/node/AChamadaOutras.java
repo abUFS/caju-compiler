@@ -5,17 +5,17 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AChamadaComando extends PComando
+public final class AChamadaOutras extends POutras
 {
     private PChamada _chamada_;
     private TPontoFinal _pontoFinal_;
 
-    public AChamadaComando()
+    public AChamadaOutras()
     {
         // Constructor
     }
 
-    public AChamadaComando(
+    public AChamadaOutras(
         @SuppressWarnings("hiding") PChamada _chamada_,
         @SuppressWarnings("hiding") TPontoFinal _pontoFinal_)
     {
@@ -29,7 +29,7 @@ public final class AChamadaComando extends PComando
     @Override
     public Object clone()
     {
-        return new AChamadaComando(
+        return new AChamadaOutras(
             cloneNode(this._chamada_),
             cloneNode(this._pontoFinal_));
     }
@@ -37,7 +37,7 @@ public final class AChamadaComando extends PComando
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAChamadaComando(this);
+        ((Analysis) sw).caseAChamadaOutras(this);
     }
 
     public PChamada getChamada()

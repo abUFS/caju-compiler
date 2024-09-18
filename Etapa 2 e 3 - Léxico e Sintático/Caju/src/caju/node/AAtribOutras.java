@@ -5,17 +5,17 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AAtribComando extends PComando
+public final class AAtribOutras extends POutras
 {
     private PAtrib _atrib_;
     private TPontoFinal _pontoFinal_;
 
-    public AAtribComando()
+    public AAtribOutras()
     {
         // Constructor
     }
 
-    public AAtribComando(
+    public AAtribOutras(
         @SuppressWarnings("hiding") PAtrib _atrib_,
         @SuppressWarnings("hiding") TPontoFinal _pontoFinal_)
     {
@@ -29,7 +29,7 @@ public final class AAtribComando extends PComando
     @Override
     public Object clone()
     {
-        return new AAtribComando(
+        return new AAtribOutras(
             cloneNode(this._atrib_),
             cloneNode(this._pontoFinal_));
     }
@@ -37,7 +37,7 @@ public final class AAtribComando extends PComando
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAtribComando(this);
+        ((Analysis) sw).caseAAtribOutras(this);
     }
 
     public PAtrib getAtrib()

@@ -5,7 +5,7 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AParaCadaComando extends PComando
+public final class AParaCadaOutras extends POutras
 {
     private TParaCada _paraCada_;
     private TAbreParenteses _abreParenteses_;
@@ -16,12 +16,12 @@ public final class AParaCadaComando extends PComando
     private TFechaParenteses _fechaParenteses_;
     private PComando _comando_;
 
-    public AParaCadaComando()
+    public AParaCadaOutras()
     {
         // Constructor
     }
 
-    public AParaCadaComando(
+    public AParaCadaOutras(
         @SuppressWarnings("hiding") TParaCada _paraCada_,
         @SuppressWarnings("hiding") TAbreParenteses _abreParenteses_,
         @SuppressWarnings("hiding") PTipo _tipo_,
@@ -53,7 +53,7 @@ public final class AParaCadaComando extends PComando
     @Override
     public Object clone()
     {
-        return new AParaCadaComando(
+        return new AParaCadaOutras(
             cloneNode(this._paraCada_),
             cloneNode(this._abreParenteses_),
             cloneNode(this._tipo_),
@@ -67,7 +67,7 @@ public final class AParaCadaComando extends PComando
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAParaCadaComando(this);
+        ((Analysis) sw).caseAParaCadaOutras(this);
     }
 
     public TParaCada getParaCada()
