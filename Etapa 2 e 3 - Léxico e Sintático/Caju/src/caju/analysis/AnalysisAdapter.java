@@ -202,11 +202,13 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseACasamComando(ACasamComando node)
+
     {
         defaultCase(node);
     }
 
     @Override
+
     public void caseASemCasamComando(ASemCasamComando node)
     {
         defaultCase(node);
@@ -255,19 +257,24 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+
     public void caseASeComandoCasam(ASeComandoCasam node)
+
     {
         defaultCase(node);
     }
 
     @Override
+
     public void caseASeComandoSemCasam(ASeComandoSemCasam node)
+
     {
         defaultCase(node);
     }
 
     @Override
     public void caseASeSenaoComandoSemCasam(ASeSenaoComandoSemCasam node)
+
     {
         defaultCase(node);
     }
