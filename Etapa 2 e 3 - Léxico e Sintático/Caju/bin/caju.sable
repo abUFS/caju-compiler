@@ -34,7 +34,7 @@ Tokens
 	vazio = 'vazio';
 	caractere = aspas_simples '\'? caracteres_sem_nl_rc_aspas_simples aspas_simples;
 	booleano = verdadeiro | falso;
-	numero = inteiro | real;
+	numero = '-'? (inteiro | real);
 	vetor_unidimensional = aspas_duplas caracteres_sem_nl_rc_aspas_duplas+ aspas_duplas;
 	inicio = 'inicio';
 	fim = 'fim';

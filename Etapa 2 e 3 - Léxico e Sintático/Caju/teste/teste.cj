@@ -33,8 +33,8 @@ fim
         ordena(prateleira | cont).
 
         para (i := 0 ; i < cont ; i := i + 1) inicio
-            se (prateleira[i] = busca e x = 1)  x := i.
-            se (prateleira[i] = busca e nao(x = 1)) y := i.
+            se (prateleira[i] = busca e x = -1)  x := i.
+            se (prateleira[i] = busca e nao(x = -1,2)) y := i.
         fim
 
         se (nao(x = 1)) inicio 
