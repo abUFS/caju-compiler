@@ -5,94 +5,44 @@ package caju.node;
 import caju.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AOuExp extends PExp
+public final class AEExp1 extends PExp1
 {
-    private PExp _exp_;
-    private TOu _ou_;
     private PExp1 _exp1_;
+    private TE _e_;
+    private PExp2 _exp2_;
 
-    public AOuExp()
+    public AEExp1()
     {
         // Constructor
     }
 
-    public AOuExp(
-        @SuppressWarnings("hiding") PExp _exp_,
-        @SuppressWarnings("hiding") TOu _ou_,
-        @SuppressWarnings("hiding") PExp1 _exp1_)
+    public AEExp1(
+        @SuppressWarnings("hiding") PExp1 _exp1_,
+        @SuppressWarnings("hiding") TE _e_,
+        @SuppressWarnings("hiding") PExp2 _exp2_)
     {
         // Constructor
-        setExp(_exp_);
-
-        setOu(_ou_);
-
         setExp1(_exp1_);
+
+        setE(_e_);
+
+        setExp2(_exp2_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AOuExp(
-            cloneNode(this._exp_),
-            cloneNode(this._ou_),
-            cloneNode(this._exp1_));
+        return new AEExp1(
+            cloneNode(this._exp1_),
+            cloneNode(this._e_),
+            cloneNode(this._exp2_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAOuExp(this);
-    }
-
-    public PExp getExp()
-    {
-        return this._exp_;
-    }
-
-    public void setExp(PExp node)
-    {
-        if(this._exp_ != null)
-        {
-            this._exp_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._exp_ = node;
-    }
-
-    public TOu getOu()
-    {
-        return this._ou_;
-    }
-
-    public void setOu(TOu node)
-    {
-        if(this._ou_ != null)
-        {
-            this._ou_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._ou_ = node;
+        ((Analysis) sw).caseAEExp1(this);
     }
 
     public PExp1 getExp1()
@@ -120,34 +70,84 @@ public final class AOuExp extends PExp
         this._exp1_ = node;
     }
 
+    public TE getE()
+    {
+        return this._e_;
+    }
+
+    public void setE(TE node)
+    {
+        if(this._e_ != null)
+        {
+            this._e_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._e_ = node;
+    }
+
+    public PExp2 getExp2()
+    {
+        return this._exp2_;
+    }
+
+    public void setExp2(PExp2 node)
+    {
+        if(this._exp2_ != null)
+        {
+            this._exp2_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._exp2_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
-            + toString(this._exp_)
-            + toString(this._ou_)
-            + toString(this._exp1_);
+            + toString(this._exp1_)
+            + toString(this._e_)
+            + toString(this._exp2_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._exp_ == child)
-        {
-            this._exp_ = null;
-            return;
-        }
-
-        if(this._ou_ == child)
-        {
-            this._ou_ = null;
-            return;
-        }
-
         if(this._exp1_ == child)
         {
             this._exp1_ = null;
+            return;
+        }
+
+        if(this._e_ == child)
+        {
+            this._e_ = null;
+            return;
+        }
+
+        if(this._exp2_ == child)
+        {
+            this._exp2_ = null;
             return;
         }
 
@@ -158,21 +158,21 @@ public final class AOuExp extends PExp
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._exp_ == oldChild)
-        {
-            setExp((PExp) newChild);
-            return;
-        }
-
-        if(this._ou_ == oldChild)
-        {
-            setOu((TOu) newChild);
-            return;
-        }
-
         if(this._exp1_ == oldChild)
         {
             setExp1((PExp1) newChild);
+            return;
+        }
+
+        if(this._e_ == oldChild)
+        {
+            setE((TE) newChild);
+            return;
+        }
+
+        if(this._exp2_ == oldChild)
+        {
+            setExp2((PExp2) newChild);
             return;
         }
 

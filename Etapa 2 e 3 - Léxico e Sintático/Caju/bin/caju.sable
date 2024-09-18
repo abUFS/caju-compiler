@@ -33,8 +33,6 @@ Tokens
 	vetor = 'vetor';
 	vazio = 'vazio';
 	caractere = aspas_simples '\'? caracteres_sem_nl_rc_aspas_simples aspas_simples;
-	verdadeiro = verdadeiro;
-	falso = falso;
 	booleano = verdadeiro | falso;
 	numero = inteiro | real;
 	vetor_unidimensional = aspas_duplas caracteres_sem_nl_rc_aspas_duplas+ aspas_duplas;
@@ -157,55 +155,65 @@ Productions
      {id} id
    | {indexada} var abre_colchete exp fecha_colchete;
   
- exp = 
-     {var} var
-   | {chamada} chamada
+ exp =     
+     {ou} exp ou exp1
+   | {exp1} exp1;
+   
+ exp1 =
+     {e} exp1 e exp2
+   | exp2;
+ 
+ exp2 =
+     {igual} exp2 igual exp3
+   | exp3;
+ 
+ exp3 =
+     {menor_igual} exp3 menor_igual exp4
+   | exp4;
+ 
+ exp4 =
+     {maior_igual} exp4 maior_igual exp5
+   | exp5;
+ 
+ exp5 =
+     {menor} exp5 menor exp6
+   | exp6;
+ 
+ exp6 =
+     {maior} exp6 maior exp7
+   | exp7;
+ 
+ exp7 =
+     {mais} exp7 mais exp8
+   | exp8;
+ 
+ exp8 =
+     {menos} exp8 menos exp9
+   | exp9;
+ 
+ exp9 =
+     {mult} exp9 mult exp10
+   | exp10;
+ 
+ exp10 =
+     {div} exp10 div exp11
+   | exp11;
+ 
+ exp11 =
+     {nao} nao exp12
+   | exp12;
+ 
+ exp12 =
+     {parenteses} abre_parenteses exp fecha_parenteses
+   | exp13;
+   
+ exp13 = 
+     {chamada} chamada
+   | {var} var
+   | {numero} numero
    | {caractere} caractere
-   | {booleano} booleano
-   | {ou} exp ou exp_ou
-   | {exp_ou} exp_ou;
-
- exp_ou =
-     {e} exp_ou e exp_e
-   | {exp_e} exp_e;
-
- exp_e =
-     {igual} exp_e igual exp_igual
-   | {exp_igual} exp_igual;
-
- exp_igual =
-     {maior_menor} exp_igual operador_relacional exp_cmp
-   | {exp_cmp} exp_cmp;
-
- exp_cmp =
-     {adicao_subtracao} exp_cmp mais_menos exp_termo
-   | {exp_termo} exp_termo;
-
- exp_termo =
-     {multiplicacao_divisao} exp_termo mult_div exp_nao
-   | {exp_nao} exp_nao;
-
- exp_nao =
-     {nao} nao exp_nao
-   | {exp_fator} exp_fator;
-
- exp_fator =
-     {exp} abre_parenteses exp fecha_parenteses
-   | {numero} numero;
-
- operador_relacional =
-     {menor_igual} menor_igual
-   | {maior_igual} maior_igual
-   | {menor} menor
-   | {maior} maior;
-
- mais_menos =
-     {mais} mais
-   | {menos} menos;
-
- mult_div =
-     {mult} mult
-   | {div} div;
+   | {booleano} booleano;
+  
  
  chamada = 
    id abre_parenteses lista_exp fecha_parenteses;
