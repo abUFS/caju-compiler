@@ -151,77 +151,98 @@ Productions
    | {chamada} chamada ponto_final;
  
  
- var = 
-     {id} id
-   | {indexada} var abre_colchete exp fecha_colchete;
+ var {-> a_var} = 
+     {id} id {-> var.a_var}
+   | {indexada} var abre_colchete exp fecha_colchete ;
   
- exp =     
-     {ou} exp ou exp1
-   | {exp1} exp1;
+ exp {-> a_exp} =     
+     {ou} exp ou exp1 {-> New a_exp.a_ou(exp.a_exp, exp.a_exp)}
+   | {exp1} exp1 {-> exp1.a_exp};
    
- exp1 =
-     {e} exp1 e exp2
-   | exp2;
+ exp1 {-> a_exp} =
+     {e} exp1 e exp2 {-> New a_exp.a_e(exp.a_exp, exp.a_exp)}
+   | exp2 {-> exp2.a_exp};
  
- exp2 =
-     {igual} exp2 igual exp3
-   | exp3;
+ exp2 {-> a_exp} =
+     {igual} exp2 igual exp3 {-> New a_exp.a_igual(exp.a_exp, exp.a_exp)}
+   | exp3 {-> exp3.a_exp};
  
- exp3 =
-     {menor_igual} exp3 menor_igual exp4
-   | exp4;
+ exp3 {-> a_exp} =
+     {menor_igual} exp3 menor_igual exp4 {-> New a_exp.a_menor_igual(exp.a_exp, exp.a_exp)}
+   | exp4 {-> exp4.a_exp};
  
- exp4 =
-     {maior_igual} exp4 maior_igual exp5
-   | exp5;
+ exp4 {-> a_exp} =
+     {maior_igual} exp4 maior_igual exp5 {-> New a_exp.a_maior_igual(exp.a_exp, exp.a_exp)}
+   | exp5 {-> exp5.a_exp};
  
- exp5 =
-     {menor} exp5 menor exp6
-   | exp6;
+ exp5 {-> a_exp} =
+     {menor} exp5 menor exp6 {-> New a_exp.a_menor(exp.a_exp, exp.a_exp)}
+   | exp6 {-> exp6.a_exp};
  
- exp6 =
-     {maior} exp6 maior exp7
-   | exp7;
+ exp6 {-> a_exp} =
+     {maior} exp6 maior exp7 {-> New a_exp.a_maior(exp.a_exp, exp.a_exp)}
+   | exp7 {-> exp7.a_exp};
  
- exp7 =
-     {mais} exp7 mais exp8
-   | exp8;
+ exp7 {-> a_exp} =
+     {mais} exp7 mais exp8 {-> New a_exp.a_mais(exp.a_exp, exp.a_exp)}
+   | exp8 {-> exp8.a_exp};
  
- exp8 =
-     {menos} exp8 menos exp9
-   | exp9;
+ exp8 {-> a_exp} =
+     {menos} exp8 menos exp9 {-> New a_exp.a_menos(exp.a_exp, exp.a_exp)}
+   | exp9 {-> exp9.a_exp};
  
- exp9 =
-     {mult} exp9 mult exp10
-   | exp10;
+ exp9 {-> a_exp} =
+     {mult} exp9 mult exp10 {-> New a_exp.a_mult(exp.a_exp, exp.a_exp)}
+   | exp10 {-> exp10.a_exp};
  
- exp10 =
-     {div} exp10 div exp11
-   | exp11;
+ exp10 {-> a_exp} =
+     {div} exp10 div exp11 {-> New a_exp.a_div(exp.a_exp, exp.a_exp)}
+   | exp11 {-> exp11.a_exp};
  
- exp11 =
-     {nao} nao exp12
-   | exp12;
+ exp11 {-> exp.a_exp} =
+     {nao} nao exp12 {-> exp.a_exp}
+   | exp12 {-> exp12.a_exp};
  
- exp12 =
-     {parenteses} abre_parenteses exp fecha_parenteses
-   | exp13;
+ exp12 {-> exp.a_exp} =
+     {parenteses} abre_parenteses exp fecha_parenteses {-> exp.a_exp}
+   | exp13 {-> exp13.a_exp};
    
- exp13 = 
-     {chamada} chamada
-   | {var} var
-   | {numero} numero
-   | {caractere} caractere
-   | {booleano} booleano
-   | {string} vetor_unidimensional;
-  
- 
+ exp13 {-> a_exp} = 
+     {chamada} chamada 
+   | {var} var {-> var.a_var }
+   | {numero} numero {-> New a_exp.a_numero(numero)}
+   | {caractere} caractere {-> New a_exp.a_numero(caractere)}
+   | {booleano} booleano {-> New a_exp.a_numero(booleano)}
+   | {string} vetor_unidimensional {-> New a_exp.a_numero(vetor_unidimensional)};
+   
  chamada = 
    id abre_parenteses lista_exp fecha_parenteses;
   
  lista_exp =
     {vazio}
-  | {lista_exp} exp pipe_exp*;
+   | {lista_exp} exp pipe_exp*;
  
- pipe_exp = 
-   pipe exp;
+ pipe_exp {-> a_exp} = 
+   pipe exp {-> exp.a_exp};
+  
+Abstract Syntax Tree
+
+ a_exp = 
+     {a_ou} [esq]:a_exp [dir]a_exp
+   | {a_e} [esq]:a_exp [dir]a_exp
+   | {a_igual} [esq]:a_exp [dir]a_exp
+   | {a_menor_igual} [esq]:a_exp [dir]a_exp
+   | {a_maior_igual} [esq]:a_exp [dir]a_exp
+   | {a_menor} [esq]:a_exp [dir]a_exp
+   | {a_maior} [esq]:a_exp [dir]a_exp
+   | {a_mais} [esq]:a_exp [dir]a_exp
+   | {a_menos} [esq]:a_exp [dir]a_exp
+   | {a_mult} [esq]:a_exp [dir]a_exp
+   | {a_div} [esq]:a_exp [dir]a_exp
+   | {a_numero} a_numero
+   | {a_caractere} a_caractere
+   | {a_booleano} a_booleano
+   | {a_string} a_vetor_unidimensional;
+     
+ a_var =
+     {id} id;

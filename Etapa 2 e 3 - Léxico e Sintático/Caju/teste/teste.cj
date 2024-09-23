@@ -2,10 +2,11 @@ numero qtdAlunos, qtdAvaliacoes, i,  j.
 caractere nomeTurma.
 booleano leituraAlunos.
 
-booleano foiAprovado (numero nota)
+vetor booleano [100] foiAprovado (numero nota | caractere x | booleano y)
 inicio
-    se ((nota + 1 - 1)*10/10 >= 5)
+    se ((nota + 1 - 1)*10/10 >= 5) inicio
         retorne verdadeiro.
+    fim
     senao
         retorne falso.
 fim
@@ -18,7 +19,13 @@ inicio
     vetor booleano [100] aprovado.
 
     nomeTurma := 'a'.
-
+    x := ( 1 + 2) - 3 * 4 / 2.
+    y := 2 <= 2 >= 4 > 5 < 6 .
+    z := nao y.
+    w :=  x e y ou w.
+    a := a = b.
+    
+    exibir().
     exibir("Informe quantos alunos na turma\n").
     ler(qtdAlunos).
 
@@ -27,6 +34,26 @@ inicio
 
     leituraAlunos := verdadeiro.
     i := 0.
+    
+    para ( x := 1, y := 2 ; x <= 4; x := x + 2, y := y +2) 
+    retorne .
+    
+    para cada ( numero x : y )
+    inicio
+      z := 10.
+      retorne verdadeiro.
+     fim
+    
+    se ( x )
+    inicio
+     retorne verdadeiro.
+    fim
+    senao
+     inicio
+      retorne falso.
+     fim
+    
+    
 
     enquanto (leituraAlunos)
     inicio
