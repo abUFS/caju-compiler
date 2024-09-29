@@ -233,9 +233,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAArParametroAParametro(AArParametroAParametro node)
     {
         inAArParametroAParametro(node);
-        if(node.getTipo() != null)
+        if(node.getATipo() != null)
         {
-            node.getTipo().apply(this);
+            node.getATipo().apply(this);
         }
         if(node.getId() != null)
         {
@@ -846,9 +846,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getId().apply(this);
         }
-        if(node.getListaExp() != null)
+        if(node.getAListaExp() != null)
         {
-            node.getListaExp().apply(this);
+            node.getAListaExp().apply(this);
         }
         outAArChamadaAChamada(node);
     }

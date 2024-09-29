@@ -148,8 +148,7 @@ Productions
    | {retorne} retorne exp? ponto_final {-> New a_comando_sem_casam.ar_retorne(exp.a_exp)}
    | {bloco} bloco {-> New a_comando_sem_casam.ar_bloco(bloco.a_bloco)}
    | {chamada} chamada ponto_final {-> New a_comando_sem_casam.ar_chamada(chamada.a_chamada)};
- 
- 
+  
  var {-> a_var} = 
      {id} id {-> New a_var.ar_id(id)}
    | {indexada} var abre_colchete exp fecha_colchete {-> New a_var.ar_indexada(var.a_var, exp.a_exp)};
@@ -240,7 +239,7 @@ Abstract Syntax Tree
  a_parametros = {ar_parametros} [esq]:a_parametro [dir]:a_parametro*
    | {ar_parametros_vazio} ;
 
- a_parametro = {ar_parametro} [tipo]:a_tipo [id]:id;
+ a_parametro = {ar_parametro} a_tipo id;
 
  a_tipo = 
     {ar_tipo_base} a_tipo_base
@@ -275,7 +274,7 @@ Abstract Syntax Tree
   | {ar_booleano} booleano
   | {ar_string} vetor_unidimensional;
 
- a_chamada = {ar_chamada} [id]:id [lista_exp]:a_lista_exp;
+ a_chamada = {ar_chamada} id a_lista_exp;
 
  a_lista_exp = {ar_lista_exp} [esq]:a_exp [dir]:a_exp*
    | {ar_lista_exp_vazio} ;

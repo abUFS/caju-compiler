@@ -241,9 +241,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getId().apply(this);
         }
-        if(node.getTipo() != null)
+        if(node.getATipo() != null)
         {
-            node.getTipo().apply(this);
+            node.getATipo().apply(this);
         }
         outAArParametroAParametro(node);
     }
@@ -847,9 +847,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAArChamadaAChamada(AArChamadaAChamada node)
     {
         inAArChamadaAChamada(node);
-        if(node.getListaExp() != null)
+        if(node.getAListaExp() != null)
         {
-            node.getListaExp().apply(this);
+            node.getAListaExp().apply(this);
         }
         if(node.getId() != null)
         {

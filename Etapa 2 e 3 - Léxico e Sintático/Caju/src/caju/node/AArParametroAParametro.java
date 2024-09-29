@@ -7,7 +7,7 @@ import caju.analysis.*;
 @SuppressWarnings("nls")
 public final class AArParametroAParametro extends PAParametro
 {
-    private PATipo _tipo_;
+    private PATipo _aTipo_;
     private TId _id_;
 
     public AArParametroAParametro()
@@ -16,11 +16,11 @@ public final class AArParametroAParametro extends PAParametro
     }
 
     public AArParametroAParametro(
-        @SuppressWarnings("hiding") PATipo _tipo_,
+        @SuppressWarnings("hiding") PATipo _aTipo_,
         @SuppressWarnings("hiding") TId _id_)
     {
         // Constructor
-        setTipo(_tipo_);
+        setATipo(_aTipo_);
 
         setId(_id_);
 
@@ -30,7 +30,7 @@ public final class AArParametroAParametro extends PAParametro
     public Object clone()
     {
         return new AArParametroAParametro(
-            cloneNode(this._tipo_),
+            cloneNode(this._aTipo_),
             cloneNode(this._id_));
     }
 
@@ -40,16 +40,16 @@ public final class AArParametroAParametro extends PAParametro
         ((Analysis) sw).caseAArParametroAParametro(this);
     }
 
-    public PATipo getTipo()
+    public PATipo getATipo()
     {
-        return this._tipo_;
+        return this._aTipo_;
     }
 
-    public void setTipo(PATipo node)
+    public void setATipo(PATipo node)
     {
-        if(this._tipo_ != null)
+        if(this._aTipo_ != null)
         {
-            this._tipo_.parent(null);
+            this._aTipo_.parent(null);
         }
 
         if(node != null)
@@ -62,7 +62,7 @@ public final class AArParametroAParametro extends PAParametro
             node.parent(this);
         }
 
-        this._tipo_ = node;
+        this._aTipo_ = node;
     }
 
     public TId getId()
@@ -94,7 +94,7 @@ public final class AArParametroAParametro extends PAParametro
     public String toString()
     {
         return ""
-            + toString(this._tipo_)
+            + toString(this._aTipo_)
             + toString(this._id_);
     }
 
@@ -102,9 +102,9 @@ public final class AArParametroAParametro extends PAParametro
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._tipo_ == child)
+        if(this._aTipo_ == child)
         {
-            this._tipo_ = null;
+            this._aTipo_ = null;
             return;
         }
 
@@ -121,9 +121,9 @@ public final class AArParametroAParametro extends PAParametro
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._tipo_ == oldChild)
+        if(this._aTipo_ == oldChild)
         {
-            setTipo((PATipo) newChild);
+            setATipo((PATipo) newChild);
             return;
         }
 

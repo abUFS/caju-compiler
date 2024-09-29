@@ -8,7 +8,7 @@ import caju.analysis.*;
 public final class AArChamadaAChamada extends PAChamada
 {
     private TId _id_;
-    private PAListaExp _listaExp_;
+    private PAListaExp _aListaExp_;
 
     public AArChamadaAChamada()
     {
@@ -17,12 +17,12 @@ public final class AArChamadaAChamada extends PAChamada
 
     public AArChamadaAChamada(
         @SuppressWarnings("hiding") TId _id_,
-        @SuppressWarnings("hiding") PAListaExp _listaExp_)
+        @SuppressWarnings("hiding") PAListaExp _aListaExp_)
     {
         // Constructor
         setId(_id_);
 
-        setListaExp(_listaExp_);
+        setAListaExp(_aListaExp_);
 
     }
 
@@ -31,7 +31,7 @@ public final class AArChamadaAChamada extends PAChamada
     {
         return new AArChamadaAChamada(
             cloneNode(this._id_),
-            cloneNode(this._listaExp_));
+            cloneNode(this._aListaExp_));
     }
 
     @Override
@@ -65,16 +65,16 @@ public final class AArChamadaAChamada extends PAChamada
         this._id_ = node;
     }
 
-    public PAListaExp getListaExp()
+    public PAListaExp getAListaExp()
     {
-        return this._listaExp_;
+        return this._aListaExp_;
     }
 
-    public void setListaExp(PAListaExp node)
+    public void setAListaExp(PAListaExp node)
     {
-        if(this._listaExp_ != null)
+        if(this._aListaExp_ != null)
         {
-            this._listaExp_.parent(null);
+            this._aListaExp_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class AArChamadaAChamada extends PAChamada
             node.parent(this);
         }
 
-        this._listaExp_ = node;
+        this._aListaExp_ = node;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class AArChamadaAChamada extends PAChamada
     {
         return ""
             + toString(this._id_)
-            + toString(this._listaExp_);
+            + toString(this._aListaExp_);
     }
 
     @Override
@@ -108,9 +108,9 @@ public final class AArChamadaAChamada extends PAChamada
             return;
         }
 
-        if(this._listaExp_ == child)
+        if(this._aListaExp_ == child)
         {
-            this._listaExp_ = null;
+            this._aListaExp_ = null;
             return;
         }
 
@@ -127,9 +127,9 @@ public final class AArChamadaAChamada extends PAChamada
             return;
         }
 
-        if(this._listaExp_ == oldChild)
+        if(this._aListaExp_ == oldChild)
         {
-            setListaExp((PAListaExp) newChild);
+            setAListaExp((PAListaExp) newChild);
             return;
         }
 
