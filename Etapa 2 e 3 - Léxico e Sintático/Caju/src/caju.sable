@@ -78,150 +78,234 @@ Ignored Tokens
 	
 Productions
 
- programa =
-   dec_variavel* dec_funcao*;
+ programa {-> a_programa} =
+   dec_variavel* dec_funcao* { -> New a_programa.ar_programa([dec_variavel.a_dec_variavel], [dec_funcao.a_dec_funcao])};
   
- dec_variavel =
-   tipo lista_nomes ponto_final;
+ dec_variavel {-> a_dec_variavel} =
+   tipo lista_nomes ponto_final {-> New a_dec_variavel.ar_dec_variavel(tipo.a_tipo, lista_nomes.a_lista_nomes)};
  
- lista_nomes =
-   id virgula_id*;
+ lista_nomes {-> a_lista_nomes} =
+   id virgula_id* {-> New a_lista_nomes.ar_lista_nomes(id, [virgula_id.a_virgula_id])};
    
-  virgula_id = 
-    virgula id;
+ virgula_id {-> a_virgula_id} = 
+   virgula id {-> New a_virgula_id.ar_virgula_id(id)};
    
- tipo =
-     {base} tipo_base
-   | {vetor} vetor tipo_base [esq]:exp_colchete [dir]:exp_colchete*;
+ tipo {-> a_tipo} =
+     {base} tipo_base {-> New a_tipo.ar_tipo_base(tipo_base.a_tipo_base)}
+   | {vetor} vetor tipo_base [esq]:exp_colchete [dir]:exp_colchete* {-> New a_tipo.ar_tipo_vetor(tipo_base.a_tipo_base, esq.a_exp, [dir.a_exp])};
  
- exp_colchete =
-   abre_colchete exp fecha_colchete;
+ exp_colchete {-> a_exp} =
+   abre_colchete exp fecha_colchete {-> exp.a_exp};
  
- tipo_base = 
-     {numero} base_numero
-   | {caractere} base_caractere
-   | {booleano} base_booleano;
+ tipo_base {-> a_tipo_base} = 
+     {numero} base_numero {-> New a_tipo_base.ar_numero(base_numero)}
+   | {caractere} base_caractere {-> New a_tipo_base.ar_caractere(base_caractere)}
+   | {booleano} base_booleano {-> New a_tipo_base.ar_booleano(base_booleano)};
  
- dec_funcao =
-   seta? tipo_retorno id abre_parenteses parametros fecha_parenteses bloco;
+ dec_funcao {-> a_dec_funcao} =
+   seta? tipo_retorno id abre_parenteses parametros fecha_parenteses bloco {-> New a_dec_funcao.ar_dec_funcao(tipo_retorno.a_tipo_retorno, id, parametros.a_parametros, bloco.a_bloco)};
     
- tipo_retorno =
-     {tipo} tipo
-   | {vazio} vazio;
+ tipo_retorno {-> a_tipo_retorno} =
+     {tipo} tipo {-> New a_tipo_retorno.ar_tipo_retorno(tipo.a_tipo)}
+   | {vazio} vazio {-> New a_tipo_retorno.ar_tipo_vazio()};
  
- parametros = 
-   {vazio}
-   | {parametro} parametro pipe_parametro*;
+ parametros {-> a_parametros} = 
+     {vazio} {-> New a_parametros.ar_parametros_vazio()}
+   | {parametro} parametro pipe_parametro* {-> New a_parametros.ar_parametros(parametro.a_parametro, [pipe_parametro.a_parametro])};
  
- pipe_parametro =
-   pipe parametro;
+ pipe_parametro {-> a_parametro} =
+   pipe parametro {-> parametro.a_parametro};
    
- parametro = 
-   tipo id;
+ parametro {-> a_parametro} = 
+   tipo id {-> New a_parametro.ar_parametro(tipo.a_tipo, id)};
 
- bloco =
-   inicio dec_variavel* comando* fim;
+ bloco {-> a_bloco} =
+   inicio dec_variavel* comando* fim {-> New a_bloco.ar_bloco([dec_variavel.a_dec_variavel], [comando.a_comando])};
    
- atrib =
-   var atribuir exp;
+ atrib {-> a_atrib} =
+   var atribuir exp {-> New a_atrib.ar_atrib(var.a_var, exp.a_exp)};
    
- lista_atrib =
-   atrib virgula_atrib*;
+ lista_atrib {-> a_lista_atrib} =
+   atrib virgula_atrib* {-> New a_lista_atrib.ar_lista_atrib(atrib.a_atrib, [virgula_atrib.a_atrib])};
  
- virgula_atrib =
-   virgula atrib;
-   
+ virgula_atrib {-> a_atrib} =
+   virgula atrib {-> atrib.a_atrib};
  
- comando =
-     {casam} comando_casam
-   | {sem_casam} comando_sem_casam;
+ comando {-> a_comando} =
+     {casam} comando_casam {-> New a_comando.ar_comando_casam(comando_casam.a_comando_casam)}
+   | {sem_casam} comando_sem_casam {-> New a_comando.ar_comando_sem_casam(comando_sem_casam.a_comando_sem_casam)};
  
- comando_casam =
-     {se} se abre_parenteses exp fecha_parenteses comando
-   | {senao} se abre_parenteses exp fecha_parenteses comando_sem_casam senao comando_casam
-   | {enquanto} enquanto abre_parenteses exp fecha_parenteses comando
-   | {para} para abre_parenteses [esq_lista]:lista_atrib [esq_ponto]:ponto_virgula exp [dir_ponto]:ponto_virgula [dir_lista]:lista_atrib fecha_parenteses comando
-   | {para_cada} para_cada abre_parenteses tipo [esq]:id dois_pontos [dir]:id fecha_parenteses comando;
+ comando_casam {-> a_comando_casam} =
+     {se} se abre_parenteses exp fecha_parenteses comando {-> New a_comando_casam.ar_se(exp.a_exp, comando.a_comando)}
+   | {senao} se abre_parenteses exp fecha_parenteses comando_sem_casam senao comando_casam {-> New a_comando_casam.ar_senao(exp.a_exp, comando_sem_casam.a_comando_sem_casam, comando_casam.a_comando_casam)}
+   | {enquanto} enquanto abre_parenteses exp fecha_parenteses comando {-> New a_comando_casam.ar_enquanto(exp.a_exp, comando.a_comando)}
+   | {para} para abre_parenteses [esq_lista]:lista_atrib [esq_ponto]:ponto_virgula exp [dir_ponto]:ponto_virgula [dir_lista]:lista_atrib fecha_parenteses comando {-> New a_comando_casam.ar_para(esq_lista.a_lista_atrib, exp.a_exp, dir_lista.a_lista_atrib, comando.a_comando)}
+   | {para_cada} para_cada abre_parenteses tipo [esq]:id dois_pontos [dir]:id fecha_parenteses comando {-> New a_comando_casam.ar_para_cada(tipo.a_tipo, esq, dir, comando.a_comando)};
  
- comando_sem_casam =   
-     {se_senao} se abre_parenteses exp fecha_parenteses [esq]:comando_sem_casam senao [dir]:comando_sem_casam
-   | {atrib} atrib ponto_final
-   | {retorne} retorne exp? ponto_final
-   | {bloco} bloco
-   | {chamada} chamada ponto_final;
+ comando_sem_casam {-> a_comando_sem_casam} =   
+     {se_senao} se abre_parenteses exp fecha_parenteses [esq]:comando_sem_casam senao [dir]:comando_sem_casam {-> New a_comando_sem_casam.ar_se_senao(exp.a_exp, esq.a_comando_sem_casam, dir.a_comando_sem_casam)}
+   | {atrib} atrib ponto_final {-> New a_comando_sem_casam.ar_atrib(atrib.a_atrib)}
+   | {retorne} retorne exp? ponto_final {-> New a_comando_sem_casam.ar_retorne(exp.a_exp)}
+   | {bloco} bloco {-> New a_comando_sem_casam.ar_bloco(bloco.a_bloco)}
+   | {chamada} chamada ponto_final {-> New a_comando_sem_casam.ar_chamada(chamada.a_chamada)};
  
  
- var = 
-     {id} id
-   | {indexada} var abre_colchete exp fecha_colchete;
+ var {-> a_var} = 
+     {id} id {-> New a_var.ar_id(id)}
+   | {indexada} var abre_colchete exp fecha_colchete {-> New a_var.ar_indexada(var.a_var, exp.a_exp)};
   
- exp =     
-     {ou} exp ou exp1
-   | {exp1} exp1;
+ exp {-> a_exp} =     
+     {ou} exp ou exp1 {-> New a_exp.ar_ou(exp.a_exp, exp1.a_exp)}
+   | {exp1} exp1 {-> exp1.a_exp};
    
- exp1 =
-     {e} exp1 e exp2
-   | exp2;
+ exp1 {-> a_exp} =
+     {e} exp1 e exp2 {-> New a_exp.ar_e(exp1.a_exp, exp2.a_exp)}
+   | exp2 {-> exp2.a_exp};
  
- exp2 =
-     {igual} exp2 igual exp3
-   | exp3;
+ exp2 {-> a_exp} =
+     {igual} exp2 igual exp3 {-> New a_exp.ar_igual(exp2.a_exp, exp3.a_exp)}
+   | exp3 {-> exp3.a_exp};
  
- exp3 =
-     {menor_igual} exp3 menor_igual exp4
-   | exp4;
+ exp3 {-> a_exp} =
+     {menor_igual} exp3 menor_igual exp4 {-> New a_exp.ar_menor_igual(exp3.a_exp, exp4.a_exp)}
+   | exp4 {-> exp4.a_exp};
  
- exp4 =
-     {maior_igual} exp4 maior_igual exp5
-   | exp5;
+ exp4 {-> a_exp} =
+     {maior_igual} exp4 maior_igual exp5 {-> New a_exp.ar_maior_igual(exp4.a_exp, exp5.a_exp)}
+   | exp5 {-> exp5.a_exp};
  
- exp5 =
-     {menor} exp5 menor exp6
-   | exp6;
+ exp5 {-> a_exp} =
+     {menor} exp5 menor exp6 {-> New a_exp.ar_menor(exp5.a_exp, exp6.a_exp)}
+   | exp6 {-> exp6.a_exp};
  
- exp6 =
-     {maior} exp6 maior exp7
-   | exp7;
+ exp6 {-> a_exp} =
+     {maior} exp6 maior exp7 {-> New a_exp.ar_maior(exp6.a_exp, exp7.a_exp)}
+   | exp7 {-> exp7.a_exp};
  
- exp7 =
-     {mais} exp7 mais exp8
-   | exp8;
+ exp7 {-> a_exp} =
+     {mais} exp7 mais exp8 {-> New a_exp.ar_mais(exp7.a_exp, exp8.a_exp)}
+   | exp8 {-> exp8.a_exp};
  
- exp8 =
-     {menos} exp8 menos exp9
-   | exp9;
+ exp8 {-> a_exp} =
+     {menos} exp8 menos exp9 {-> New a_exp.ar_menos(exp8.a_exp, exp9.a_exp)}
+   | exp9 {-> exp9.a_exp};
  
- exp9 =
-     {mult} exp9 mult exp10
-   | exp10;
+ exp9 {-> a_exp} =
+     {mult} exp9 mult exp10 {-> New a_exp.ar_mult(exp9.a_exp, exp10.a_exp)}
+   | exp10 {-> exp10.a_exp};
  
- exp10 =
-     {div} exp10 div exp11
-   | exp11;
+ exp10 {-> a_exp} =
+     {div} exp10 div exp11 {-> New a_exp.ar_div(exp10.a_exp, exp11.a_exp)}
+   | exp11 {-> exp11.a_exp};
  
- exp11 =
-     {nao} nao exp12
-   | exp12;
+ exp11 {-> a_exp} =
+     {nao} nao exp12 {-> exp12.a_exp}
+   | exp12 {-> exp12.a_exp};
  
- exp12 =
-     {parenteses} abre_parenteses exp fecha_parenteses
-   | exp13;
+ exp12 {-> a_exp} =
+     {parenteses} abre_parenteses exp fecha_parenteses {-> exp.a_exp}
+   | exp13 {-> exp13.a_exp};
    
- exp13 = 
-     {chamada} chamada
-   | {var} var
-   | {numero} numero
-   | {caractere} caractere
-   | {booleano} booleano
-   | {string} vetor_unidimensional;
+ exp13 {-> a_exp} = 
+     {chamada} chamada {-> New a_exp.ar_chamada(chamada.a_chamada)}
+   | {var} var {-> New a_exp.ar_var(var.a_var)}
+   | {numero} numero {-> New a_exp.ar_numero(numero)}
+   | {caractere} caractere {-> New a_exp.ar_caractere(caractere)}
+   | {booleano} booleano {-> New a_exp.ar_booleano(booleano)}
+   | {string} vetor_unidimensional {-> New a_exp.ar_string(vetor_unidimensional)};
+   
+ chamada {-> a_chamada} = 
+   id abre_parenteses lista_exp fecha_parenteses {-> New a_chamada.ar_chamada(id, lista_exp.a_lista_exp)};
   
+ lista_exp {-> a_lista_exp} =
+    {vazio} {-> New a_lista_exp.ar_lista_exp_vazio()}
+   | {lista_exp} exp pipe_exp* {-> New a_lista_exp.ar_lista_exp(exp.a_exp, [pipe_exp.a_exp])};
  
- chamada = 
-   id abre_parenteses lista_exp fecha_parenteses;
+ pipe_exp {-> a_exp} = 
+   pipe exp {-> exp.a_exp};
   
- lista_exp =
-    {vazio}
-  | {lista_exp} exp pipe_exp*;
+  
+Abstract Syntax Tree
+
+ a_programa = {ar_programa} a_dec_variavel* a_dec_funcao*;
+
+ a_dec_variavel = {ar_dec_variavel} a_tipo a_lista_nomes;
+
+ a_lista_nomes = {ar_lista_nomes} id a_virgula_id*;
+
+ a_virgula_id = {ar_virgula_id} id;
+
+ a_dec_funcao = {ar_dec_funcao} a_tipo_retorno id a_parametros a_bloco;
+
+ a_parametros = {ar_parametros} [esq]:a_parametro [dir]:a_parametro*
+   | {ar_parametros_vazio} ;
+
+ a_parametro = {ar_parametro} [tipo]:a_tipo [id]:id;
+
+ a_tipo = 
+    {ar_tipo_base} a_tipo_base
+  | {ar_tipo_vetor} a_tipo_base [esq]:a_exp [dir]:a_exp*;
+
+ a_tipo_base = 
+    {ar_numero} base_numero
+  | {ar_caractere} base_caractere
+  | {ar_booleano} base_booleano;
+
+ a_var =
+    {ar_id} id
+  | {ar_indexada} a_var a_exp;
+
+ a_exp = 
+    {ar_ou} [esq]:a_exp [dir]:a_exp
+  | {ar_e} [esq]:a_exp [dir]:a_exp
+  | {ar_igual} [esq]:a_exp [dir]:a_exp
+  | {ar_menor_igual} [esq]:a_exp [dir]:a_exp
+  | {ar_maior_igual} [esq]:a_exp [dir]:a_exp
+  | {ar_menor} [esq]:a_exp [dir]:a_exp
+  | {ar_maior} [esq]:a_exp [dir]:a_exp
+  | {ar_mais} [esq]:a_exp [dir]:a_exp
+  | {ar_menos} [esq]:a_exp [dir]:a_exp
+  | {ar_mult} [esq]:a_exp [dir]:a_exp
+  | {ar_div} [esq]:a_exp [dir]:a_exp
+  | {ar_nao} a_exp
+  | {ar_var} a_var
+  | {ar_chamada} a_chamada
+  | {ar_numero} numero
+  | {ar_caractere} caractere
+  | {ar_booleano} booleano
+  | {ar_string} vetor_unidimensional;
+
+ a_chamada = {ar_chamada} [id]:id [lista_exp]:a_lista_exp;
+
+ a_lista_exp = {ar_lista_exp} [esq]:a_exp [dir]:a_exp*
+   | {ar_lista_exp_vazio} ;
+
+ a_comando = {ar_comando_casam} a_comando_casam
+   | {ar_comando_sem_casam} a_comando_sem_casam;
  
- pipe_exp = 
-   pipe exp;
+ a_comando_casam =
+     {ar_se} a_exp a_comando
+   | {ar_senao} a_exp a_comando_sem_casam a_comando_casam
+   | {ar_enquanto} a_exp a_comando
+   | {ar_para} [esq]:a_lista_atrib a_exp [dir]:a_lista_atrib a_comando
+   | {ar_para_cada} a_tipo [esq]:id [dir]:id a_comando;
+ 
+ a_comando_sem_casam =   
+     {ar_se_senao} a_exp [esq]:a_comando_sem_casam [dir]:a_comando_sem_casam
+   | {ar_atrib} a_atrib
+   | {ar_retorne} a_exp?
+   | {ar_bloco} a_bloco
+   | {ar_chamada} a_chamada;
+
+ a_bloco = {ar_bloco} a_dec_variavel* a_comando*;
+
+ a_atrib = {ar_atrib} a_var a_exp;
+
+ a_lista_atrib = {ar_lista_atrib} [esq]:a_atrib [dir]:a_atrib*;
+
+ a_virgula_atrib = {ar_virgula_atrib} a_atrib;
+ 
+ a_tipo_retorno = {ar_tipo_vazio} 
+ | {ar_tipo_retorno} a_tipo;
+
+ 

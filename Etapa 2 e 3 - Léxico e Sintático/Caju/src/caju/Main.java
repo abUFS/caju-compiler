@@ -29,15 +29,15 @@ public class Main
   {
    String arquivo = "teste/teste.cj";
   
-   Lexer lex = new Lexer(
+   Parser p =
+		    new Parser(
+		    new Lexer(
 		    new PushbackReader(  
-		    new FileReader(arquivo), 1024));
-   
-   Parser p = new Parser(lex); 
+		    new FileReader(arquivo), 1024))); 
    
    Start tree = p.parse();
    //Imprime árvore na saída padrão
-   //tree.apply(new ASTPrinter());
+   tree.apply(new ASTPrinter());
    //Imprime árvore em interface gráfica
    tree.apply(new ASTDisplay());
   }
