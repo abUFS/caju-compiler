@@ -2,7 +2,7 @@ numero i.
 -> vazio principal()
 inicio
 se (verdadeiro)
-i := 'a'.
+i := 1.
 senao
-i := 'a'.
+i := 1.
 fim

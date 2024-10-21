@@ -40,7 +40,7 @@ public class Semantico extends DepthFirstAdapter {
     public void inAArDecFuncaoADecFuncao(AArDecFuncaoADecFuncao node) {
         String functionName = node.getId().getText();
         String returnType = node.getATipoRetorno().toString();
-        
+
         if (symbolTableManager.lookup(functionName) != null) {
             System.err.println("Erro: Função " + functionName + " já está declarada.");
         } else {
@@ -49,19 +49,54 @@ public class Semantico extends DepthFirstAdapter {
             }
             symbolTableManager.addSymbol(functionName, new Symbol(returnType, null));
         }
-        symbolTableManager.enterScope();
+        symbolTableManager.enterScope();  // Enter the function's scope
+
+        // Process and declare the parameters of the function in the function's scope
+        if (node.getAParametros() != null) {
+            PAParametros parametrosNode = node.getAParametros();
+            // Add each parameter to the symbol table
+            if (parametrosNode instanceof AArParametrosAParametros) {
+                AArParametrosAParametros parametros = (AArParametrosAParametros) parametrosNode;
+                if (parametros.getEsq() != null) {
+                    processParameter(parametros.getEsq());
+                }
+                for (PAParametro param : parametros.getDir()) {
+                    processParameter(param);
+                }
+            }
+        }
     }
 
     @Override
     public void outAArDecFuncaoADecFuncao(AArDecFuncaoADecFuncao node) {
-        symbolTableManager.exitScope();
+        symbolTableManager.exitScope();  // Exit the function's scope
     }
 
+    // Helper method to process and declare a function parameter in the symbol table
+    private void processParameter(PAParametro paramNode) {
+        if (paramNode instanceof AArParametroAParametro) {
+            AArParametroAParametro param = (AArParametroAParametro) paramNode;
+            String paramName = param.getId().getText();
+            String paramType = param.getATipo().toString();
+
+            if (paramType.contains("numero")) {
+                paramType = "int";  // Map 'numero' to 'int'
+            }
+
+            if (symbolTableManager.lookup(paramName) != null) {
+                System.err.println("Erro: Parâmetro " + paramName + " já está declarado.");
+            } else {
+                symbolTableManager.addSymbol(paramName, new Symbol(paramType, null));  // Add parameter as a variable
+            }
+        }
+    }
+
+    // Declaração de variável (numero i)
     @Override
     public void inAArDecVariavelADecVariavel(AArDecVariavelADecVariavel node) {
         String varName = node.getAListaNomes().toString();
         String varType = node.getATipo().toString();
-        
+
         if (varType.contains("numero")) {
             varType = "int";  // Map 'numero' to 'int'
         }
@@ -91,7 +126,7 @@ public class Semantico extends DepthFirstAdapter {
 
             if (!typeStack.isEmpty()) {  // Check if there's a type to pop from the stack
                 String expType = typeStack.pop();
-                
+
                 if (!varType.equals(expType)) {
                     System.err.println("Erro: incompatibilidade de tipo na atribuição. A variável " + varName + " é do tipo " + varType + ", mas a expressão é do tipo " + expType + ".");
                 }
@@ -115,7 +150,7 @@ public class Semantico extends DepthFirstAdapter {
     public void inAArChamadaAChamada(AArChamadaAChamada node) {
         String functionName = node.getId().getText();
         Symbol funcSymbol = symbolTableManager.lookup(functionName);
-        
+
         if (funcSymbol == null) {
             System.err.println("Erro: Função " + functionName + " não foi declarada.");
         } else {
@@ -129,7 +164,7 @@ public class Semantico extends DepthFirstAdapter {
             if (!typeStack.isEmpty()) {
                 String returnType = typeStack.pop();
                 String functionReturnType = symbolTableManager.lookup("currentFunction").getType();
-                
+
                 if (!returnType.equals(functionReturnType)) {
                     System.err.println("Erro: incompatibilidade de tipo de retorno. Esperado " + functionReturnType + ", mas obteve " + returnType + ".");
                 }
@@ -178,7 +213,7 @@ public class Semantico extends DepthFirstAdapter {
         if (typeStack.size() >= 2) {
             String rightType = typeStack.pop();
             String leftType = typeStack.pop();
-            
+
             if (!leftType.equals("int") || !rightType.equals("int")) {
                 System.err.println("Erro: ambos os operandos de '+' devem ser inteiros.");
             }
@@ -192,7 +227,7 @@ public class Semantico extends DepthFirstAdapter {
     public void inAArVarAExp(AArVarAExp node) {
         String varName = node.getAVar().toString();
         Symbol varSymbol = symbolTableManager.lookup(varName);
-        
+
         if (varSymbol != null) {
             typeStack.push(varSymbol.getType());
         } else {
