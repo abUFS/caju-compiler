@@ -9,7 +9,7 @@ public class Main
  public static void main(String[] args)
  {try
 	{
-		String arquivo = "teste/teste.cj";
+		String arquivo = "C:\\Users\\artur.barbosa\\Downloads\\caju-compiler\\Etapa 5 - Tabela de Símbolos e Análise Semântica\\Caju\\teste\\teste.cj";
 
 		Lexer lexer =
 				new Lexer(
@@ -27,7 +27,7 @@ public class Main
 	}
   try
   {
-   String arquivo = "teste/teste.cj";
+   String arquivo = "C:\\Users\\artur.barbosa\\Downloads\\caju-compiler\\Etapa 5 - Tabela de Símbolos e Análise Semântica\\Caju\\teste\\teste.cj";
   
    Parser p =
 		    new Parser(
@@ -39,7 +39,9 @@ public class Main
    //Imprime árvore na saída padrão
    tree.apply(new ASTPrinter());
    //Imprime árvore em interface gráfica
-   tree.apply(new ASTDisplay());
+   //tree.apply(new ASTDisplay());
+   
+   tree.apply(new Semantico());
   }
   catch(Exception e)
   {
