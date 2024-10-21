@@ -1,7 +1,8 @@
-booleano foiAprovado (numero nota)
+numero i.
+-> vazio principal()
 inicio
-    se ((nota + 1 - 1)*10/10 >= 5)
-        retorne verdadeiro.
-    senao
-        retorne falso.
+se (verdadeiro)
+i := 'a'.
+senao
+i := 'a'.
 fim
