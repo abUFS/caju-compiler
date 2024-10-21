@@ -53,8 +53,7 @@ public class Semantico extends DepthFirstAdapter {
 
         // Process and declare the parameters of the function in the function's scope
         if (node.getAParametros() != null) {
-            PAParametros parametrosNode = node.getAParametros();
-            // Add each parameter to the symbol table
+            AArParametrosAParametros parametrosNode = node.getAParametros();
             if (parametrosNode instanceof AArParametrosAParametros) {
                 AArParametrosAParametros parametros = (AArParametrosAParametros) parametrosNode;
                 if (parametros.getEsq() != null) {
@@ -72,16 +71,11 @@ public class Semantico extends DepthFirstAdapter {
         symbolTableManager.exitScope();  // Exit the function's scope
     }
 
-    // Helper method to process and declare a function parameter in the symbol table
     private void processParameter(PAParametro paramNode) {
         if (paramNode instanceof AArParametroAParametro) {
             AArParametroAParametro param = (AArParametroAParametro) paramNode;
             String paramName = param.getId().getText();
             String paramType = param.getATipo().toString();
-
-            if (paramType.contains("numero")) {
-                paramType = "int";  // Map 'numero' to 'int'
-            }
 
             if (symbolTableManager.lookup(paramName) != null) {
                 System.err.println("Erro: Parâmetro " + paramName + " já está declarado.");
@@ -94,12 +88,8 @@ public class Semantico extends DepthFirstAdapter {
     // Declaração de variável (numero i)
     @Override
     public void inAArDecVariavelADecVariavel(AArDecVariavelADecVariavel node) {
-        String varName = node.getAListaNomes().toString();
+        String varName = node.getAListaNomes().getId().getText();
         String varType = node.getATipo().toString();
-
-        if (varType.contains("numero")) {
-            varType = "int";  // Map 'numero' to 'int'
-        }
 
         if (symbolTableManager.lookup(varName) != null) {
             System.err.println("Erro: Variável " + varName + " já está declarada neste escopo.");
@@ -111,13 +101,12 @@ public class Semantico extends DepthFirstAdapter {
     // Atribuição de variável (i := 1)
     @Override
     public void inAArAtribAAtrib(AArAtribAAtrib node) {
-        String varName = node.getAVar().toString();
+        String varName = node.getAVar().getId().getText();
         Symbol varSymbol = symbolTableManager.lookup(varName);
 
         if (varSymbol == null) {
             System.err.println("Erro: Variável " + varName + " não foi declarada.");
         } else {
-            // Process the expression part before checking the assignment
             if (node.getAExp() != null) {
                 node.getAExp().apply(this);  // Process the expression and push its type onto the stack
             }
@@ -214,10 +203,10 @@ public class Semantico extends DepthFirstAdapter {
             String rightType = typeStack.pop();
             String leftType = typeStack.pop();
 
-            if (!leftType.equals("int") || !rightType.equals("int")) {
-                System.err.println("Erro: ambos os operandos de '+' devem ser inteiros.");
+            if (!leftType.equals("numero") || !rightType.equals("numero")) {
+                System.err.println("Erro: ambos os operandos de '+' devem ser números.");
             }
-            typeStack.push("int");  // Push the result type
+            typeStack.push("numero");  // Push the result type (which could be int or float)
         } else {
             System.err.println("Erro: Operandos insuficientes para a operação de '+'.");
         }
@@ -225,7 +214,7 @@ public class Semantico extends DepthFirstAdapter {
 
     @Override
     public void inAArVarAExp(AArVarAExp node) {
-        String varName = node.getAVar().toString();
+        String varName = node.getAVar().getId().getText();
         Symbol varSymbol = symbolTableManager.lookup(varName);
 
         if (varSymbol != null) {
@@ -235,14 +224,4 @@ public class Semantico extends DepthFirstAdapter {
         }
     }
 
-    // Handle numeric literals, e.g., '1' in i := 1.
-    @Override
-    public void inAArNumeroAExp(AArNumeroAExp node) {
-        typeStack.push("int");  // Ensure 'int' is pushed for numbers
-    }
-
-    @Override
-    public void inAArBooleanoAExp(AArBooleanoAExp node) {
-        typeStack.push("boolean");
-    }
-}
+    // Handle numeric literals, distinguishing between int and float
