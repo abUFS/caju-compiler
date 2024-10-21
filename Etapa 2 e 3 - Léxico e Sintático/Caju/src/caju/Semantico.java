@@ -39,7 +39,7 @@ public class Semantico extends DepthFirstAdapter {
     @Override
     public void inAArDecFuncaoADecFuncao(AArDecFuncaoADecFuncao node) {
         String functionName = node.getId().getText();
-        String returnType = node.getATipoRetorno().toString();
+        String returnType = node.getATipoRetorno().toString().trim();
 
         if (symbolTableManager.lookup(functionName) != null) {
             System.err.println("Erro: Função " + functionName + " já está declarada.");
@@ -49,11 +49,12 @@ public class Semantico extends DepthFirstAdapter {
             }
             symbolTableManager.addSymbol(functionName, new Symbol(returnType, null));
         }
-        symbolTableManager.enterScope();  // Enter the function's scope
+        symbolTableManager.enterScope();
 
         // Process and declare the parameters of the function in the function's scope
         if (node.getAParametros() != null) {
-            AArParametrosAParametros parametrosNode = node.getAParametros();
+            PAParametros parametrosNode = node.getAParametros();
+            // Add each parameter to the symbol table
             if (parametrosNode instanceof AArParametrosAParametros) {
                 AArParametrosAParametros parametros = (AArParametrosAParametros) parametrosNode;
                 if (parametros.getEsq() != null) {
@@ -68,9 +69,10 @@ public class Semantico extends DepthFirstAdapter {
 
     @Override
     public void outAArDecFuncaoADecFuncao(AArDecFuncaoADecFuncao node) {
-        symbolTableManager.exitScope();  // Exit the function's scope
+        symbolTableManager.exitScope();
     }
 
+    // Helper method to process and declare a function parameter in the symbol table
     private void processParameter(PAParametro paramNode) {
         if (paramNode instanceof AArParametroAParametro) {
             AArParametroAParametro param = (AArParametroAParametro) paramNode;
@@ -85,10 +87,9 @@ public class Semantico extends DepthFirstAdapter {
         }
     }
 
-    // Declaração de variável (numero i)
     @Override
     public void inAArDecVariavelADecVariavel(AArDecVariavelADecVariavel node) {
-        String varName = node.getAListaNomes().getId().getText();
+        String varName = node.getAListaNomes().toString();
         String varType = node.getATipo().toString();
 
         if (symbolTableManager.lookup(varName) != null) {
@@ -101,17 +102,18 @@ public class Semantico extends DepthFirstAdapter {
     // Atribuição de variável (i := 1)
     @Override
     public void inAArAtribAAtrib(AArAtribAAtrib node) {
-        String varName = node.getAVar().getId().getText();
+        String varName = node.getAVar().toString();
         Symbol varSymbol = symbolTableManager.lookup(varName);
 
         if (varSymbol == null) {
             System.err.println("Erro: Variável " + varName + " não foi declarada.");
         } else {
+            // Process the expression part before checking the assignment
             if (node.getAExp() != null) {
                 node.getAExp().apply(this);  // Process the expression and push its type onto the stack
             }
 
-            String varType = varSymbol.getType();
+            String varType = varSymbol.getType().trim();
 
             if (!typeStack.isEmpty()) {  // Check if there's a type to pop from the stack
                 String expType = typeStack.pop();
@@ -204,9 +206,9 @@ public class Semantico extends DepthFirstAdapter {
             String leftType = typeStack.pop();
 
             if (!leftType.equals("numero") || !rightType.equals("numero")) {
-                System.err.println("Erro: ambos os operandos de '+' devem ser números.");
+                System.err.println("Erro: ambos os operandos de '+' devem ser números (inteiros ou floats).");
             }
-            typeStack.push("numero");  // Push the result type (which could be int or float)
+            typeStack.push("numero");  // Push the result type as 'numero' (which can be int or float)
         } else {
             System.err.println("Erro: Operandos insuficientes para a operação de '+'.");
         }
@@ -214,7 +216,7 @@ public class Semantico extends DepthFirstAdapter {
 
     @Override
     public void inAArVarAExp(AArVarAExp node) {
-        String varName = node.getAVar().getId().getText();
+        String varName = node.getAVar().toString();
         Symbol varSymbol = symbolTableManager.lookup(varName);
 
         if (varSymbol != null) {
@@ -224,4 +226,25 @@ public class Semantico extends DepthFirstAdapter {
         }
     }
 
-    // Handle numeric literals, distinguishing between int and float
+    @Override
+    public void inAArNumeroAExp(AArNumeroAExp node) {
+    	typeStack.push("numero");
+    }
+
+    // Handle character expressions
+    @Override
+    public void inAArCaractereAExp(AArCaractereAExp node) {
+        typeStack.push("char");  // Push 'char' for character literals
+    }
+
+    // Handle string expressions (vectors of characters)
+    @Override
+    public void inAArStringAExp(AArStringAExp node) {
+        typeStack.push("char[]");  // Push 'char[]' for string literals (vector of characters)
+    }
+
+    @Override
+    public void inAArBooleanoAExp(AArBooleanoAExp node) {
+        typeStack.push("boolean");
+    }
+}
