@@ -31,7 +31,7 @@ inicio
     enquanto (leituraAlunos)
     inicio
         exibir("Informe o nome do aluno "| i + 1).
-        ler(nomesAlunos[i]).
+        ler(nomesAlunos[0]).
 
         exibir("Informe a nota do aluno "| i + 1).
         ler(notas[i]).
