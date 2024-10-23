@@ -9,7 +9,7 @@ public class Main
  public static void main(String[] args)
  {try
 	{
-		String arquivo = "C:\\Users\\artur.barbosa\\Documents\\GitHub\\caju-compiler\\Etapa 2 e 3 - Léxico e Sintático\\Caju\\teste\\teste.cj";
+		String arquivo = "C:\\Users\\artur.barbosa\\Documents\\GitHub\\caju-compiler\\Etapa 1 - Codigos em Caju\\codigo01.cj";
 
 		Lexer lexer =
 				new Lexer(
@@ -27,7 +27,7 @@ public class Main
 	}
   try
   {
-   String arquivo = "C:\\Users\\artur.barbosa\\Documents\\GitHub\\caju-compiler\\Etapa 2 e 3 - Léxico e Sintático\\Caju\\teste\\teste.cj";
+   String arquivo = "C:\\Users\\artur.barbosa\\Documents\\GitHub\\caju-compiler\\Etapa 1 - Codigos em Caju\\codigo01.cj";
   
    Parser p =
 		    new Parser(
