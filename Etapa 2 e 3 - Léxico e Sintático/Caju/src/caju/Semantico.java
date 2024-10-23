@@ -232,14 +232,21 @@ public class Semantico extends DepthFirstAdapter {
 		symbolTableManager.exitScope();
 	}
 
-	public void binaryOperation(String tipo, String operador, String tipo_resultado) {
+	public void operacaoBinaria(String[] tiposPermitidos, String operador, String tipoResultado) {
 		if (typeStack.size() >= 2) {
 			String rightType = typeStack.pop();
 			String leftType = typeStack.pop();
-			if (!leftType.equals(tipo) || !rightType.equals(tipo)) {
-				System.err.println("Erro: ambos os operandos de " + operador + " devem ser " + tipo + ".");
+
+			boolean leftValid = Arrays.asList(tiposPermitidos).contains(leftType);
+			boolean rightValid = Arrays.asList(tiposPermitidos).contains(rightType);
+
+			if (!leftValid || !rightValid) {
+				System.err.println("Erro: ambos os operandos de " + operador + " devem ser de um dos tipos: " +
+						Arrays.toString(tiposPermitidos) + ".");
+			} else {
+				// Se os tipos forem válidos, empurra o tipo do resultado
+				typeStack.push(tipoResultado);
 			}
-			typeStack.push(tipo_resultado);
 		} else {
 			System.err.println("Erro: Operandos insuficientes para a operação de " + operador + ".");
 		}
@@ -247,62 +254,82 @@ public class Semantico extends DepthFirstAdapter {
 
 	@Override
 	public void outAArOuAExp(AArOuAExp node) {
-		binaryOperation("booleano", "ou", "booleano");
+		String[] tiposPermitidosOu = {"numero", "caractere", "booleano"};
+		operacaoBinaria(tiposPermitidosOu, "ou", "booleano");
 	}
 
 	@Override
 	public void outAArEAExp(AArEAExp node) {
-		binaryOperation("booleano", "e", "booleano");
+		String[] tiposPermitidosE = {"numero", "caractere", "booleano"};
+		operacaoBinaria(tiposPermitidosE, "e", "booleano");
 	}
 
 	@Override
 	public void outAArIgualAExp(AArIgualAExp node) {
-		validateBinaryOperationWithSameType("booleano");
+		if (typeStack.size() >= 2) {
+			String rightType = typeStack.pop();
+			String leftType = typeStack.pop();
+
+			if (!leftType.equals(rightType)) {
+				System.err.println("Erro: operandos devem ser do mesmo tipo.");
+			}
+			typeStack.push("booleano");
+		} else {
+			System.err.println("Erro: Operandos insuficientes para a operação de '='.");
+		}
 	}
 
 	@Override
 	public void outAArMenorIgualAExp(AArMenorIgualAExp node) {
-		binaryOperation("numero", "<=", "booleano");
+		String[] tiposPermitidosMenorIgual = {"numero", "caractere", "booleano"};
+		operacaoBinaria(tiposPermitidosMenorIgual, "<=", "booleano");
 	}
 
 	@Override
 	public void outAArMaiorIgualAExp(AArMaiorIgualAExp node) {
-		binaryOperation("numero", ">=", "booleano");
+		String[] tiposPermitidosMaiorIgual = {"numero", "caractere", "booleano"};
+		operacaoBinaria(tiposPermitidosMaiorIgual, ">=", "booleano");
 	}
 
 	@Override
 	public void outAArMenorAExp(AArMenorAExp node) {
-		binaryOperation("numero", "<", "booleano");
+		String[] tiposPermitidosMenor = {"numero", "caractere", "booleano"};
+		operacaoBinaria(tiposPermitidosMenor, "<", "booleano");
 	}
 
 	@Override
 	public void outAArMaiorAExp(AArMaiorAExp node) {
-		binaryOperation("numero", ">", "booleano");
+		String[] tiposPermitidosMaior = {"numero", "caractere", "booleano"};
+		operacaoBinaria(tiposPermitidosMaior, ">", "booleano");
 	}
 
 	@Override
 	public void outAArMaisAExp(AArMaisAExp node) {
-		binaryOperation("numero", "+", "numero");
+		String[] tiposPermitidosSoma = {"numero", "caractere", "booleano"};
+		operacaoBinaria(tiposPermitidosSoma, "+", "numero");
 	}
 
 	@Override
 	public void outAArMenosAExp(AArMenosAExp node) {
-		binaryOperation("numero", "-", "numero");
+		String[] tiposPermitidosSubtracao = {"numero", "caractere", "booleano"};
+		operacaoBinaria(tiposPermitidosSubtracao, "-", "numero");
 	}
 
 	@Override
 	public void outAArMultAExp(AArMultAExp node) {
-		binaryOperation("numero", "*", "numero");
+		String[] tiposPermitidosMultiplicacao = {"numero", "caractere", "booleano"};
+		operacaoBinaria(tiposPermitidosMultiplicacao, "*", "numero");
 	}
 
 	@Override
 	public void outAArDivAExp(AArDivAExp node) {
-		binaryOperation("numero", "/", "numero");
+		String[] tiposPermitidosDivisao = {"numero", "caractere", "booleano"};
+		operacaoBinaria(tiposPermitidosDivisao, "/", "numero");
+
 		if (node.getDir().toString().trim().equals("0")) {
 			System.err.println("Divisão por 0!");
 		}
 	}
-
 	@Override
 	public void outAArNaoAExp(AArNaoAExp node) {
 		validateUnaryOperation("booleano", "nao");
