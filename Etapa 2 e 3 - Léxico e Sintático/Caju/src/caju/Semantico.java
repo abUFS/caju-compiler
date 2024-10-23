@@ -312,7 +312,8 @@ public class Semantico extends DepthFirstAdapter {
 	
 	@Override
     public void inAArParaCadaAComandoCasam(AArParaCadaAComandoCasam node)
-    {
+    {	
+		// Adicionar o tipo do vetor para verificar se a variavel é do tipo vetor
 		symbolTableManager.enterScope();
 		
 		node.getAComando();
