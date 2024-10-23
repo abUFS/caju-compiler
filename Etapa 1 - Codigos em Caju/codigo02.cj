@@ -7,10 +7,10 @@
     fácil de responder onde é possı́vel encontrar cada predeterminado lote de parafusos e quanto
     de cada um destes lotes a loja tem.Pedro recebe todos os parafusos e porcas em caixas etiquetadas
     com o intervalo de tamanho dos produtos.Por exemplo, duas caixas com os respectivos intervalos
-    (1, 2) e (4, 8) representam lotes de produtos com tamanho {1, 2, 4, 5, 6, 7, 8}. Um número de
+    (1, 2) e (4, 8) representam lotes de produtos com tamanho 1, 2, 4, 5, 6, 7, 8. Um número de
     parafuso e porca pode estar presente em mais de uma caixa, e ele aparece na lista uma vez para
     cada intervalo. Por exemplo, três caixas com os respectivos intervalos (1, 3), (2, 4) e (3, 5)
-    representam lotes de parafusos e porcas com tamanho {1, 2, 2, 3, 3, 3, 4, 4, 5}.
+    representam lotes de parafusos e porcas com tamanho 1, 2, 2, 3, 3, 3, 4, 4, 5.
 
     - Formato de entrada
     A entrada contém vários casos de teste e termina com EOF. Cada caso de teste consiste de várias linhas.
@@ -28,7 +28,7 @@
 }
 
 # função de ordenação
-vazio ordena(vetor numero[] A | numero n) inicio
+vazio ordena(vetor numero[100] A | numero n) inicio
 
     numero i, j, v.
 
@@ -58,7 +58,7 @@ fim
 
         para (i := 0 ; i < caixas ; i := i + 1) inicio
             ler(x | y).
-            para (j = x ; j <= y ; j := j + 1) inicio
+            para (j := x ; j <= y ; j := j + 1) inicio
                 prateleira[cont] := j.
                 cont := cont + 1.
             fim
@@ -68,16 +68,16 @@ fim
 
         ler(busca).
 
-        x := -1.
-        y := -1.
+        x := 0 - 1.
+        y := 0 - 1.
 
         para (i := 0 ; i < cont ; i := i + 1) inicio
-            se (prateleira[i] = busca e x = -1)  x := i.
-            se (prateleira[i] = busca e nao(x = -1)) y := i.
+            se (prateleira[i] = busca e x = 0 - 1)  x := i.
+            se (prateleira[i] = busca e nao(x = 0 - 1)) y := i.
         fim
 
-        se (nao(x = -1)) inicio 
-            se (y = -1) y := x.      
+        se (nao(x = 0 - 1)) inicio 
+            se (y = 0 - 1) y := x.      
             exibir(busca | " encontrado de " | x | " a " | y | "\n").
         fim
         senao exibir(busca | " nao encontrado\n").

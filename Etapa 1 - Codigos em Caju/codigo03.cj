@@ -8,9 +8,10 @@ numero fib(numero n) inicio
 fim
 
 # Função para realizar uma busca binária
-numero buscaBinaria(vetor numero[] arr| numero esquerda| numero direita| numero alvo) inicio
+numero buscaBinaria(vetor numero[100] arr | numero esquerda | numero direita | numero alvo) inicio
     enquanto(esquerda <= direita) inicio
-        numero meio := esquerda + (direita - esquerda) / 2.
+        numero meio.
+        meio := esquerda + (direita - esquerda) / 2.
 
         # se o elemento estiver no meio retorna ele
         se (arr[meio] = alvo)
@@ -25,21 +26,22 @@ numero buscaBinaria(vetor numero[] arr| numero esquerda| numero direita| numero 
 fim
 
 # Main
--> numero main() inicio
-    numero n, resultado.
-    vetor numero[30] sequencia.
+-> numero main()
+inicio
+    numero i, n, resultado.
+    vetor numero [30] sequencia.
 
     # solicita o n ao usuário
     exibir("Digite o valor de n: ").
     ler(n).
 
     # Exibe a sequência de Fibonacci até o n-ésimo termo
-    para(numero i := 0; i <= n; i := i + 1) inicio
+    para(i := 0; i <= n; i := i + 1) inicio
         sequencia[i] := fib(i).
         exibir(fib(i)).
     fim
 
-    resultado := buscaBinaria(sequencia| 0| 7| 2).
+    resultado := buscaBinaria( sequencia | 0| 7| 2).
     exibir(resultado).
 
     retorne 0.

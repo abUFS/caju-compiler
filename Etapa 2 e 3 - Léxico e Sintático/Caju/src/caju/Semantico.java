@@ -32,18 +32,7 @@ public class Semantico extends DepthFirstAdapter {
 	@Override
 	public void inAArProgramaAPrograma(AArProgramaAPrograma node) {
 		symbolTableManager.enterScope();
-
-		String exibirFunctionName = "exibir";
-		String exibirReturnType = "vazio";
-		if (symbolTableManager.lookup(exibirFunctionName) == null) {
-			symbolTableManager.addSymbol(exibirFunctionName, new Symbol(exibirReturnType, null));
-		}
-
-		String lerFunctionName = "ler";
-		String lerReturnType = "vazio";
-		if (symbolTableManager.lookup(lerFunctionName) == null) {
-			symbolTableManager.addSymbol(lerFunctionName, new Symbol(lerReturnType, null));
-		}
+		declareBuiltinFunctions();
 	}
 
 	@Override
@@ -53,9 +42,25 @@ public class Semantico extends DepthFirstAdapter {
 
 	@Override
 	public void inAArDecFuncaoADecFuncao(AArDecFuncaoADecFuncao node) {
+		declareFunction(node);
+	}
+
+	@Override
+	public void outAArDecFuncaoADecFuncao(AArDecFuncaoADecFuncao node) {
+		symbolTableManager.exitScope();
+		if (!currentFunctionReturnTypeStack.isEmpty()) {
+			currentFunctionReturnTypeStack.pop();
+		}
+	}
+
+	private void declareBuiltinFunctions() {
+		declareFunctionInScope("exibir", "vazio");
+		declareFunctionInScope("ler", "vazio");
+	}
+
+	private void declareFunction(AArDecFuncaoADecFuncao node) {
 		String functionName = node.getId().getText().trim();
 		String returnType = node.getATipoRetorno().toString().trim();
-
 		if (symbolTableManager.lookup(functionName) != null) {
 			System.err.println("Erro: Função " + functionName + " já está declarada.");
 		} else {
@@ -63,7 +68,24 @@ public class Semantico extends DepthFirstAdapter {
 			currentFunctionReturnTypeStack.push(returnType);
 		}
 		symbolTableManager.enterScope();
+		declareFunctionParameters(node);
+	}
+	
+    private void processParameter(PAParametro paramNode) {
+        if (paramNode instanceof AArParametroAParametro) {
+            AArParametroAParametro param = (AArParametroAParametro) paramNode;
+            String paramName = param.getId().getText();
+            String paramType = param.getATipo().toString().trim();
 
+            if (symbolTableManager.lookup(paramName) != null) {
+                System.err.println("Erro: Parâmetro " + paramName + " já está declarado.");
+            } else {
+                symbolTableManager.addSymbol(paramName, new Symbol(paramType, null));
+            }
+        }
+    }
+
+	private void declareFunctionParameters(AArDecFuncaoADecFuncao node) {
 		if (node.getAParametros() != null) {
 			PAParametros parametrosNode = node.getAParametros();
 			if (parametrosNode instanceof AArParametrosAParametros) {
@@ -78,25 +100,9 @@ public class Semantico extends DepthFirstAdapter {
 		}
 	}
 
-	@Override
-	public void outAArDecFuncaoADecFuncao(AArDecFuncaoADecFuncao node) {
-		symbolTableManager.exitScope();
-		if (!currentFunctionReturnTypeStack.isEmpty()) {
-			currentFunctionReturnTypeStack.pop();
-		}
-	}
-
-	private void processParameter(PAParametro paramNode) {
-		if (paramNode instanceof AArParametroAParametro) {
-			AArParametroAParametro param = (AArParametroAParametro) paramNode;
-			String paramName = param.getId().getText().trim();
-			String paramType = param.getATipo().toString().trim();
-
-			if (symbolTableManager.lookup(paramName) != null) {
-				System.err.println("Erro: Parâmetro " + paramName + " já está declarado.");
-			} else {
-				symbolTableManager.addSymbol(paramName, new Symbol(paramType, null));
-			}
+	private void declareFunctionInScope(String functionName, String returnType) {
+		if (symbolTableManager.lookup(functionName) == null) {
+			symbolTableManager.addSymbol(functionName, new Symbol(returnType, null));
 		}
 	}
 
@@ -104,24 +110,23 @@ public class Semantico extends DepthFirstAdapter {
 	public void inAArDecVariavelADecVariavel(AArDecVariavelADecVariavel node) {
 		String baseTypeWithDimensions = node.getATipo().toString().trim();
 		List<String> varNames = Arrays.asList(node.getAListaNomes().toString().split(" "));
-
 		String[] parts = baseTypeWithDimensions.split("\\s+");
 		String baseType = parts[0];
 		int[] dimensions = Arrays.stream(parts, 1, parts.length).mapToInt(Integer::parseInt).toArray();
-
 		for (String varName : varNames) {
 			if (parts.length == 1) {
-				if (symbolTableManager.lookup(varName) != null) {
-					System.err.println("Erro: Variável " + varName + " já está declarada neste escopo.");
-				} else {
-
-					symbolTableManager.addSymbol(varName, new Symbol(baseType, null));
-				}
+				declareVariable(varName, baseType);
 			} else {
 				generateVectorAccess(varName, dimensions, baseType);
-
 			}
+		}
+	}
 
+	private void declareVariable(String varName, String varType) {
+		if (symbolTableManager.lookup(varName) != null) {
+			System.err.println("Erro: Variável " + varName + " já está declarada neste escopo.");
+		} else {
+			symbolTableManager.addSymbol(varName, new Symbol(varType, null));
 		}
 	}
 
@@ -135,201 +140,102 @@ public class Semantico extends DepthFirstAdapter {
 			for (int index : indices) {
 				sb.append("[").append(index).append("]");
 			}
-
-			symbolTableManager.addSymbol(sb.toString(), new Symbol(baseType, null));
+			symbolTableManager.addSymbol(sb.toString().trim(), new Symbol(baseType, null));
 			return;
 		}
-
 		for (int i = 0; i < dimensions[depth]; i++) {
 			indices[depth] = i;
 			generateRecursive(vectorName, dimensions, indices, depth + 1, baseType);
 		}
 	}
 
-	// Atribuição de variável (ex: i := 1)
 	@Override
 	public void inAArAtribAAtrib(AArAtribAAtrib node) {
-		// tratar vetores
 		String varText = node.getAVar().toString().trim();
-
 		String[] parts = varText.split("\\s+");
 		String varName = parts[0];
 		String[] indexes = Arrays.stream(parts, 1, parts.length).toArray(String[]::new);
-
 		if (parts.length == 1) {
-			Symbol varSymbol = symbolTableManager.lookup(varName);
-
-			if (varSymbol == null) {
-				System.err.println("Erro: Variável " + varName + " não foi declarada.");
-			} else {
-				if (node.getAExp() != null) {
-					node.getAExp().apply(this);
-
-				}
-
-				String varType = varSymbol.getType().trim();
-
-				if (typeStack.isEmpty()) {
-					System.err.println("Erro: Nenhum tipo de expressão encontrado na pilha de tipos.");
-					
-				} else {
-					String expType = typeStack.pop();
-					if (!varType.equals(expType)) {
-						System.err.println("Erro: incompatibilidade de tipo na atribuição. A variável " + varName
-								+ " é do tipo " + varType + ", mas a expressão é do tipo " + expType + ".");
-					}
-					else {
-						/* set value da variável*/
-					}
-				}
-			}
+			handleSimpleVariableAssignment(varName, node);
 		} else {
-			Boolean[] canBeConverted = Arrays.stream(parts, 1, parts.length).map(s -> {
-				try {
-					Integer.parseInt(s);
-					return true;
-				} catch (NumberFormatException e) {
-					return false;
-				}
-			}).toArray(Boolean[]::new);
-
-			boolean[] result = new boolean[canBeConverted.length];
-			for (int i = 0; i < canBeConverted.length; i++) {
-				result[i] = canBeConverted[i];
-			}
-
-			int position = 0;
-			for (String index : indexes) {
-
-				if (!result[position]) {
-					Symbol indexVar = symbolTableManager.lookup(index);
-					if (!indexVar.getType().equals("numero")) {
-						System.err.println("Erro: Variável índice" + index + " não é inteira.");
-
-					}
-				} else {
-					/* verificar se está no limite do tamanho do array */
-				}
-
-			}
-				
+			handleIndexedVariableAssignment(varName, indexes);
 		}
 	}
 
-	@Override
-	public void inAArBlocoABloco(AArBlocoABloco node) {
-		symbolTableManager.enterScope();
-	}
-
-	@Override
-	public void outAArBlocoABloco(AArBlocoABloco node) {
-		symbolTableManager.exitScope();
-	}
-
-	@Override
-	public void inAArChamadaAChamada(AArChamadaAChamada node) {
-		String functionName = node.getId().getText().trim();
-		Symbol funcSymbol = symbolTableManager.lookup(functionName);
-
-		if (funcSymbol == null) {
-			System.err.println("Erro: Função " + functionName + " não foi declarada.");
+	private void handleSimpleVariableAssignment(String varName, AArAtribAAtrib node) {
+		Symbol varSymbol = symbolTableManager.lookup(varName);
+		if (varSymbol == null) {
+			System.err.println("Erro: Variável " + varName + " não foi declarada.");
 		} else {
-			typeStack.push(funcSymbol.getType());
+			processExpression(node.getAExp());
+			validateAssignment(varName, varSymbol);
 		}
 	}
 
-	@Override
-	public void inAArRetorneAComandoSemCasam(AArRetorneAComandoSemCasam node) {
-		if (node.getAExp() != null) {
-			validateReturnType();
+	private void handleIndexedVariableAssignment(String varName, String[] indexes) {
+		Boolean[] canBeConverted = Arrays.stream(indexes).map(this::canBeInteger).toArray(Boolean[]::new);
+		int position = 0;
+		for (String index : indexes) {
+			if (!canBeConverted[position]) {
+				Symbol indexVar = symbolTableManager.lookup(index);
+				if (!indexVar.getType().equals("numero")) {
+					System.err.println("Erro: Variável índice" + index + " não é inteira.");
+				}
+			}
 		}
 	}
 
-	@Override
-	public void inAArSeAComandoCasam(AArSeAComandoCasam node) {
-		symbolTableManager.enterScope();
+	private Boolean canBeInteger(String s) {
+		try {
+			Integer.parseInt(s);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
-	@Override
-	public void outAArSeAComandoCasam(AArSeAComandoCasam node) {
-		symbolTableManager.exitScope();
-	}
-
-	@Override
-	public void inAArSenaoAComandoCasam(AArSenaoAComandoCasam node) {
-		symbolTableManager.enterScope();
-	}
-
-	@Override
-	public void outAArSenaoAComandoCasam(AArSenaoAComandoCasam node) {
-		symbolTableManager.exitScope();
-	}
-
-	private void validateReturnType() {
+	private void validateAssignment(String varName, Symbol varSymbol) {
 		if (!typeStack.isEmpty()) {
-			String returnType = typeStack.pop();
-			if (!currentFunctionReturnTypeStack.isEmpty()) {
-				String expectedReturnType = currentFunctionReturnTypeStack.peek();
-				if (!returnType.equals(expectedReturnType)) {
-					System.err.println("Erro: incompatibilidade de tipo de retorno. Esperado " + expectedReturnType
-							+ ", mas obteve " + returnType + ".");
-				}
-			} else {
-				System.err.println("Erro: Nenhum tipo de função ativa encontrada.");
+			String expType = typeStack.pop();
+			String varType = varSymbol.getType().trim();
+			if (!varType.equals(expType)) {
+				System.err.println("Erro: incompatibilidade de tipo na atribuição. A variável " + varName + " é do tipo " + varType + ", mas a expressão é do tipo " + expType + ".");
 			}
 		} else {
-			System.err.println("Erro: Nenhum tipo de retorno encontrado na pilha de tipos.");
+			System.err.println("Erro: Nenhum tipo de expressão encontrado na pilha de tipos.");
+		}
+	}
+
+	private void processExpression(PAExp exp) {
+		if (exp != null) {
+			exp.apply(this);
 		}
 	}
 
 	@Override
-	public void inAArEnquantoAComandoCasam(AArEnquantoAComandoCasam node) {
+	public void inAArParaCadaAComandoCasam(AArParaCadaAComandoCasam node) {
 		symbolTableManager.enterScope();
+		String baseTypeWithDimensions = node.getATipo().toString().trim();
+		String varName = node.getEsq().toString().trim();
+		String[] parts = baseTypeWithDimensions.split("\\s+");
+		String baseType = parts[0];
+		if (parts.length > 1) {
+			int[] dimensions = Arrays.stream(parts, 1, parts.length).mapToInt(Integer::parseInt).toArray();
+			generateVectorAccess(varName, dimensions, baseType);
+		} else {
+			declareVariable(varName, baseType);
+		}
 	}
 
 	@Override
-	public void outAArEnquantoAComandoCasam(AArEnquantoAComandoCasam node) {
-
-		symbolTableManager.exitScope();
-		/*
-		 * if (!typeStack.isEmpty()) { String conditionType = typeStack.pop(); if
-		 * (!conditionType.equals("booleano")) {
-		 * System.err.println("Erro: A condição em 'enquanto' deve ser booleana."); } }
-		 * else { System.err.
-		 * println("Erro: Nenhum tipo de condição encontrado na pilha de tipos."); }
-		 */
-	}
-
-	@Override
-	public void inAArParaAComandoCasam(AArParaAComandoCasam node) {
-		symbolTableManager.enterScope();
-	}
-
-	@Override
-	public void outAArParaAComandoCasam(AArParaAComandoCasam node) {
+	public void outAArParaCadaAComandoCasam(AArParaCadaAComandoCasam node) {
 		symbolTableManager.exitScope();
 	}
-	
-	@Override
-    public void inAArParaCadaAComandoCasam(AArParaCadaAComandoCasam node)
-    {	
-		// Adicionar o tipo do vetor para verificar se a variavel é do tipo vetor
-		symbolTableManager.enterScope();
-		
-		node.getAComando();
-    }
-    
-	@Override
-    public void outAArParaCadaAComandoCasam(AArParaCadaAComandoCasam node)
-    {
-		symbolTableManager.exitScope();
-    }
 
-	public void operacaoBinaria(String tipo, String operador, String tipo_resultado) {
+	public void binaryOperation(String tipo, String operador, String tipo_resultado) {
 		if (typeStack.size() >= 2) {
 			String rightType = typeStack.pop();
 			String leftType = typeStack.pop();
-
 			if (!leftType.equals(tipo) || !rightType.equals(tipo)) {
 				System.err.println("Erro: ambos os operandos de " + operador + " devem ser " + tipo + ".");
 			}
@@ -341,68 +247,57 @@ public class Semantico extends DepthFirstAdapter {
 
 	@Override
 	public void outAArOuAExp(AArOuAExp node) {
-		operacaoBinaria("booleano", "ou", "booleano");
+		binaryOperation("booleano", "ou", "booleano");
 	}
 
 	@Override
 	public void outAArEAExp(AArEAExp node) {
-		operacaoBinaria("booleano", "e", "booleano");
+		binaryOperation("booleano", "e", "booleano");
 	}
 
 	@Override
 	public void outAArIgualAExp(AArIgualAExp node) {
-		if (typeStack.size() >= 2) {
-			String rightType = typeStack.pop();
-			String leftType = typeStack.pop();
-
-			if (!leftType.equals(rightType)) {
-				System.err.println("Erro: operandos devem ser do mesmo tipo.");
-			}
-			typeStack.push("booleano");
-		} else {
-			System.err.println("Erro: Operandos insuficientes para a operação de '='.");
-		}
+		validateBinaryOperationWithSameType("booleano");
 	}
 
 	@Override
 	public void outAArMenorIgualAExp(AArMenorIgualAExp node) {
-		operacaoBinaria("numero", "<=", "booleano");
+		binaryOperation("numero", "<=", "booleano");
 	}
 
 	@Override
 	public void outAArMaiorIgualAExp(AArMaiorIgualAExp node) {
-		operacaoBinaria("numero", ">=", "booleano");
+		binaryOperation("numero", ">=", "booleano");
 	}
 
 	@Override
 	public void outAArMenorAExp(AArMenorAExp node) {
-		operacaoBinaria("numero", "<", "booleano");
+		binaryOperation("numero", "<", "booleano");
 	}
 
 	@Override
 	public void outAArMaiorAExp(AArMaiorAExp node) {
-		operacaoBinaria("numero", ">", "booleano");
+		binaryOperation("numero", ">", "booleano");
 	}
 
 	@Override
 	public void outAArMaisAExp(AArMaisAExp node) {
-		operacaoBinaria("numero", "+", "numero");
+		binaryOperation("numero", "+", "numero");
 	}
 
 	@Override
 	public void outAArMenosAExp(AArMenosAExp node) {
-		operacaoBinaria("numero", "-", "numero");
+		binaryOperation("numero", "-", "numero");
 	}
 
 	@Override
 	public void outAArMultAExp(AArMultAExp node) {
-		operacaoBinaria("numero", "*", "numero");
+		binaryOperation("numero", "*", "numero");
 	}
 
 	@Override
 	public void outAArDivAExp(AArDivAExp node) {
-		operacaoBinaria("numero", "/", "numero");
-
+		binaryOperation("numero", "/", "numero");
 		if (node.getDir().toString().trim().equals("0")) {
 			System.err.println("Divisão por 0!");
 		}
@@ -410,63 +305,64 @@ public class Semantico extends DepthFirstAdapter {
 
 	@Override
 	public void outAArNaoAExp(AArNaoAExp node) {
+		validateUnaryOperation("booleano", "nao");
+	}
+
+	private void validateBinaryOperationWithSameType(String resultType) {
+		if (typeStack.size() >= 2) {
+			String rightType = typeStack.pop();
+			String leftType = typeStack.pop();
+			if (!leftType.equals(rightType)) {
+				System.err.println("Erro: operandos devem ser do mesmo tipo.");
+			}
+			typeStack.push(resultType);
+		} else {
+			System.err.println("Erro: Operandos insuficientes para a operação de '='.");
+		}
+	}
+
+	private void validateUnaryOperation(String expectedType, String operator) {
 		if (typeStack.size() >= 1) {
 			String type = typeStack.pop();
-
-			if (!type.equals("booleano")) {
-				System.err.println("Erro: operando deve ser booleano .");
+			if (!type.equals(expectedType)) {
+				System.err.println("Erro: operando deve ser " + expectedType + " para operação " + operator + ".");
 			}
-			typeStack.push("booleano");
+			typeStack.push(expectedType);
 		} else {
-			System.err.println("Erro: Operandos insuficientes para a operação de 'nao' .");
+			System.err.println("Erro: Operandos insuficientes para a operação de '" + operator + "'.");
 		}
 	}
 
 	@Override
 	public void inAArVarAExp(AArVarAExp node) {
 		String varWithIndex = node.getAVar().toString().trim();
-
 		String[] parts = varWithIndex.split("\\s+");
-
 		String varName = parts[0];
 		String[] indexes = Arrays.stream(parts, 1, parts.length).toArray(String[]::new);
-
 		if (parts.length == 1) {
-			Symbol varSymbol = symbolTableManager.lookup(varName);
-
-			if (varSymbol != null) {
-				typeStack.push(varSymbol.getType());
-			} else {
-				System.err.println("Erro: Variável " + varName + " não foi declarada.");
-			}
+			handleVariableAccess(varName);
 		} else {
-			Boolean[] canBeConverted = Arrays.stream(parts, 1, parts.length).map(s -> {
-				try {
-					Integer.parseInt(s);
-					return true;
-				} catch (NumberFormatException e) {
-					return false;
+			handleIndexedVariableAccess(varName, indexes);
+		}
+	}
+
+	private void handleVariableAccess(String varName) {
+		Symbol varSymbol = symbolTableManager.lookup(varName);
+		if (varSymbol != null) {
+			typeStack.push(varSymbol.getType());
+		} else {
+			System.err.println("Erro: Variável " + varName + " não foi declarada.");
+		}
+	}
+
+	private void handleIndexedVariableAccess(String varName, String[] indexes) {
+		Boolean[] canBeConverted = Arrays.stream(indexes).map(this::canBeInteger).toArray(Boolean[]::new);
+		for (int i = 0; i < indexes.length; i++) {
+			if (!canBeConverted[i]) {
+				Symbol indexVar = symbolTableManager.lookup(indexes[i]);
+				if (!indexVar.getType().equals("numero")) {
+					System.err.println("Erro: Variável índice" + indexes[i] + " não é inteira.");
 				}
-			}).toArray(Boolean[]::new);
-
-			boolean[] result = new boolean[canBeConverted.length];
-			for (int i = 0; i < canBeConverted.length; i++) {
-				result[i] = canBeConverted[i];
-			}
-
-			int position = 0;
-			for (String index : indexes) {
-
-				if (!result[position]) {
-					Symbol indexVar = symbolTableManager.lookup(index);
-					if (!indexVar.getType().equals("numero")) {
-						System.err.println("Erro: Variável índice" + index + " não é inteira.");
-
-					}
-				} else {
-					/* verificar se está no limite do tamanho do array */
-				}
-
 			}
 		}
 	}
@@ -490,5 +386,4 @@ public class Semantico extends DepthFirstAdapter {
 	public void inAArStringAExp(AArStringAExp node) {
 		typeStack.push("char[]");
 	}
-
 }
