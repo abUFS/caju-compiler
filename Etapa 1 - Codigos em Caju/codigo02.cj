@@ -52,7 +52,7 @@ fim
     numero caixas, busca, cont, i, j, x, y.
     vetor numero[10000] prateleira.
 
-    enquanto (ler(caixas) = verdadeiro) inicio
+    enquanto (ler(caixas)) inicio
 
         cont := 0.
 

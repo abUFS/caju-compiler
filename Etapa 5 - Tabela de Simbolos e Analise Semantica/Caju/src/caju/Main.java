@@ -7,9 +7,11 @@ import java.io.*;
 public class Main
 {
  public static void main(String[] args)
- {try
+ {	
+	 String arquivo = "C:\\Users\\Artur\\Documents\\GitHub\\caju-compiler\\Etapa 1 - Codigos em Caju\\codigo03.cj";
+	 
+	 try
 	{
-		String arquivo = "C:\\Users\\Artur\\Documents\\GitHub\\caju-compiler\\Etapa 1 - Codigos em Caju\\codigo01.cj";
 
 		Lexer lexer =
 				new Lexer(
@@ -27,7 +29,6 @@ public class Main
 	}
   try
   {
-   String arquivo = "C:\\Users\\Artur\\Documents\\GitHub\\caju-compiler\\Etapa 1 - Codigos em Caju\\codigo01.cj";
   
    Parser p =
 		    new Parser(
@@ -41,6 +42,7 @@ public class Main
    //Imprime árvore em interface gráfica
    //tree.apply(new ASTDisplay());
    
+   // Análise semântica
    tree.apply(new Semantico());
   }
   catch(Exception e)
