@@ -12,11 +12,12 @@ public class Semantico extends DepthFirstAdapter {
 
 	private SymbolTableManager symbolTableManager;
 	private Stack<String> typeStack;
-	private Stack<String> currentFunctionReturnTypeStack = new Stack<>();
+	private Stack<String> currentFunctionReturnTypeStack;
 
 	public Semantico() {
 		symbolTableManager = new SymbolTableManager();
 		typeStack = new Stack<>();
+		currentFunctionReturnTypeStack = new Stack<>();
 	}
 
 	@Override
@@ -71,20 +72,6 @@ public class Semantico extends DepthFirstAdapter {
 		declareFunctionParameters(node);
 	}
 	
-    private void processParameter(PAParametro paramNode) {
-        if (paramNode instanceof AArParametroAParametro) {
-            AArParametroAParametro param = (AArParametroAParametro) paramNode;
-            String paramName = param.getId().getText();
-            String paramType = param.getATipo().toString().trim();
-
-            if (symbolTableManager.lookup(paramName) != null) {
-                System.err.println("Erro: Parâmetro " + paramName + " já está declarado.");
-            } else {
-                symbolTableManager.addSymbol(paramName, new Symbol(paramType, null));
-            }
-        }
-    }
-
 	private void declareFunctionParameters(AArDecFuncaoADecFuncao node) {
 		if (node.getAParametros() != null) {
 			PAParametros parametrosNode = node.getAParametros();
@@ -99,6 +86,25 @@ public class Semantico extends DepthFirstAdapter {
 			}
 		}
 	}
+	
+	private void processParameter(PAParametro paramNode) {
+	    if (paramNode instanceof AArParametroAParametro) {
+	        AArParametroAParametro param = (AArParametroAParametro) paramNode;
+	        String baseTypeWithDimensions = param.getATipo().toString().trim();
+	        String paramName = param.getId().getText().trim();
+
+	        String[] parts = baseTypeWithDimensions.split("\\s+");
+	        String baseType = parts[0];
+	        int[] dimensions = Arrays.stream(parts, 1, parts.length).mapToInt(Integer::parseInt).toArray();
+
+	        if (parts.length == 1) {
+	            declareVariable(paramName, baseType);
+	        } else {
+	            declareVector(paramName, baseType, dimensions);
+	        }
+	    }
+	}
+
 
 	private void declareFunctionInScope(String functionName, String returnType) {
 		if (symbolTableManager.lookup(functionName) == null) {
@@ -117,7 +123,7 @@ public class Semantico extends DepthFirstAdapter {
 			if (parts.length == 1) {
 				declareVariable(varName, baseType);
 			} else {
-				generateVectorAccess(varName, dimensions, baseType);
+				declareVector(varName, baseType, dimensions);
 			}
 		}
 	}
@@ -130,22 +136,11 @@ public class Semantico extends DepthFirstAdapter {
 		}
 	}
 
-	public void generateVectorAccess(String vectorName, int[] dimensions, String baseType) {
-		generateRecursive(vectorName, dimensions, new int[dimensions.length], 0, baseType);
-	}
-
-	private void generateRecursive(String vectorName, int[] dimensions, int[] indices, int depth, String baseType) {
-		if (depth == dimensions.length) {
-			StringBuilder sb = new StringBuilder(vectorName);
-			for (int index : indices) {
-				sb.append("[").append(index).append("]");
-			}
-			symbolTableManager.addSymbol(sb.toString().trim(), new Symbol(baseType, null));
-			return;
-		}
-		for (int i = 0; i < dimensions[depth]; i++) {
-			indices[depth] = i;
-			generateRecursive(vectorName, dimensions, indices, depth + 1, baseType);
+	private void declareVector(String vectorName, String baseType, int[] dimensions) {
+		if (symbolTableManager.lookup(vectorName) != null) {
+			System.err.println("Erro: Vetor " + vectorName + " já está declarado neste escopo.");
+		} else {
+			symbolTableManager.addSymbol(vectorName, new Symbol(baseType, null, dimensions));
 		}
 	}
 
@@ -173,13 +168,22 @@ public class Semantico extends DepthFirstAdapter {
 	}
 
 	private void handleIndexedVariableAssignment(String varName, String[] indexes) {
-		Boolean[] canBeConverted = Arrays.stream(indexes).map(this::canBeInteger).toArray(Boolean[]::new);
-		int position = 0;
-		for (String index : indexes) {
-			if (!canBeConverted[position]) {
+		Symbol symbol = symbolTableManager.lookup(varName);
+		if (symbol == null || !symbol.isVector()) {
+			System.err.println("Erro: Variável " + varName + " não é um vetor ou não foi declarada.");
+			return;
+		}
+		validateIndexes(varName, indexes, symbol.getDimensions());
+	}
+
+	private void validateIndexes(String varName, String[] indexes, int[] dimensions) {
+
+		for (int i = 0; i < indexes.length; i++) {
+			String index = indexes[i];
+			if (!canBeInteger(index)) {
 				Symbol indexVar = symbolTableManager.lookup(index);
-				if (!indexVar.getType().equals("numero")) {
-					System.err.println("Erro: Variável índice" + index + " não é inteira.");
+				if (indexVar == null || !"numero".equals(indexVar.getType())) {
+					System.err.println("Erro: Índice " + index + " não é inteiro válido.");
 				}
 			}
 		}
@@ -221,7 +225,7 @@ public class Semantico extends DepthFirstAdapter {
 		String baseType = parts[0];
 		if (parts.length > 1) {
 			int[] dimensions = Arrays.stream(parts, 1, parts.length).mapToInt(Integer::parseInt).toArray();
-			generateVectorAccess(varName, dimensions, baseType);
+			declareVector(varName, baseType, dimensions);
 		} else {
 			declareVariable(varName, baseType);
 		}
@@ -232,19 +236,16 @@ public class Semantico extends DepthFirstAdapter {
 		symbolTableManager.exitScope();
 	}
 
-	public void operacaoBinaria(String[] tiposPermitidos, String operador, String tipoResultado) {
+	public void binaryOperation(String[] tiposPermitidos, String operador, String tipoResultado) {
 		if (typeStack.size() >= 2) {
 			String rightType = typeStack.pop();
 			String leftType = typeStack.pop();
-
 			boolean leftValid = Arrays.asList(tiposPermitidos).contains(leftType);
 			boolean rightValid = Arrays.asList(tiposPermitidos).contains(rightType);
-
 			if (!leftValid || !rightValid) {
 				System.err.println("Erro: ambos os operandos de " + operador + " devem ser de um dos tipos: " +
 						Arrays.toString(tiposPermitidos) + ".");
 			} else {
-				// Se os tipos forem válidos, empurra o tipo do resultado
 				typeStack.push(tipoResultado);
 			}
 		} else {
@@ -255,13 +256,13 @@ public class Semantico extends DepthFirstAdapter {
 	@Override
 	public void outAArOuAExp(AArOuAExp node) {
 		String[] tiposPermitidosOu = {"numero", "caractere", "booleano"};
-		operacaoBinaria(tiposPermitidosOu, "ou", "booleano");
+		binaryOperation(tiposPermitidosOu, "ou", "booleano");
 	}
 
 	@Override
 	public void outAArEAExp(AArEAExp node) {
 		String[] tiposPermitidosE = {"numero", "caractere", "booleano"};
-		operacaoBinaria(tiposPermitidosE, "e", "booleano");
+		binaryOperation(tiposPermitidosE, "e", "booleano");
 	}
 
 	@Override
@@ -269,7 +270,6 @@ public class Semantico extends DepthFirstAdapter {
 		if (typeStack.size() >= 2) {
 			String rightType = typeStack.pop();
 			String leftType = typeStack.pop();
-
 			if (!leftType.equals(rightType)) {
 				System.err.println("Erro: operandos devem ser do mesmo tipo.");
 			}
@@ -282,70 +282,58 @@ public class Semantico extends DepthFirstAdapter {
 	@Override
 	public void outAArMenorIgualAExp(AArMenorIgualAExp node) {
 		String[] tiposPermitidosMenorIgual = {"numero", "caractere", "booleano"};
-		operacaoBinaria(tiposPermitidosMenorIgual, "<=", "booleano");
+		binaryOperation(tiposPermitidosMenorIgual, "<=", "booleano");
 	}
 
 	@Override
 	public void outAArMaiorIgualAExp(AArMaiorIgualAExp node) {
 		String[] tiposPermitidosMaiorIgual = {"numero", "caractere", "booleano"};
-		operacaoBinaria(tiposPermitidosMaiorIgual, ">=", "booleano");
+		binaryOperation(tiposPermitidosMaiorIgual, ">=", "booleano");
 	}
 
 	@Override
 	public void outAArMenorAExp(AArMenorAExp node) {
 		String[] tiposPermitidosMenor = {"numero", "caractere", "booleano"};
-		operacaoBinaria(tiposPermitidosMenor, "<", "booleano");
+		binaryOperation(tiposPermitidosMenor, "<", "booleano");
 	}
 
 	@Override
 	public void outAArMaiorAExp(AArMaiorAExp node) {
 		String[] tiposPermitidosMaior = {"numero", "caractere", "booleano"};
-		operacaoBinaria(tiposPermitidosMaior, ">", "booleano");
+		binaryOperation(tiposPermitidosMaior, ">", "booleano");
 	}
 
 	@Override
 	public void outAArMaisAExp(AArMaisAExp node) {
 		String[] tiposPermitidosSoma = {"numero", "caractere", "booleano"};
-		operacaoBinaria(tiposPermitidosSoma, "+", "numero");
+		binaryOperation(tiposPermitidosSoma, "+", "numero");
 	}
 
 	@Override
 	public void outAArMenosAExp(AArMenosAExp node) {
 		String[] tiposPermitidosSubtracao = {"numero", "caractere", "booleano"};
-		operacaoBinaria(tiposPermitidosSubtracao, "-", "numero");
+		binaryOperation(tiposPermitidosSubtracao, "-", "numero");
 	}
 
 	@Override
 	public void outAArMultAExp(AArMultAExp node) {
 		String[] tiposPermitidosMultiplicacao = {"numero", "caractere", "booleano"};
-		operacaoBinaria(tiposPermitidosMultiplicacao, "*", "numero");
+		binaryOperation(tiposPermitidosMultiplicacao, "*", "numero");
 	}
 
 	@Override
 	public void outAArDivAExp(AArDivAExp node) {
 		String[] tiposPermitidosDivisao = {"numero", "caractere", "booleano"};
-		operacaoBinaria(tiposPermitidosDivisao, "/", "numero");
+		binaryOperation(tiposPermitidosDivisao, "/", "numero");
 
 		if (node.getDir().toString().trim().equals("0")) {
 			System.err.println("Divisão por 0!");
 		}
 	}
+
 	@Override
 	public void outAArNaoAExp(AArNaoAExp node) {
 		validateUnaryOperation("booleano", "nao");
-	}
-
-	private void validateBinaryOperationWithSameType(String resultType) {
-		if (typeStack.size() >= 2) {
-			String rightType = typeStack.pop();
-			String leftType = typeStack.pop();
-			if (!leftType.equals(rightType)) {
-				System.err.println("Erro: operandos devem ser do mesmo tipo.");
-			}
-			typeStack.push(resultType);
-		} else {
-			System.err.println("Erro: Operandos insuficientes para a operação de '='.");
-		}
 	}
 
 	private void validateUnaryOperation(String expectedType, String operator) {
@@ -383,15 +371,12 @@ public class Semantico extends DepthFirstAdapter {
 	}
 
 	private void handleIndexedVariableAccess(String varName, String[] indexes) {
-		Boolean[] canBeConverted = Arrays.stream(indexes).map(this::canBeInteger).toArray(Boolean[]::new);
-		for (int i = 0; i < indexes.length; i++) {
-			if (!canBeConverted[i]) {
-				Symbol indexVar = symbolTableManager.lookup(indexes[i]);
-				if (!indexVar.getType().equals("numero")) {
-					System.err.println("Erro: Variável índice" + indexes[i] + " não é inteira.");
-				}
-			}
+		Symbol symbol = symbolTableManager.lookup(varName);
+		if (symbol == null || !symbol.isVector()) {
+			System.err.println("Erro: Variável " + varName + " não é um vetor ou não foi declarada.");
+			return;
 		}
+		validateIndexes(varName, indexes, symbol.getDimensions());
 	}
 
 	@Override

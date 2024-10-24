@@ -98,10 +98,18 @@ public class SymbolTableManager {
     public static class Symbol {
         private String type;
         private Object value;
+        private int[] dimensions;
 
         public Symbol(String type, Object value) {
             this.type = type;
             this.value = value;
+            this.dimensions = null;
+        }
+
+        public Symbol(String type, Object value, int[] dimensions) {
+            this.type = type;
+            this.value = value;
+            this.dimensions = dimensions;
         }
 
         public String getType() {
@@ -115,6 +123,13 @@ public class SymbolTableManager {
         public void setValue(Object value) {
             this.value = value;
         }
-    }
 
+        public int[] getDimensions() {
+            return dimensions;
+        }
+
+        public boolean isVector() {
+            return dimensions != null;
+        }
+    }
 }
