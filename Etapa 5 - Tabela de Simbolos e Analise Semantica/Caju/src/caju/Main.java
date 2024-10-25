@@ -8,7 +8,7 @@ public class Main
 {
  public static void main(String[] args)
  {	
-	 String arquivo = "C:\\Users\\Artur\\Documents\\GitHub\\caju-compiler\\Etapa 1 - Codigos em Caju\\codigo03.cj";
+	 String arquivo = ".\\caju-compiler\\Etapa 1 - Codigos em Caju\\codigo03.cj";
 	 
 	 try
 	{

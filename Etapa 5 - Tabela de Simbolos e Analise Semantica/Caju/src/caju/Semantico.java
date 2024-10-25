@@ -13,11 +13,19 @@ public class Semantico extends DepthFirstAdapter {
 	private SymbolTableManager symbolTableManager;
 	private Stack<String> typeStack;
 	private Stack<String> currentFunctionReturnTypeStack;
+	private int errorCount;
 
 	public Semantico() {
 		symbolTableManager = new SymbolTableManager();
 		typeStack = new Stack<>();
 		currentFunctionReturnTypeStack = new Stack<>();
+		errorCount = 0;
+	}
+	
+	private void semanticError(String message)
+	{	
+		errorCount ++;
+		System.err.println(message);
 	}
 
 	@Override
@@ -27,7 +35,12 @@ public class Semantico extends DepthFirstAdapter {
 
 	@Override
 	public void outStart(Start node) {
-		System.out.println("Finalizando Semantico");
+		if (errorCount > 0) {
+			System.out.println("Erros: " + errorCount + ".");
+		}
+		else {
+			System.out.println("Finalizando sem erros");
+		}
 	}
 
 	@Override
@@ -63,7 +76,7 @@ public class Semantico extends DepthFirstAdapter {
 		String functionName = node.getId().getText().trim();
 		String returnType = node.getATipoRetorno().toString().trim();
 		if (symbolTableManager.lookup(functionName) != null) {
-			System.err.println("Erro: Função " + functionName + " já está declarada.");
+			semanticError("Erro: Função " + functionName + " já está declarada.");
 		} else {
 			symbolTableManager.addSymbol(functionName, new Symbol(returnType, null));
 			currentFunctionReturnTypeStack.push(returnType);
@@ -130,7 +143,7 @@ public class Semantico extends DepthFirstAdapter {
 
 	private void declareVariable(String varName, String varType) {
 		if (symbolTableManager.lookup(varName) != null) {
-			System.err.println("Erro: Variável " + varName + " já está declarada neste escopo.");
+			semanticError("Erro: Variável " + varName + " já está declarada neste escopo.");
 		} else {
 			symbolTableManager.addSymbol(varName, new Symbol(varType, null));
 		}
@@ -138,7 +151,7 @@ public class Semantico extends DepthFirstAdapter {
 
 	private void declareVector(String vectorName, String baseType, int[] dimensions) {
 		if (symbolTableManager.lookup(vectorName) != null) {
-			System.err.println("Erro: Vetor " + vectorName + " já está declarado neste escopo.");
+			semanticError("Erro: Vetor " + vectorName + " já está declarado neste escopo.");
 		} else {
 			symbolTableManager.addSymbol(vectorName, new Symbol(baseType, null, dimensions));
 		}
@@ -160,7 +173,7 @@ public class Semantico extends DepthFirstAdapter {
 	private void handleSimpleVariableAssignment(String varName, AArAtribAAtrib node) {
 		Symbol varSymbol = symbolTableManager.lookup(varName);
 		if (varSymbol == null) {
-			System.err.println("Erro: Variável " + varName + " não foi declarada.");
+			semanticError("Erro: Variável " + varName + " não foi declarada.");
 		} else {
 			processExpression(node.getAExp());
 			validateAssignment(varName, varSymbol);
@@ -170,7 +183,7 @@ public class Semantico extends DepthFirstAdapter {
 	private void handleIndexedVariableAssignment(String varName, String[] indexes) {
 		Symbol symbol = symbolTableManager.lookup(varName);
 		if (symbol == null || !symbol.isVector()) {
-			System.err.println("Erro: Variável " + varName + " não é um vetor ou não foi declarada.");
+			semanticError("Erro: Variável " + varName + " não é um vetor ou não foi declarada.");
 			return;
 		}
 		validateIndexes(varName, indexes, symbol.getDimensions());
@@ -183,7 +196,7 @@ public class Semantico extends DepthFirstAdapter {
 			if (!canBeInteger(index)) {
 				Symbol indexVar = symbolTableManager.lookup(index);
 				if (indexVar == null || !"numero".equals(indexVar.getType())) {
-					System.err.println("Erro: Índice " + index + " não é inteiro válido.");
+					semanticError("Erro: Índice " + index + " não é inteiro válido.");
 				}
 			}
 		}
@@ -203,10 +216,10 @@ public class Semantico extends DepthFirstAdapter {
 			String expType = typeStack.pop();
 			String varType = varSymbol.getType().trim();
 			if (!varType.equals(expType)) {
-				System.err.println("Erro: incompatibilidade de tipo na atribuição. A variável " + varName + " é do tipo " + varType + ", mas a expressão é do tipo " + expType + ".");
+				semanticError("Erro: incompatibilidade de tipo na atribuição. A variável " + varName + " é do tipo " + varType + ", mas a expressão é do tipo " + expType + ".");
 			}
 		} else {
-			System.err.println("Erro: Nenhum tipo de expressão encontrado na pilha de tipos.");
+			semanticError("Erro: Nenhum tipo de expressão encontrado na pilha de tipos.");
 		}
 	}
 
@@ -243,13 +256,13 @@ public class Semantico extends DepthFirstAdapter {
 			boolean leftValid = Arrays.asList(tiposPermitidos).contains(leftType);
 			boolean rightValid = Arrays.asList(tiposPermitidos).contains(rightType);
 			if (!leftValid || !rightValid) {
-				System.err.println("Erro: ambos os operandos de " + operador + " devem ser de um dos tipos: " +
+				semanticError("Erro: ambos os operandos de " + operador + " devem ser de um dos tipos: " +
 						Arrays.toString(tiposPermitidos) + ".");
 			} else {
 				typeStack.push(tipoResultado);
 			}
 		} else {
-			System.err.println("Erro: Operandos insuficientes para a operação de " + operador + ".");
+			semanticError("Erro: Operandos insuficientes para a operação de " + operador + ".");
 		}
 	}
 
@@ -271,11 +284,11 @@ public class Semantico extends DepthFirstAdapter {
 			String rightType = typeStack.pop();
 			String leftType = typeStack.pop();
 			if (!leftType.equals(rightType)) {
-				System.err.println("Erro: operandos devem ser do mesmo tipo.");
+				semanticError("Erro: operandos devem ser do mesmo tipo.");
 			}
 			typeStack.push("booleano");
 		} else {
-			System.err.println("Erro: Operandos insuficientes para a operação de '='.");
+			semanticError("Erro: Operandos insuficientes para a operação de '='.");
 		}
 	}
 
@@ -327,7 +340,7 @@ public class Semantico extends DepthFirstAdapter {
 		binaryOperation(tiposPermitidosDivisao, "/", "numero");
 
 		if (node.getDir().toString().trim().equals("0")) {
-			System.err.println("Divisão por 0!");
+			semanticError("Divisão por 0!");
 		}
 	}
 
@@ -340,11 +353,11 @@ public class Semantico extends DepthFirstAdapter {
 		if (typeStack.size() >= 1) {
 			String type = typeStack.pop();
 			if (!type.equals(expectedType)) {
-				System.err.println("Erro: operando deve ser " + expectedType + " para operação " + operator + ".");
+				semanticError("Erro: operando deve ser " + expectedType + " para operação " + operator + ".");
 			}
 			typeStack.push(expectedType);
 		} else {
-			System.err.println("Erro: Operandos insuficientes para a operação de '" + operator + "'.");
+			semanticError("Erro: Operandos insuficientes para a operação de '" + operator + "'.");
 		}
 	}
 
@@ -366,14 +379,14 @@ public class Semantico extends DepthFirstAdapter {
 		if (varSymbol != null) {
 			typeStack.push(varSymbol.getType());
 		} else {
-			System.err.println("Erro: Variável " + varName + " não foi declarada.");
+			semanticError("Erro: Variável " + varName + " não foi declarada.");
 		}
 	}
 
 	private void handleIndexedVariableAccess(String varName, String[] indexes) {
 		Symbol symbol = symbolTableManager.lookup(varName);
 		if (symbol == null || !symbol.isVector()) {
-			System.err.println("Erro: Variável " + varName + " não é um vetor ou não foi declarada.");
+			semanticError("Erro: Variável " + varName + " não é um vetor ou não foi declarada.");
 			return;
 		}
 		validateIndexes(varName, indexes, symbol.getDimensions());
